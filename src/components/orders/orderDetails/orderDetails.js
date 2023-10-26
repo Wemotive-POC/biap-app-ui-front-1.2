@@ -90,6 +90,7 @@ const OrderDetails = () => {
         <>
           <Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
             <TrackingMap />
+
             <Box component={"div"} className={classes.divider} />
             <CustomerDetails orderDetails={orderDetails} />
           </Grid>
