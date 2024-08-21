@@ -990,7 +990,6 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
             </Grid>
             <Grid item xs={4}>
               {renderSpecialInstructions(cartItem.item, cartItem._id)}
-
               <Grid
                 container
                 sx={{ margin: "16px 0" }}
