@@ -14,4 +14,28 @@ jobs:
 
     steps:
       - name: Print a message
-        run: echo "Hello world!!"
+        run: echo "Hello world!"
+
+      - name: Checkout Repo A
+        uses: actions/checkout@v3
+
+      - name: Checkout Repo B
+        uses: actions/checkout@v3
+        with:
+          repository: shalapatil/referrals
+          token: ${{ secrets.PAT_TOKEN }}
+          path: repo-b # This will clone Repo B into a folder named 'repo-b'
+
+      - name: Make Changes in Repo B
+        run: |
+          cd repo-b
+          echo "Hello from Repo A!" >> newfile.txt
+
+      - name: Commit and Push changes to Repo B
+        run: |
+          cd repo-b
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Update from Repo A"
+          git push origin main
