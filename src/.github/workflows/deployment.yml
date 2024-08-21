@@ -1,0 +1,17 @@
+name: Test
+
+on:
+  push:
+    branches: ["github-workflows"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.11]
+
+    steps:
+      - name: Print a message
+        run: echo "Hello world!"
