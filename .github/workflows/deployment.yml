@@ -14,4 +14,4 @@ jobs:
 
     steps:
       - name: Print a message
-        run: echo "Hello world!"
+        run: echo "Hello world!!"
