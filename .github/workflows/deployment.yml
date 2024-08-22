@@ -22,7 +22,7 @@ jobs:
       - name: Checkout Repo B
         uses: actions/checkout@v3
         with:
-          repository: shalapatil/referrals
+          repository: dataorchestration/helm-ondc-buyer-app-chart
           token: ${{ secrets.PAT_TOKEN }}
           path: repo-b # This will clone Repo B into a folder named 'repo-b'
 
