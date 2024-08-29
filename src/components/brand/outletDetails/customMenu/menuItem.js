@@ -39,7 +39,12 @@ const MenuItem = (props) => {
   } = props;
   const { descriptor, isVeg } = product;
 
-  const { name: product_name, images, short_desc: product_description, symbol } = descriptor;
+  const {
+    name: product_name,
+    images,
+    short_desc: product_description,
+    symbol,
+  } = descriptor;
   const history = useHistory();
   const [isProductAvailable, setIsProductAvailable] = useState(true);
 
@@ -74,13 +79,23 @@ const MenuItem = (props) => {
     }
 
     if (category == "veg") {
-      return <img src={VegIcon} alt={"veg-icon"} className={classes.vegNonvegIcon} />;
+      return (
+        <img src={VegIcon} alt={"veg-icon"} className={classes.vegNonvegIcon} />
+      );
     } else {
-      return <img src={NonVegIcon} alt={"nonveg-icon"} className={classes.vegNonvegIcon} />;
+      return (
+        <img
+          src={NonVegIcon}
+          alt={"nonveg-icon"}
+          className={classes.vegNonvegIcon}
+        />
+      );
     }
   };
 
-  let customGroupTag = productPayload.item_details.tags.find((item) => item.code === "custom_group");
+  let customGroupTag = productPayload.item_details.tags.find(
+    (item) => item.code === "custom_group"
+  );
 
   return (
     <Grid container spacing={3}>
@@ -97,9 +112,7 @@ const MenuItem = (props) => {
           className={classes.itemPriceTypo}
           style={{ color: isStoreDelivering ? "black" : "lightgrey" }}
         >
-          {`₹${
-            Number.isInteger(Number(price?.value)) ? Number(price?.value).toFixed(2) : Number(price?.value).toFixed(2)
-          }`}
+          {`₹${Number(price?.value).toFixed(2)}`}
         </Typography>
         <Typography
           variant="h5"
@@ -123,7 +136,9 @@ const MenuItem = (props) => {
             src={symbol ? symbol : no_image_found}
             alt={`item-ind-${productId}`}
             style={{ cursor: "pointer" }}
-            onClick={() => history.push(`/application/products?productId=${productId}`)}
+            onClick={() =>
+              history.push(`/application/products?productId=${productId}`)
+            }
           />
           {renderVegNonvegIcon(isVeg)}
         </Card>
@@ -144,9 +159,15 @@ const MenuItem = (props) => {
                 });
               }
             }}
-            disabled={productLoading || !isStoreDelivering || !isProductAvailable}
+            disabled={
+              productLoading || !isStoreDelivering || !isProductAvailable
+            }
           >
-            {productLoading === productId ? <Loading height="8px" width="8px" /> : "Add to cart"}
+            {productLoading === productId ? (
+              <Loading height="8px" width="8px" />
+            ) : (
+              "Add to cart"
+            )}
           </Button>
 
           {hasCustomizations(productPayload) && (

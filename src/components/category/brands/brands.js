@@ -22,7 +22,7 @@ import { Box, IconButton } from "@mui/material";
 import { ReactComponent as PreviousIcon } from "../../../assets/images/previous.svg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const Brands = ({}) => {
+const Brands = () => {
   const observerTarget = useRef(null);
 
   const classes = useStyles();

@@ -249,9 +249,9 @@ const Checkout = () => {
                 cartList.splice(cartIndex, 1);
               } else {
               }
-              if (error && error.code === "40002") {
-              } else {
-              }
+              // if (error && error.code === "40002") {
+              // } else {
+              // }
               uuid = uuid + 1;
               return {
                 id: break_up_item["@ondc/org/item_id"],

@@ -39,7 +39,8 @@ const StepPaymentContent = ({
 }) => {
   const classes = useStyles();
 
-  const { deliveryAddress, billingAddress, setBillingAddress } = useContext(AddressContext);
+  const { deliveryAddress, billingAddress, setBillingAddress } =
+    useContext(AddressContext);
 
   const transaction_id = localStorage.getItem("transaction_id");
   const latLongInfo = JSON.parse(Cookies.get("LatLongInfo") || "{}");
@@ -120,7 +121,10 @@ const StepPaymentContent = ({
       const { message } = item;
       checkoutObj = {
         productQuotes: [...checkoutObj.productQuotes, message?.order?.quote],
-        successOrderIds: [...checkoutObj.successOrderIds, message?.order?.provider?.id.toString()],
+        successOrderIds: [
+          ...checkoutObj.successOrderIds,
+          message?.order?.provider?.id.toString(),
+        ],
       };
     });
     // AddCookie("checkout_details", JSON.stringify(checkoutObj));
@@ -134,7 +138,9 @@ const StepPaymentContent = ({
     setInitializeOrderLoading(true);
     try {
       localStorage.setItem("selectedItems", JSON.stringify(updatedCartItems));
-      const data = await cancellablePromise(getCall(`/clientApis/v2/on_initialize_order?messageIds=${message_id}`));
+      const data = await cancellablePromise(
+        getCall(`/clientApis/v2/on_initialize_order?messageIds=${message_id}`)
+      );
       responseRef.current = [...responseRef.current, data[0]];
       setEventData((eventData) => [...eventData, data[0]]);
 
@@ -181,12 +187,17 @@ const StepPaymentContent = ({
         // check if all the orders got cancled
         if (responseRef.current.length <= 0) {
           setInitializeOrderLoading(false);
-          dispatchToast(toast_types.error, "Cannot fetch details for this product Please try again!");
+          dispatchToast(
+            toast_types.error,
+            "Cannot fetch details for this product Please try again!"
+          );
           return;
         }
         // tale action to redirect them.
         const requestObject = constructQouteObject(
-          updatedCartItems.filter(({ provider }) => responseReceivedIds.includes(provider.id.toString()))
+          updatedCartItems.filter(({ provider }) =>
+            responseReceivedIds.includes(provider.id.toString())
+          )
         );
         if (requestObject.length !== responseRef.current.length) {
           dispatchToast(toast_types.error, "Some orders are not initialized!");
@@ -221,9 +232,10 @@ const StepPaymentContent = ({
               itemData.fulfillment_id = selectedFulfillments[itemData.local_id];
               delete itemData.product.fulfillment_id;
               if (updatedCartItems.current) {
-                let findItemFromQuote = updatedCartItems.current[0].message.quote.items.find(
-                  (data) => data.id === itemData.local_id
-                );
+                let findItemFromQuote =
+                  updatedCartItems.current[0].message.quote.items.find(
+                    (data) => data.id === itemData.local_id
+                  );
                 if (findItemFromQuote) {
                   itemData.parent_item_id = findItemFromQuote.parent_item_id;
                 }
@@ -235,11 +247,12 @@ const StepPaymentContent = ({
             return {
               context: {
                 transaction_id: transaction_id,
-                city: search_context.location.name,
+                // city: search_context.location.name,
                 city: item[0].contextCity,
                 state: search_context.location.state,
                 domain: item[0].domain,
-                pincode: JSON.parse(getValueFromCookie("delivery_address"))?.location.address.areaCode,
+                pincode: JSON.parse(getValueFromCookie("delivery_address"))
+                  ?.location.address.areaCode,
               },
               message: {
                 items: itemsData,
@@ -264,7 +277,10 @@ const StepPaymentContent = ({
                   },
                 },
                 payment: {
-                  type: activePaymentMethod === payment_methods.COD ? "ON-FULFILLMENT" : "ON-ORDER",
+                  type:
+                    activePaymentMethod === payment_methods.COD
+                      ? "ON-FULFILLMENT"
+                      : "ON-ORDER",
                 },
               },
             };
@@ -273,7 +289,9 @@ const StepPaymentContent = ({
       );
 
       //Error handling workflow eg, NACK
-      const isNACK = data.find((item) => item.error && item.message.ack.status === "NACK");
+      const isNACK = data.find(
+        (item) => item.error && item.message.ack.status === "NACK"
+      );
       if (isNACK) {
         dispatchToast(toast_types.error, isNACK.error.message);
         setInitializeOrderLoading(false);
@@ -290,7 +308,10 @@ const StepPaymentContent = ({
         // store parent order id to cookies
         AddCookie("parent_order_id", data[0]?.context?.parent_order_id);
         // store the map into cookies
-        AddCookie("parent_and_transaction_id_map", JSON.stringify(Array.from(parentTransactionIdMap.entries())));
+        AddCookie(
+          "parent_and_transaction_id_map",
+          JSON.stringify(Array.from(parentTransactionIdMap.entries()))
+        );
         onInit(
           data?.map((txn) => {
             const { context } = txn;
@@ -313,7 +334,9 @@ const StepPaymentContent = ({
       return item.item;
     });
     const request_object = constructQouteObject(
-      c.filter(({ provider }) => responseReceivedIds.includes(provider.local_id.toString()))
+      c.filter(({ provider }) =>
+        responseReceivedIds.includes(provider.local_id.toString())
+      )
     );
 
     initializeOrder(request_object);
@@ -323,11 +346,16 @@ const StepPaymentContent = ({
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
         <Card
-          className={`${classes.paymentCard} ${activePaymentMethod === payment_methods.COD ? classes.activeCard : ""} ${
-            initializeOrderLoading ? classes.nonClickable : ""
-          }`}
+          className={`${classes.paymentCard} ${
+            activePaymentMethod === payment_methods.COD
+              ? classes.activeCard
+              : ""
+          } ${initializeOrderLoading ? classes.nonClickable : ""}`}
           onClick={() => {
-            if (!initializeOrderLoading && activePaymentMethod !== payment_methods.COD) {
+            if (
+              !initializeOrderLoading &&
+              activePaymentMethod !== payment_methods.COD
+            ) {
               setActivePaymentMethod(payment_methods.COD);
               handleInitializaOrder();
             }
@@ -335,19 +363,30 @@ const StepPaymentContent = ({
         >
           {/*<img className={classes.paymentImage} src={cashOnDelivery} alt="Cash on delivery"/>*/}
           <CashOnDelivery className={classes.paymentImage} />
-          {activePaymentMethod === payment_methods.COD && <CheckedIcon className={classes.checkedIcon} />}
+          {activePaymentMethod === payment_methods.COD && (
+            <CheckedIcon className={classes.checkedIcon} />
+          )}
         </Card>
-        <Typography className={classes.paymentTypo} variant="body" component="div">
+        <Typography
+          className={classes.paymentTypo}
+          variant="body"
+          component="div"
+        >
           Cash on delivery
         </Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
         <Card
           className={`${classes.paymentCard} ${
-            activePaymentMethod === payment_methods.RAZORPAY ? classes.activeCard : ""
+            activePaymentMethod === payment_methods.RAZORPAY
+              ? classes.activeCard
+              : ""
           } ${initializeOrderLoading ? classes.nonClickable : ""}`}
           onClick={async () => {
-            if (!initializeOrderLoading && activePaymentMethod !== payment_methods.RAZORPAY) {
+            if (
+              !initializeOrderLoading &&
+              activePaymentMethod !== payment_methods.RAZORPAY
+            ) {
               setActivePaymentMethod(payment_methods.RAZORPAY);
               handleInitializaOrder();
             }
@@ -355,9 +394,15 @@ const StepPaymentContent = ({
         >
           {/*<img className={classes.paymentImage} src={prepaid} alt="Prepaid"/>*/}
           <Prepaid className={classes.paymentImage} />
-          {activePaymentMethod === payment_methods.RAZORPAY && <CheckedIcon className={classes.checkedIcon} />}
+          {activePaymentMethod === payment_methods.RAZORPAY && (
+            <CheckedIcon className={classes.checkedIcon} />
+          )}
         </Card>
-        <Typography className={classes.paymentTypo} variant="body" component="div">
+        <Typography
+          className={classes.paymentTypo}
+          variant="body"
+          component="div"
+        >
           Prepaid
         </Typography>
       </Grid>

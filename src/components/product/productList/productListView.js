@@ -28,32 +28,58 @@ const ProductListView = (props) => {
   } = props;
   const { id, descriptor, provider_details } = product;
   const { name: provider_name } = bpp_provider_descriptor;
-  const { name: product_name, images, short_desc: product_description, symbol } = descriptor;
+  const {
+    name: product_name,
+    images,
+    short_desc: product_description,
+    symbol,
+  } = descriptor;
 
   return (
     <Grid container spacing={0} className={classes.productItemContainerList}>
       <Grid item xs={12} sm={12} md={2.5} lg={2.5} xl={2.5}>
         <Card className={classes.productCardList}>
-          <img className={classes.productImage} src={symbol ? symbol : no_image_found} alt={`sub-cat-img-${bpp_id}`} />
+          <img
+            className={classes.productImage}
+            src={symbol ? symbol : no_image_found}
+            alt={`sub-cat-img-${bpp_id}`}
+          />
         </Card>
       </Grid>
-      <Grid item xs={12} sm={12} md={9.5} lg={9.5} xl={9.5} className={classes.productDetailsTypo}>
-        <Typography component="div" variant="h5" className={classes.productNameTypoList}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={9.5}
+        lg={9.5}
+        xl={9.5}
+        className={classes.productDetailsTypo}
+      >
+        <Typography
+          component="div"
+          variant="h5"
+          className={classes.productNameTypoList}
+        >
           {product_name} ...
         </Typography>
         <Typography variant="body1" className={classes.providerTypoList}>
           {provider_name}
         </Typography>
         <Typography variant="h4" className={classes.priceTypoList}>
-          {`₹${
-            Number.isInteger(Number(price?.value)) ? Number(price?.value).toFixed(2) : Number(price?.value).toFixed(2)
-          }`}
+          {`₹${Number(price?.value).toFixed(2)}`}
         </Typography>
-        <Typography component="div" variant="body" className={classes.descriptionTypoList}>
+        <Typography
+          component="div"
+          variant="body"
+          className={classes.descriptionTypoList}
+        >
           {product_description}
         </Typography>
         <div className={classes.footerActions}>
-          <MuiLink component={Link} to={`/application/products?product=${productId}`}>
+          <MuiLink
+            component={Link}
+            to={`/application/products?product=${productId}`}
+          >
             View details
           </MuiLink>
 
@@ -72,7 +98,9 @@ const ProductListView = (props) => {
             variant="outlined"
             onClick={(e) => {
               e.stopPropagation();
-              getProductDetails(productId).then((data) => handleAddToCart(data, true));
+              getProductDetails(productId).then((data) =>
+                handleAddToCart(data, true)
+              );
             }}
           >
             Add to cart

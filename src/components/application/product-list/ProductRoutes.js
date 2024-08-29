@@ -26,7 +26,7 @@ const ProductRoutes = () => {
     return <Products />;
   }
 
-  return <div>BrandRoutes</div>;
+  // return <div>BrandRoutes</div>;
 };
 
 export default ProductRoutes;

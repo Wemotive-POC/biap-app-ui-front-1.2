@@ -457,17 +457,9 @@ const MenuItems = (props) => {
                       ? `₹${rangePriceTag?.minPrice} - ₹${rangePriceTag?.maxPrice}`
                       : `₹${
                           productPayload?.item_details?.price
-                            ? Number.isInteger(
-                                Number(
-                                  productPayload?.item_details?.price?.value
-                                )
-                              )
-                              ? Number(
-                                  productPayload?.item_details?.price?.value
-                                ).toFixed(2)
-                              : Number(
-                                  productPayload?.item_details?.price?.value
-                                ).toFixed(2)
+                            ? Number(
+                                productPayload?.item_details?.price?.value
+                              ).toFixed(2)
                             : "0"
                         }`}
                   </span>
@@ -606,15 +598,9 @@ const MenuItems = (props) => {
                 <span style={{ float: "right" }}>
                   {`₹${
                     productPayload?.item_details?.price
-                      ? Number.isInteger(
-                          Number(productPayload?.item_details?.price?.value)
-                        )
-                        ? Number(
-                            productPayload?.item_details?.price?.value
-                          ).toFixed(2)
-                        : Number(
-                            productPayload?.item_details?.price?.value
-                          ).toFixed(2)
+                      ? Number(
+                          productPayload?.item_details?.price?.value
+                        ).toFixed(2)
                       : "0"
                   }`}
                 </span>

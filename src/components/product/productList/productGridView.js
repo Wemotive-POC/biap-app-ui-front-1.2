@@ -37,10 +37,16 @@ const ProductGridView = (props) => {
   return (
     <div
       className={classes.productItemContainer}
-      onClick={() => history.push(`/application/products?productId=${productId}`)}
+      onClick={() =>
+        history.push(`/application/products?productId=${productId}`)
+      }
     >
       <Card className={classes.productCard}>
-        <img className={classes.productImage} src={symbol ? symbol : no_image_found} alt={`sub-cat-img-${bpp_id}`} />
+        <img
+          className={classes.productImage}
+          src={symbol ? symbol : no_image_found}
+          alt={`sub-cat-img-${bpp_id}`}
+        />
         <Tooltip title="Add to cart">
           {/* <IconButton
             onClick={(e) => {
@@ -65,7 +71,11 @@ const ProductGridView = (props) => {
           Buy Now
         </Button> */}
       </Card>
-      <Typography component="div" variant="body" className={classes.productNameTypo}>
+      <Typography
+        component="div"
+        variant="body"
+        className={classes.productNameTypo}
+      >
         {product_name}
       </Typography>
       <Typography variant="body1" className={classes.providerTypo}>
@@ -73,9 +83,7 @@ const ProductGridView = (props) => {
       </Typography>
       <Box component={"div"} className={classes.divider} />
       <Typography variant="h5" className={classes.priceTypo}>
-        {`₹${
-          Number.isInteger(Number(price?.value)) ? Number(price?.value).toFixed(2) : Number(price?.value).toFixed(2)
-        }`}
+        {`₹${Number(price?.value).toFixed(2)}`}
       </Typography>
     </div>
   );
