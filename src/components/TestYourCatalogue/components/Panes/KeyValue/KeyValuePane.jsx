@@ -1,15 +1,15 @@
-import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import KeyValueEditor from './KeyValueEditor';
+import React from "react";
+import { v4 as uuidv4 } from "uuid";
+import KeyValueEditor from "./KeyValueEditor";
 
 export default function KeyValuePane({ paneValue, setPaneValue }) {
   const onKeyPairAdd = () => {
-    setPaneValue((paneValue) => [
-      ...paneValue,
+    setPaneValue((paneVal) => [
+      ...paneVal,
       {
         id: uuidv4(),
-        keyItem: '',
-        valueItem: '',
+        keyItem: "",
+        valueItem: "",
       },
     ]);
   };
@@ -46,11 +46,14 @@ export default function KeyValuePane({ paneValue, setPaneValue }) {
 
   return (
     <>
-      <div className=''>
+      <div className="">
         {renderedList}
         <button
           className="px-6 py-1 rounded-md text-primary border border-primary hover:bg-primary-light"
-          onClick={() => onKeyPairAdd()}>Add</button>
+          onClick={() => onKeyPairAdd()}
+        >
+          Add
+        </button>
       </div>
     </>
   );
