@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
-import { EditorView, keymap } from '@codemirror/view';
-import { EditorState, basicSetup } from '@codemirror/basic-setup';
-import { defaultTabBinding } from '@codemirror/commands';
-import { json } from '@codemirror/lang-json';
+import React, { useRef, useEffect } from "react";
+import { EditorView, keymap } from "@codemirror/view";
+import { EditorState, basicSetup } from "@codemirror/basic-setup";
+import { defaultTabBinding } from "@codemirror/commands";
+import { json } from "@codemirror/lang-json";
 
 const basicExtensions = [
   basicSetup,
@@ -11,7 +11,7 @@ const basicExtensions = [
   EditorState.tabSize.of(2),
 ];
 
-export default function JsonEditorPanel({
+export default function JsonEditorPane({
   paneValue,
   setPaneValue,
   isEditable = true,
@@ -25,9 +25,9 @@ export default function JsonEditorPanel({
       doc: paneValue,
       extensions: [
         ...basicExtensions,
-        EditorView.updateListener.of((view) => {
-          if (view.docChanged) {
-            setPaneValue(view.state.doc);
+        EditorView.updateListener.of((vw) => {
+          if (vw.docChanged) {
+            setPaneValue(vw.state.doc);
           }
         }),
         EditorView.editable.of(isEditable),
