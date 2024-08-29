@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
-import { convertKeyValueToObject } from '../../../../../utils/helpers';
-import UrlEditor from '../../Panes/RequestUrl/UrlEditor';
-import RequestTabGroup from '../../Tab-Groups/RequestTabGroup';
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import { convertKeyValueToObject } from "../../../../../utils/helpers";
+import UrlEditor from "../../Panes/RequestUrl/UrlEditor";
+import RequestTabGroup from "../../Tab-Groups/RequestTabGroup";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 const keyPairInitState = [
   {
     id: uuidv4(),
-    keyItem: '',
-    valueItem: '',
+    keyItem: "",
+    valueItem: "",
   },
 ];
 
 export default function Request({ setResponse, setLoading, loading }) {
-  const [url, setUrl] = useState(
-    'protocol/test/v1/on_search'
-  );
-  const [reqMethod, setReqMethod] = useState('POST');
+  const [url, setUrl] = useState("protocol/test/v1/on_search");
+  const [reqMethod, setReqMethod] = useState("POST");
   const [queryParams, setQueryParams] = useState(keyPairInitState);
   const [headers, setHeaders] = useState(keyPairInitState);
-  const [body, setBody] = useState('{\n\t\n}');
+  const [body, setBody] = useState("{\n\t\n}");
 
   const handleOnInputSend = async (e) => {
     setLoading(true);
@@ -32,8 +30,8 @@ export default function Request({ setResponse, setLoading, loading }) {
     let data;
     try {
       data = JSON.parse(requestBody);
-    } catch (e) {
-      alert('Something is wrong with the JSON data.');
+    } catch (ex) {
+      alert("Something is wrong with the JSON data.");
     }
 
     try {
@@ -46,7 +44,7 @@ export default function Request({ setResponse, setLoading, loading }) {
       });
 
       setResponse(response);
-    } catch (e) {
+    } catch (ex) {
       setResponse(e.response);
     }
 
@@ -66,7 +64,7 @@ export default function Request({ setResponse, setLoading, loading }) {
         setQueryParams={setQueryParams}
         headers={headers}
         setHeaders={setHeaders}
-        body={'{\n\t\n}'}
+        body={"{\n\t\n}"}
         setBody={setBody}
       />
     </>

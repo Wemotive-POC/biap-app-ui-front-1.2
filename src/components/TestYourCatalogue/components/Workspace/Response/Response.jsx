@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import prettyBytes from 'pretty-bytes';
+import React, { useState, useEffect } from "react";
+import prettyBytes from "pretty-bytes";
 
-import ResponseTabGroup from '../../Tab-Groups/ResponseTabGroup';
+import ResponseTabGroup from "../../Tab-Groups/ResponseTabGroup";
 
 export default function Response({ response, loading }) {
-  const [doc, setDoc] = useState('{}');
+  const [doc, setDoc] = useState("{}");
 
   useEffect(() => {
     if (response === null) return;
@@ -12,16 +12,16 @@ export default function Response({ response, loading }) {
     setDoc(jsonResponse);
   }, [response, loading]);
 
-  const hasResponse = !(response == null);
+  const hasResponse = response !== null;
 
-  let time = '';
-  let status = '';
-  let size = '';
+  let time = "";
+  let status = "";
+  let size = "";
 
   if (hasResponse) {
-    const hasCustomData = 'customData' in response;
-    const hasData = 'data' in response;
-    const hasHeaders = 'headers' in response;
+    const hasCustomData = "customData" in response;
+    const hasData = "data" in response;
+    const hasHeaders = "headers" in response;
 
     status = hasResponse ? response.status : 0;
 
@@ -39,23 +39,23 @@ export default function Response({ response, loading }) {
   const RenderedResponseMeta = () => {
     return (
       <div className="flex mt-3">
-        <span className='w-28'>Status: {status}</span>
-        <span className='w-24'>Time: {time}</span>
-        <span className='w-24'>Size: {size}</span>
+        <span className="w-28">Status: {status}</span>
+        <span className="w-24">Time: {time}</span>
+        <span className="w-24">Size: {size}</span>
       </div>
     );
   };
 
   return (
-    <div className='my-4'>
-      <span className='text-2xl font-medium'>Response</span>
-      {response ? ( <RenderedResponseMeta /> ) : null}
+    <div className="my-4">
+      <span className="text-2xl font-medium">Response</span>
+      {response ? <RenderedResponseMeta /> : null}
       <ResponseTabGroup
         doc={doc}
         setDoc={setDoc}
         response={response}
         loading={loading}
       />
-      </div>
+    </div>
   );
 }

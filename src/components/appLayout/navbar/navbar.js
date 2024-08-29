@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import axios from "axios";
 import useStyles from "./style";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -24,7 +23,11 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 
 import { restoreToDefault } from "../../../constants/restoreDefaultAddress";
-import { getValueFromCookie, AddCookie, removeCookie, deleteAllCookies } from "../../../utils/cookies";
+import {
+  getValueFromCookie,
+  AddCookie,
+  deleteAllCookies,
+} from "../../../utils/cookies";
 import { search_types } from "../../../constants/searchTypes";
 
 import ModalComponent from "../../common/Modal";
@@ -36,7 +39,6 @@ import { SearchContext } from "../../../context/searchContext";
 import { AddressContext } from "../../../context/addressContext";
 import { getAllDeliveryAddressRequest } from "../../../api/address.api";
 import { getUser, isLoggedIn } from "../../../utils/validateToken";
-import { getCall } from "../../../api/axios";
 
 import { categoryList } from "../../../constants/categories";
 import { CartContext } from "../../../context/cartContext";
@@ -56,13 +58,9 @@ const NavBar = ({ isCheckout = false }) => {
   const { setSearchData, setLocationData } = useContext(SearchContext);
   const { deliveryAddress, setDeliveryAddress } = useContext(AddressContext);
 
-  useEffect(() => { }, [locationData]);
+  useEffect(() => {}, [locationData]);
 
   // STATES
-  const [inlineError, setInlineError] = useState({
-    location_error: "",
-    search_error: "",
-  });
   const [search, setSearch] = useState({
     type: search_types.PRODUCT,
     value: "",
@@ -82,8 +80,8 @@ const NavBar = ({ isCheckout = false }) => {
     address: restoreToDefault(),
   });
   const [addressList, setAddressList] = useState([]);
-  const [fetchDeliveryAddressLoading, setFetchDeliveryAddressLoading] = useState();
-  const [toggleLocationListCard, setToggleLocationListCard] = useState(false);
+  const [fetchDeliveryAddressLoading, setFetchDeliveryAddressLoading] =
+    useState();
   const [anchorElUserMenu, setAnchorElUserMenu] = useState(null);
   const openUserMenu = Boolean(anchorElUserMenu);
   const [anchorElCaregoryMenu, setAnchorElCategoryMenu] = useState(null);
@@ -91,17 +89,6 @@ const NavBar = ({ isCheckout = false }) => {
   const { cartItems } = useContext(CartContext);
 
   const dispatch = useContext(ToastContext);
-  // function to dispatch error
-  function dispatchError(message) {
-    dispatch({
-      type: toast_actions.ADD_TOAST,
-      payload: {
-        id: Math.floor(Math.random() * 100),
-        type: toast_types.error,
-        message,
-      },
-    });
-  }
 
   // HOOKS
   const { cancellablePromise } = useCancellablePromise();
@@ -112,6 +99,12 @@ const NavBar = ({ isCheckout = false }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUserMenu(null);
   };
+
+  console.log(
+    searchedLocationLoading,
+    searchProductLoading,
+    fetchDeliveryAddressLoading
+  );
 
   const handleClickCategoryMenu = (event) => {
     setAnchorElCategoryMenu(event.currentTarget);
@@ -133,9 +126,15 @@ const NavBar = ({ isCheckout = false }) => {
       } else {
       }
       if (locationData.pathname !== "/application/products") {
-        history.push({ pathname: "/application/products", search: params.toString() });
+        history.push({
+          pathname: "/application/products",
+          search: params.toString(),
+        });
       } else {
-        history.replace({ pathname: locationData.pathname, search: params.toString() });
+        history.replace({
+          pathname: locationData.pathname,
+          search: params.toString(),
+        });
       }
     }
   };
@@ -188,7 +187,6 @@ const NavBar = ({ isCheckout = false }) => {
         value: query.size > 0 && searchProductName ? searchProductName : "",
       }));
       setLocationData(() => search_context.location);
-    } else {
     }
     if (getValueFromCookie("delivery_address")) {
       const address = JSON.parse(getValueFromCookie("delivery_address"));
@@ -198,7 +196,6 @@ const NavBar = ({ isCheckout = false }) => {
       // else {
       //   fetchLatLongFromEloc(address);
       // }
-    } else {
     }
   }
 
@@ -219,7 +216,6 @@ const NavBar = ({ isCheckout = false }) => {
       anchor.scrollIntoView({
         block: "center",
       });
-    } else {
     }
   }, [locationData]);
 
@@ -304,11 +300,10 @@ const NavBar = ({ isCheckout = false }) => {
   //   }
   // };
 
-
   // get the lat and long of a place
-  const fetchLatLongFromEloc = async (locationData) => {
-    const { name, email, phone, location } = locationData;
-    const { areaCode, building, city, country, door, lat, lng, locality, state, street, tag, ward } = location?.address;
+  const fetchLatLongFromEloc = async (location_data) => {
+    const { name, location } = location_data;
+    const { areaCode, city, lat, lng, state, tag } = location?.address;
     AddCookie("LatLongInfo", JSON.stringify({ lat, lng }));
     setSearchedLocation({
       ...searchedLocation,
@@ -321,7 +316,9 @@ const NavBar = ({ isCheckout = false }) => {
       tag: tag,
     });
     let search_context_data = getValueFromCookie("search_context");
-    search_context_data = search_context_data ? Object.assign({}, JSON.parse(search_context_data)) : {};
+    search_context_data = search_context_data
+      ? Object.assign({}, JSON.parse(search_context_data))
+      : {};
     // generating context for search
     const search_context = {
       search: search_context_data?.search || "",
@@ -380,9 +377,11 @@ const NavBar = ({ isCheckout = false }) => {
       }
       if (subCategoryName) {
         params.set("sc", subCategoryName);
-      } else {
       }
-      history.replace({ pathname: locationData.pathname, search: params.toString() });
+      history.replace({
+        pathname: locationData.pathname,
+        search: params.toString(),
+      });
     }
   };
 
@@ -401,7 +400,10 @@ const NavBar = ({ isCheckout = false }) => {
           />
           {!isCheckout && (
             <>
-              <div className={classes.addressContainer} onClick={() => setSelectAddressModal(true)}>
+              <div
+                className={classes.addressContainer}
+                onClick={() => setSelectAddressModal(true)}
+              >
                 <LocationIcon />
                 <Typography variant="body2" className={classes.addressTypo}>
                   Deliver to <b>{searchedLocation?.pincode}</b>
@@ -415,10 +417,10 @@ const NavBar = ({ isCheckout = false }) => {
                     disabled
                     // className={classes.searchIcon}
                     aria-label="search"
-                  // onClick={() => {
-                  //     setSearchData(() => search);
-                  //     history.push(`/products?s=${search.value}`);
-                  // }}
+                    // onClick={() => {
+                    //     setSearchData(() => search);
+                    //     history.push(`/products?s=${search.value}`);
+                    // }}
                   >
                     <SearchIcon />
                   </IconButton>
@@ -438,7 +440,10 @@ const NavBar = ({ isCheckout = false }) => {
                     }}
                     onChange={(e) => {
                       const searchValue = e.target.value;
-                      let searchDataUpdate = Object.assign({}, JSON.parse(JSON.stringify(search)));
+                      let searchDataUpdate = Object.assign(
+                        {},
+                        JSON.parse(JSON.stringify(search))
+                      );
                       searchDataUpdate.value = searchValue;
                       setSearch(searchDataUpdate);
                       // generating context for search
@@ -447,14 +452,19 @@ const NavBar = ({ isCheckout = false }) => {
                         location: searchedLocation,
                       };
                       // setSearchData(() => searchDataUpdate);
-                      AddCookie("search_context", JSON.stringify(search_context));
+                      AddCookie(
+                        "search_context",
+                        JSON.stringify(search_context)
+                      );
                     }}
                   />
                   <IconButton
                     className={classes.listIcon}
                     onClick={handleClickCategoryMenu}
                     id="basic-button-cat"
-                    aria-controls={openCategoryMenu ? "basic-menu-cat" : undefined}
+                    aria-controls={
+                      openCategoryMenu ? "basic-menu-cat" : undefined
+                    }
                     aria-haspopup="true"
                     aria-expanded={openCategoryMenu ? "true" : undefined}
                   >
@@ -539,7 +549,7 @@ const NavBar = ({ isCheckout = false }) => {
                   horizontal: "right",
                 }}
               >
-                <MenuItem onClick={() => { }}>My Profile</MenuItem>
+                <MenuItem onClick={() => {}}>My Profile</MenuItem>
                 <MenuItem
                   onClick={() => {
                     history.push(`/application/orders`);
@@ -555,7 +565,7 @@ const NavBar = ({ isCheckout = false }) => {
                   Complaints
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={() => { }}>Support</MenuItem>
+                <MenuItem onClick={() => {}}>Support</MenuItem>
                 <MenuItem
                   onClick={() => {
                     history.push(`/testYourCatalogue`);
@@ -588,7 +598,8 @@ const NavBar = ({ isCheckout = false }) => {
             </>
           )}
         </Toolbar>
-        {(selectAddressModal || (deliveryAddress === undefined && addressList.length > 0)) && (
+        {(selectAddressModal ||
+          (deliveryAddress === undefined && addressList.length > 0)) && (
           <ModalComponent
             open={selectAddressModal || deliveryAddress === undefined}
             onClose={() => {
@@ -634,7 +645,11 @@ const NavBar = ({ isCheckout = false }) => {
                 setSelectAddressModal(true);
               }
             }}
-            title={`${toggleAddressModal.actionType === "edit" ? `Update Delivery Address` : `Add Delivery Address`}`}
+            title={`${
+              toggleAddressModal.actionType === "edit"
+                ? `Update Delivery Address`
+                : `Add Delivery Address`
+            }`}
           >
             <AddressForm
               action_type={toggleAddressModal.actionType}

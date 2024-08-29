@@ -1,10 +1,9 @@
-import React from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import React from "react";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
-import './Tab-Groups.css';
+import "./Tab-Groups.css";
 
-import KeyValuePane from '../Panes/KeyValue/KeyValuePane';
-import JsonEditorPane from '../Panes/Json/JsonEditorPane';
+import JsonEditorPane from "../Panes/Json/JsonEditorPane";
 
 export default function RequestTabGroup({
   queryParams,
@@ -30,8 +29,8 @@ export default function RequestTabGroup({
     //   setPaneValue: setHeaders,
     // },
     {
-      slug: 'body',
-      title: 'Body',
+      slug: "body",
+      title: "Body",
       panel: JsonEditorPane,
       paneValue: body,
       setPaneValue: setBody,
@@ -42,16 +41,21 @@ export default function RequestTabGroup({
     <Tabs forceRenderTabPanel selectedTabClassName="border-b-2 text-primary">
       <TabList className="flex mt-5 border border-gray-300 rounded-t-lg">
         {requestTabs.map((tab) => (
-          <Tab className="mr-3 py-2 px-4 border-primary focus:outline-none 
+          <Tab
+            className="mr-3 py-2 px-4 border-primary focus:outline-none
                           hover:text-primary cursor-pointer"
-            key={tab.slug}>
+            key={tab.slug}
+          >
             {tab.title}
           </Tab>
         ))}
       </TabList>
 
       {requestTabs.map((tab) => (
-        <TabPanel className="react-tabs__tab-panel px-4 py-4 rounded-b-lg border border-t-0 border-gray-300" key={tab.slug}>
+        <TabPanel
+          className="react-tabs__tab-panel px-4 py-4 rounded-b-lg border border-t-0 border-gray-300"
+          key={tab.slug}
+        >
           <tab.panel
             paneValue={tab.paneValue}
             setPaneValue={tab.setPaneValue}

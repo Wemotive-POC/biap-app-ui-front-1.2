@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -21,12 +21,11 @@ import {
 import validator from "validator";
 import { ToastContext } from "../../../../context/toastContext";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
-import TrackingMap from ".././../../orders/orderDetails/trackingMap";
 import PlacePickerMap from "../../../common/PlacePickerMap/PlacePickerMap";
 import { useEffect } from "react";
 
 const AddressForm = (props) => {
-  const classes = useStyles();
+  const classes = style();
   const {
     action_type,
     address_type,
@@ -43,6 +42,8 @@ const AddressForm = (props) => {
   const [address, setAddress] = useState(selectedAddress);
 
   console.log("selectedAddress=====>0000", selectedAddress);
+  console.log(fetchCityStateLoading, addAddressLoading);
+
   const [error, setError] = useState({
     name_error: "",
     email_error: "",
