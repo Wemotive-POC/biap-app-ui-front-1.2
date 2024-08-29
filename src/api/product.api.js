@@ -27,7 +27,6 @@ export const getAllFiltersRequest = (subCatName = null, providerId = null) => {
   }
   if (providerId) {
     params.provider = providerId;
-  } else {
   }
   return new Promise(async (resolve, reject) => {
     try {
