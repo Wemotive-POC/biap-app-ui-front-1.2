@@ -100,7 +100,7 @@ const TopBrands = () => {
       console.log("LAT", latLongInfo);
       const lat = latLongInfo.lat;
       const lng = latLongInfo.lng;
-      const data = await cancellablePromise(getAllOffersRequest("", lat, lng));
+      const data = await cancellablePromise(getAllOffersRequest(lat, lng));
       setOffers(data);
     } catch (err) {
       dispatch({

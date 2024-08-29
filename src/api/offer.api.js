@@ -5,9 +5,9 @@ import { getCall } from "./axios";
  * @returns
  */
 export const getAllOffersRequest = (
-  domain = "",
   lat,
   lng,
+  domain = "",
   provider = "",
   location = ""
 ) => {

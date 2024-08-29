@@ -281,7 +281,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
       const provider_id = cartItems[0].item.provider.id;
       console.log(cartItems[0].item.provider);
       const data = await cancellablePromise(
-        getAllOffersRequest("", lat, lng, provider_id)
+        getAllOffersRequest(lat, lng, "", provider_id)
       );
 
       setOffers(data);

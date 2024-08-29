@@ -140,7 +140,7 @@ const SubCategories = () => {
         : null;
       const domain = findCategory ? findCategory.domain : "";
       const data = await cancellablePromise(
-        getAllOffersRequest(domain, lat, lng)
+        getAllOffersRequest(lat, lng, domain)
       );
       setOffers(data);
     } catch (err) {

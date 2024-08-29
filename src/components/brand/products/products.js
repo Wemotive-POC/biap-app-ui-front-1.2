@@ -194,7 +194,7 @@ const Products = ({ brandDetails, brandId }) => {
       const lat = latLongInfo.lat;
       const lng = latLongInfo.lng;
       const data = await cancellablePromise(
-        getAllOffersRequest("", lat, lng, bId)
+        getAllOffersRequest(lat, lng, "", bId)
       );
       setOffers(data);
     } catch (err) {

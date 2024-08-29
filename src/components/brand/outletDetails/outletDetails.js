@@ -107,7 +107,7 @@ const OutletDetails = (props) => {
       const lat = latLongInfo.lat;
       const lng = latLongInfo.lng;
       const data = await cancellablePromise(
-        getAllOffersRequest("", lat, lng, bId, oId)
+        getAllOffersRequest(lat, lng, "", bId, oId)
       );
       setOffers(data);
     } catch (err) {
