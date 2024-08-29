@@ -593,7 +593,7 @@
         }
 
         function fromArrayLike(that, array) {
-          var length = array.length < 0 ? 0 : checked(array.length) | 0;
+          var length = array.length <= 0 ? 0 : checked(array.length) | 0;
           that = createBuffer(that, length);
           for (var i = 0; i < length; i += 1) {
             that[i] = array[i] & 255;
@@ -602,7 +602,7 @@
         }
 
         function fromArrayBuffer(that, array, byteOffset, length) {
-          array.byteLength; // this throws if `array` is not a valid ArrayBuffer
+          let x = array.byteLength; // this throws if `array` is not a valid ArrayBuffer
 
           if (byteOffset < 0 || array.byteLength < byteOffset) {
             throw new RangeError("'offset' is out of bounds");
@@ -786,7 +786,7 @@
 
           // Use a for loop to avoid recursion
           var loweredCase = false;
-          for (;;) {
+          while (true) {
             switch (encoding) {
               case "ascii":
               case "latin1":
