@@ -14,7 +14,10 @@ import axios from "axios";
 import { postCall } from "../../../../api/axios";
 import useCancellablePromise from "../../../../api/cancelRequest";
 import { restoreToDefault } from "../../../../constants/restoreDefaultAddress";
-import { address_types, address_tags } from "../../../../constants/address-types";
+import {
+  address_types,
+  address_tags,
+} from "../../../../constants/address-types";
 import validator from "validator";
 import { ToastContext } from "../../../../context/toastContext";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
@@ -56,8 +59,8 @@ const AddressForm = (props) => {
 
   const checkName = () => {
     if (validator.isEmpty(address?.name.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         name_error: "Please enter Name",
       }));
       return false;
@@ -67,15 +70,15 @@ const AddressForm = (props) => {
 
   const checkEmail = () => {
     if (validator.isEmpty(address?.email.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         email_error: "Please enter Email",
       }));
       return false;
     }
     if (!validator.isEmail(address?.email.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         email_error: "Please enter a valid Email",
       }));
       return false;
@@ -85,15 +88,15 @@ const AddressForm = (props) => {
 
   const checkPhoneNumber = () => {
     if (validator.isEmpty(address?.phone.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         phone_error: "Please enter a valid phone number",
       }));
       return false;
     }
     if (!validator.isMobilePhone(address?.phone.trim(), "en-IN")) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         phone_error: "Please enter a valid phone number",
       }));
       return false;
@@ -104,14 +107,14 @@ const AddressForm = (props) => {
   const checkStreetName = () => {
     console.log("address", address);
     if (!address.street || validator.isEmpty(address?.street.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         street_name_error: "Street Name cannot be empty",
       }));
       return false;
     } else {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         street_name_error: "",
       }));
     }
@@ -131,14 +134,14 @@ const AddressForm = (props) => {
 
   const checkCity = () => {
     if (!address.city || validator.isEmpty(address?.city.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         city_name_error: "City Name cannot be empty",
       }));
       return false;
     } else {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         city_name_error: "",
       }));
     }
@@ -147,14 +150,14 @@ const AddressForm = (props) => {
 
   const checkState = () => {
     if (!address.state || validator.isEmpty(address?.state.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         state_name_error: "State Name cannot be empty",
       }));
       return false;
     } else {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         state_name_error: "",
       }));
     }
@@ -163,14 +166,14 @@ const AddressForm = (props) => {
 
   const checkTag = () => {
     if (validator.isEmpty(address?.tag.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         tag_error: "Please select tag",
       }));
       return false;
     } else {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         tag_error: "",
       }));
     }
@@ -179,20 +182,20 @@ const AddressForm = (props) => {
 
   const checkPinCode = () => {
     if (!address.areaCode || validator.isEmpty(address?.areaCode?.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         areaCode_error: "Pin code cannot be empty",
       }));
       return false;
     } else if (address?.areaCode?.length < 6) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         areaCode_error: "Please enter a valid Pin Code",
       }));
       return false;
     } else {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         areaCode_error: "",
       }));
     }
@@ -201,14 +204,14 @@ const AddressForm = (props) => {
 
   const checkDoor = () => {
     if (!address.door || validator.isEmpty(address?.name.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         door_error: "Building cannot be empty",
       }));
       return false;
     } else {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         door_error: "",
       }));
     }
@@ -220,17 +223,21 @@ const AddressForm = (props) => {
     setCityStateLoading(true);
     try {
       const { data } = await cancellablePromise(
-        axios.get(`${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_pin_info?pincode=${areaCode}`)
+        axios.get(
+          `${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_pin_info?pincode=${areaCode}`
+        )
       );
-      const cityName = data?.copResults?.city ? data?.copResults?.city : data?.copResults?.district;
+      const cityName = data?.copResults?.city
+        ? data?.copResults?.city
+        : data?.copResults?.district;
       const stateName = data?.copResults?.state;
-      setAddress((address) => ({
-        ...address,
+      setAddress((addr) => ({
+        ...addr,
         city: cityName,
         state: stateName,
       }));
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         city_name_error: "",
         state_name_error: "",
       }));
@@ -238,7 +245,6 @@ const AddressForm = (props) => {
       let message = "Please enter valid Pin Code";
       if (err.response.status !== 500) {
         message = err.response.data.message;
-      } else {
       }
       dispatch({
         type: toast_actions.ADD_TOAST,
@@ -248,8 +254,8 @@ const AddressForm = (props) => {
           message: message,
         },
       });
-      setAddress((address) => ({
-        ...address,
+      setAddress((addr) => ({
+        ...addr,
         areaCode: "",
         city: "",
         state: "",
@@ -292,7 +298,6 @@ const AddressForm = (props) => {
             city: address.city.trim(),
             country: "IND",
             door: address.door.trim(),
-            building: address.door.trim(),
             state: address.state.trim(),
             street: address.street.trim(),
             tag: address.tag.trim(),
@@ -404,7 +409,6 @@ const AddressForm = (props) => {
             city: address.city.trim(),
             country: "IND",
             door: address.door.trim(),
-            building: address.door.trim(),
             state: address.state.trim(),
             street: address.street.trim(),
             tag: address.tag.trim(),
@@ -495,12 +499,12 @@ const AddressForm = (props) => {
           value={address?.name}
           onChange={(event) => {
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               name: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               name_error: "",
             }));
           }}
@@ -521,12 +525,12 @@ const AddressForm = (props) => {
           value={address?.email}
           onChange={(event) => {
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               email: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               email_error: "",
             }));
           }}
@@ -547,14 +551,15 @@ const AddressForm = (props) => {
           value={address?.phone}
           onChange={(event) => {
             const regexp = /^[0-9]+$/;
-            if (!regexp.test(event.target.value) && event.target.value !== "") return;
+            if (!regexp.test(event.target.value) && event.target.value !== "")
+              return;
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               phone: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               phone_error: "",
             }));
           }}
@@ -579,12 +584,12 @@ const AddressForm = (props) => {
           value={address?.street}
           onChange={(event) => {
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               street: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               street_name_error: "",
             }));
           }}
@@ -605,12 +610,12 @@ const AddressForm = (props) => {
           value={address?.door}
           onChange={(event) => {
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               door: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               door_error: "",
             }));
           }}
@@ -637,19 +642,19 @@ const AddressForm = (props) => {
           }}
           onChange={(event) => {
             const regexp = /^[0-9]+$/;
-            if (!regexp.test(event.target.value) && event.target.value !== "") return;
+            if (!regexp.test(event.target.value) && event.target.value !== "")
+              return;
             const areaCode = event.target.value;
             // if the length is 6 than call the city and state fetch call
             if (areaCode.length === 6) {
               fetchCityAndStateOnAreacode(areaCode);
-            } else {
             }
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               areaCode: areaCode,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               areaCode_error: "",
             }));
           }}
@@ -671,12 +676,12 @@ const AddressForm = (props) => {
           value={address?.city}
           onChange={(event) => {
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               city: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               city_name_error: "",
             }));
           }}
@@ -698,12 +703,12 @@ const AddressForm = (props) => {
           value={address?.state}
           onChange={(event) => {
             const name = event.target.value;
-            setAddress((address) => ({
-              ...address,
+            setAddress((addr) => ({
+              ...addr,
               state: name,
             }));
-            setError((error) => ({
-              ...error,
+            setError((err) => ({
+              ...err,
               state_name_error: "",
             }));
           }}
@@ -717,24 +722,36 @@ const AddressForm = (props) => {
           <Typography variant="body2" className={classes.tagLabel}>
             Tag
           </Typography>
-          <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
             {address_tags.length > 0 &&
               address_tags.map((tag, ind) => {
                 return (
-                  <div key={`Tag-radio-button-${ind}`} className={classes.selectAddressRadioContainer}>
+                  <div
+                    key={`Tag-radio-button-${ind}`}
+                    className={classes.selectAddressRadioContainer}
+                  >
                     <FormControlLabel
                       className={classes.formControlLabel}
                       onClick={() => {
-                        setAddress((address) => ({
-                          ...address,
+                        setAddress((addr) => ({
+                          ...addr,
                           tag: tag,
                         }));
-                        setError((error) => ({
-                          ...error,
+                        setError((err) => ({
+                          ...err,
                           tag_error: "",
                         }));
                       }}
-                      control={<Radio className={classes.tagRadio} checked={tag === address?.tag} />}
+                      control={
+                        <Radio
+                          className={classes.tagRadio}
+                          checked={tag === address?.tag}
+                        />
+                      }
                       label={tag}
                     />
                   </div>
@@ -754,7 +771,8 @@ const AddressForm = (props) => {
             variant="outlined"
             color="primary"
             onClick={() => {
-              if (address_type === address_types.delivery) return handleUpdateDeliveryAddress();
+              if (address_type === address_types.delivery)
+                return handleUpdateDeliveryAddress();
               handleUpdateBillingAddress();
             }}
           >
@@ -765,7 +783,8 @@ const AddressForm = (props) => {
             variant="outlined"
             color="primary"
             onClick={() => {
-              if (address_type === address_types.delivery) return handleAddDeliveryAddress();
+              if (address_type === address_types.delivery)
+                return handleAddDeliveryAddress();
               handleAddBillingAddress();
             }}
           >
@@ -818,11 +837,9 @@ const MapPicker = (props) => {
   }, []);
 
   useEffect(() => {
-
-
     if (location) {
-      setAddress((address) => ({
-        ...address,
+      setAddress((addr) => ({
+        ...addr,
         street: location.street,
         city: location.city,
         state: location.state,
