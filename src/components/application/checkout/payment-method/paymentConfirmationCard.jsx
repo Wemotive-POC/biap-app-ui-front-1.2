@@ -120,11 +120,11 @@ export default function PaymentConfirmationCard(props) {
 
   // JUSPAY SDK METHODS
   // CALLBACK HANDLER
-  function hyperCallbackHandler(eventData) {
+  function hyperCallbackHandler(event_data) {
     try {
-      if (eventData) {
+      if (event_data) {
         const eventJSON =
-          typeof eventData === "string" ? JSON.parse(eventData) : eventData;
+          typeof event_data === "string" ? JSON.parse(event_data) : event_data;
         const event = eventJSON.event;
         // Check for event key
         // eslint-disable-next-line
@@ -138,10 +138,10 @@ export default function PaymentConfirmationCard(props) {
         } else if (event == "user_event") {
           //Handle Payment Page events
         } else {
-          console.log("Unhandled event", event, " Event data", eventData);
+          console.log("Unhandled event", event, " Event data", event_data);
         }
       } else {
-        console.log("No data received in event", eventData);
+        console.log("No data received in event", event_data);
       }
     } catch (error) {
       console.log("Error in hyperSDK response", error);
@@ -149,52 +149,52 @@ export default function PaymentConfirmationCard(props) {
   }
 
   // INIT SDK METHOD
-  async function initiateSDK() {
-    try {
-      const initiatePayloadObj = {
-        merchant_id: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
-        customer_id: user.id,
-        mobile_number: billingAddress?.phone,
-        email_address: billingAddress?.email,
-        timestamp: String(new Date().getTime()),
-      };
+  // async function initiateSDK() {
+  //   try {
+  //     const initiatePayloadObj = {
+  //       merchant_id: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
+  //       customer_id: user.id,
+  //       mobile_number: billingAddress?.phone,
+  //       email_address: billingAddress?.email,
+  //       timestamp: String(new Date().getTime()),
+  //     };
 
-      const { data } = await cancellablePromise(
-        axios.post(
-          `${process.env.REACT_APP_BASE_URL}clientApis/payment/signPayload`,
-          {
-            payload: JSON.stringify(initiatePayloadObj),
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      );
-      sdkPayload.current = {
-        ...sdkPayload.current,
-        signaturePayload: JSON.stringify(initiatePayloadObj),
-        signature: data.signedPayload,
-      };
-      // calling the sdk method
-      hyperServiceObject.initiate(
-        {
-          service: "in.juspay.hyperpay",
-          requestId: parent_order_id,
-          payload: sdkPayload.current,
-        },
-        hyperCallbackHandler
-      );
-    } catch (err) {
-      dispatch({
-        type: toast_actions.ADD_TOAST,
-        payload: {
-          id: Math.floor(Math.random() * 100),
-          type: toast_types.error,
-          message: "Something went wrong!",
-        },
-      });
-    }
-  }
+  //     const { data } = await cancellablePromise(
+  //       axios.post(
+  //         `${process.env.REACT_APP_BASE_URL}clientApis/payment/signPayload`,
+  //         {
+  //           payload: JSON.stringify(initiatePayloadObj),
+  //         },
+  //         {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }
+  //       )
+  //     );
+  //     sdkPayload.current = {
+  //       ...sdkPayload.current,
+  //       signaturePayload: JSON.stringify(initiatePayloadObj),
+  //       signature: data.signedPayload,
+  //     };
+  //     // calling the sdk method
+  //     hyperServiceObject.initiate(
+  //       {
+  //         service: "in.juspay.hyperpay",
+  //         requestId: parent_order_id,
+  //         payload: sdkPayload.current,
+  //       },
+  //       hyperCallbackHandler
+  //     );
+  //   } catch (err) {
+  //     dispatch({
+  //       type: toast_actions.ADD_TOAST,
+  //       payload: {
+  //         id: Math.floor(Math.random() * 100),
+  //         type: toast_types.error,
+  //         message: "Something went wrong!",
+  //       },
+  //     });
+  //   }
+  // }
 
   // PROCESS SDK METHOD
   async function processPayment() {
@@ -261,11 +261,11 @@ export default function PaymentConfirmationCard(props) {
   // use this function to confirm the order
   function onConfirm(message_id) {
     eventTimeOutRef.current = [];
-    const token = getValueFromCookie("token");
+    const token_value = getValueFromCookie("token");
     let header = {
       headers: {
-        ...(token && {
-          Authorization: `Bearer ${token}`,
+        ...(token_value && {
+          Authorization: `Bearer ${token_value}`,
         }),
       },
     };
@@ -303,17 +303,18 @@ export default function PaymentConfirmationCard(props) {
     });
   }
 
-  const parsedCartItems = JSON.parse(localStorage.getItem("cartItems") || "{}");
-  const request_object = constructQouteObject(
-    parsedCartItems.filter(({ provider }) =>
-      successOrderIds.includes(provider.id.toString())
-    )
-  );
+  // const parsedCartItems = JSON.parse(localStorage.getItem("cartItems") || "{}");
 
-  const getItemProviderId = (cartItems) => {
+  // const request_object = constructQouteObject(
+  //   parsedCartItems.filter(({ provider }) =>
+  //     successOrderIds.includes(provider.id.toString())
+  //   )
+  // );
+
+  const getItemProviderId = (cart_items) => {
     const providers = getValueFromCookie("providerIds").split(",");
     let provider = {};
-    cartItems.map((item) => {
+    cart_items.map((item) => {
       if (providers.includes(item.provider.id)) {
         provider = item.provider;
       }
@@ -393,7 +394,7 @@ export default function PaymentConfirmationCard(props) {
         getCall(`clientApis/v2/on_confirm_order?messageIds=${message_id}`)
       );
       responseRef.current = [...responseRef.current, data[0]];
-      setEventData((eventData) => [...eventData, data[0]]);
+      setEventData((event_data) => [...event_data, data[0]]);
     } catch (err) {
       dispatchError(err.message);
       setConfirmOrderLoading(false);
@@ -404,16 +405,16 @@ export default function PaymentConfirmationCard(props) {
   // use this effect to handle callback from juspay and calling the confirm api.
   useEffect(() => {
     if (orderStatus === "CHARGED") {
-      const parsedCartItems = JSON.parse(
+      const parsed_cart_items = JSON.parse(
         localStorage.getItem("cartItems") || "{}"
       );
       setConfirmOrderLoading(true);
-      const request_object = constructQouteObject(
-        parsedCartItems.filter(({ provider }) =>
+      const req_object = constructQouteObject(
+        parsed_cart_items.filter(({ provider }) =>
           successOrderIds.includes(provider.id.toString())
         )
       );
-      confirmOrder(request_object, payment_methods.JUSPAY);
+      confirmOrder(req_object, payment_methods.JUSPAY);
     }
     // eslint-disable-next-line
   }, [orderStatus]);
@@ -562,19 +563,19 @@ export default function PaymentConfirmationCard(props) {
                   // setTogglePaymentGateway(true);
                   // setLoadingSdkForPayment(true);
                   // initiateSDK();
-                  const request_object = constructQouteObject(
+                  const req_object = constructQouteObject(
                     cartItems.filter(({ provider }) =>
                       successOrderIds.includes(provider.id.toString())
                     )
                   );
-                  confirmOrder(request_object, payment_methods.JUSPAY);
+                  confirmOrder(req_object, payment_methods.JUSPAY);
                 } else {
-                  const request_object = constructQouteObject(
+                  const req_object = constructQouteObject(
                     cartItems.filter(({ provider }) =>
                       successOrderIds.includes(provider.id.toString())
                     )
                   );
-                  confirmOrder(request_object, payment_methods.COD);
+                  confirmOrder(req_object, payment_methods.COD);
                 }
               }}
             />
