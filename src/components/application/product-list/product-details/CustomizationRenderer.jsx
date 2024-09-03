@@ -12,10 +12,7 @@ import {
 } from "@mui/material";
 import Radio from "../../../common/Radio";
 import Checkbox from "../../../common/Checkbox";
-import {
-  createCustomizationAndGroupMapping,
-  getCustomizationGroupsForProduct,
-} from "./utils";
+import { createCustomizationAndGroupMapping } from "./utils";
 
 const CustomizationRenderer = (props) => {
   const {
@@ -27,13 +24,12 @@ const CustomizationRenderer = (props) => {
   } = props;
 
   const classes = style();
-  const [isInitialized, setIsInitialized] = useState(false);
   const [customizationGroups, setCustomizationGroups] = useState([]);
   const [customizations, setCustomizations] = useState([]);
   const [highestSeq, setHighestSeq] = useState(0);
 
   const [customizationToGroupMap, setCustomizationToGroupMap] = useState({});
-  const [groupToCustomizationMap, setGroupToCustomizationMap] = useState({});
+  // const [groupToCustomizationMap, setGroupToCustomizationMap] = useState({});
 
   const formatCustomizationGroups = (customisation_groups) => {
     const formattedCustomizationGroups = customisation_groups?.map((group) => {
@@ -65,7 +61,7 @@ const CustomizationRenderer = (props) => {
   };
 
   const formatCustomizations = (customisation_items) => {
-    const customizations = customisation_items?.map((customization) => {
+    const f_customizations = customisation_items?.map((customization) => {
       const itemDetails = customization.item_details;
       const parentTag = itemDetails.tags.find((tag) => tag.code === "parent");
       const vegNonVegTag = itemDetails.tags.find(
@@ -92,18 +88,18 @@ const CustomizationRenderer = (props) => {
         vegNonVeg: vegNonVegTag ? vegNonVegTag.list[0].code : "",
       };
     });
-    return customizations;
+    return f_customizations;
   };
 
-  function findMinMaxSeq(customizationGroups) {
-    if (!customizationGroups || customizationGroups.length === 0) {
+  function findMinMaxSeq(customization_groups) {
+    if (!customization_groups || customization_groups.length === 0) {
       return { minSeq: undefined, maxSeq: undefined };
     }
 
     let minSeq = Infinity;
     let maxSeq = -Infinity;
 
-    customizationGroups.forEach((group) => {
+    customization_groups.forEach((group) => {
       const seq = group.seq;
       if (seq < minSeq) {
         minSeq = seq;
@@ -123,9 +119,9 @@ const CustomizationRenderer = (props) => {
         (item) => item.code == "custom_group"
       );
       if (customGroup && customGroup.list.length > 0) {
-        const customizationGroupIds = customGroup?.list.map(
-          (item) => item.value
-        );
+        // const customizationGroupIds = customGroup?.list.map(
+        //   (item) => item.value
+        // );
         //   const filteredGroups = getCustomizationGroupsForProduct(customisation_groups, customizationGroupIds);
         setCustomizationGroups(formatCustomizationGroups(customisation_groups));
       } else {
@@ -138,7 +134,7 @@ const CustomizationRenderer = (props) => {
   useEffect(() => {
     const mappings = createCustomizationAndGroupMapping(customizations);
     setCustomizationToGroupMap(mappings.customizationToGroupMap);
-    setGroupToCustomizationMap(mappings.groupToCustomizationMap);
+    // setGroupToCustomizationMap(mappings.groupToCustomizationMap);
   }, [customizationGroups, customizations]);
 
   useEffect(() => {
@@ -147,16 +143,16 @@ const CustomizationRenderer = (props) => {
       const firstGroup = customizationGroups.find(
         (group) => group.seq === minSeq
       );
-      const customization_state = { firstGroup };
+      const customization_state_l = { firstGroup };
 
-      const processGroup = (id) => {
+      const processsGroup = (id) => {
         const group = customizationGroups.find((item) => item.id === id);
         if (!group) return;
         const groupId = group.id;
         const groupName = group.name;
         const isMandatory = group.minQuantity > 0;
 
-        customization_state[groupId] = {
+        customization_state_l[groupId] = {
           id: groupId,
           name: groupName,
           seq: group.seq,
@@ -171,31 +167,31 @@ const CustomizationRenderer = (props) => {
           (customization) => customization.parent === groupId
         );
 
-        customization_state[groupId].options = childCustomizations;
-        customization_state[groupId].selected =
+        customization_state_l[groupId].options = childCustomizations;
+        customization_state_l[groupId].selected =
           findSelectedCustomizationForGroup(
-            customization_state[groupId],
+            customization_state_l[groupId],
             childCustomizations
           );
 
         let childGroups =
-          customization_state[groupId].selected[0]?.id != undefined
+          customization_state_l[groupId].selected[0]?.id != undefined
             ? customizationToGroupMap[
-                customization_state[groupId].selected[0]?.id
+                customization_state_l[groupId].selected[0]?.id
               ]
             : [];
-        customization_state[groupId].childs = childGroups;
+        customization_state_l[groupId].childs = childGroups;
 
         if (childGroups) {
           for (const childGroup of childGroups) {
-            processGroup(childGroup);
+            processsGroup(childGroup);
           }
         }
       };
 
       if (firstGroup) {
-        processGroup(firstGroup.id);
-        setCustomizationState(customization_state);
+        processsGroup(firstGroup.id);
+        setCustomizationState(customization_state_l);
       }
     };
 
@@ -351,15 +347,15 @@ const CustomizationRenderer = (props) => {
       }
     };
 
-    const getTextColor = () => {
-      if (category === "veg") {
-        return "#419E6A";
-      } else if (category == "nonVeg") {
-        return "red";
-      } else {
-        return "red";
-      }
-    };
+    // const getTextColor = () => {
+    //   if (category === "veg") {
+    //     return "#419E6A";
+    //   } else if (category == "nonVeg") {
+    //     return "red";
+    //   } else {
+    //     return "red";
+    //   }
+    // };
 
     return (
       <Grid container alignItems="center" xs={1}>
@@ -489,104 +485,104 @@ const CustomizationRenderer = (props) => {
     );
     renderGroups(firstGroup);
 
-    const renderGroup = (param) => {
-      const group = customization_state[param?.id];
+    // const renderGroup = (param) => {
+    //   const group = customization_state[param?.id];
 
-      return (
-        <Accordion
-          key={group?.id}
-          elevation={0}
-          square
-          defaultExpanded
-          sx={{ margin: 0, minHeight: 48 }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            sx={{ padding: 0, margin: 0 }}
-          >
-            <Typography variant="body" color="black">
-              {group?.name}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{ padding: "20px 0" }}>
-            <Grid sx={{ backgroundColor: "#F3F9FE", padding: "20px" }}>
-              {group?.options?.map((option) => {
-                const selected = group?.selected?.some(
-                  (selectedOption) => selectedOption?.id === option?.id
-                );
-                return (
-                  <>
-                    <FormControlLabel
-                      className={classes.formControlLabel}
-                      onClick={() => handleClick(group, option)}
-                      control={
-                        group.seq === highestSeq ? (
-                          <Checkbox
-                            checked={selected}
-                            disabled={!option.inStock}
-                          />
-                        ) : (
-                          <Radio
-                            checked={selected}
-                            disabled={!option.inStock}
-                          />
-                        )
-                      }
-                      label={
-                        <>
-                          <div
-                            className={classes.radioTypoContainer}
-                            onClick={() => handleClick(group, option)}
-                          >
-                            {renderVegNonVegTag(option.vegNonVeg)}
-                            <Typography
-                              component="span"
-                              variant="body1"
-                              sx={{ fontWeight: 600, flex: 1 }}
-                            >
-                              {option.name}
-                            </Typography>
+    //   return (
+    //     <Accordion
+    //       key={group?.id}
+    //       elevation={0}
+    //       square
+    //       defaultExpanded
+    //       sx={{ margin: 0, minHeight: 48 }}
+    //     >
+    //       <AccordionSummary
+    //         expandIcon={<ExpandMoreIcon />}
+    //         sx={{ padding: 0, margin: 0 }}
+    //       >
+    //         <Typography variant="body" color="black">
+    //           {group?.name}
+    //         </Typography>
+    //       </AccordionSummary>
+    //       <AccordionDetails sx={{ padding: "20px 0" }}>
+    //         <Grid sx={{ backgroundColor: "#F3F9FE", padding: "20px" }}>
+    //           {group?.options?.map((option) => {
+    //             const selected = group?.selected?.some(
+    //               (selectedOption) => selectedOption?.id === option?.id
+    //             );
+    //             return (
+    //               <>
+    //                 <FormControlLabel
+    //                   className={classes.formControlLabel}
+    //                   onClick={() => handleClick(group, option)}
+    //                   control={
+    //                     group.seq === highestSeq ? (
+    //                       <Checkbox
+    //                         checked={selected}
+    //                         disabled={!option.inStock}
+    //                       />
+    //                     ) : (
+    //                       <Radio
+    //                         checked={selected}
+    //                         disabled={!option.inStock}
+    //                       />
+    //                     )
+    //                   }
+    //                   label={
+    //                     <>
+    //                       <div
+    //                         className={classes.radioTypoContainer}
+    //                         onClick={() => handleClick(group, option)}
+    //                       >
+    //                         {renderVegNonVegTag(option.vegNonVeg)}
+    //                         <Typography
+    //                           component="span"
+    //                           variant="body1"
+    //                           sx={{ fontWeight: 600, flex: 1 }}
+    //                         >
+    //                           {option.name}
+    //                         </Typography>
 
-                            {!option.inStock && (
-                              <div
-                                style={{
-                                  border: "1px solid #D83232",
-                                  padding: "2px 8px",
-                                  borderRadius: "6px",
-                                }}
-                              >
-                                <Typography color="#D83232" variant="subtitle1">
-                                  Out of Stock
-                                </Typography>
-                              </div>
-                            )}
-                            <Typography
-                              variant="body1"
-                              sx={{
-                                fontWeight: 600,
-                                marginRight: 2,
-                                minWidth: 50,
-                                textAlign: "right",
-                              }}
-                            >
-                              <CurrencyRupeeIcon
-                                sx={{ fontSize: 16, marginBottom: "2px" }}
-                              />
-                              {option.price}
-                            </Typography>
-                          </div>
-                        </>
-                      }
-                      labelPlacement="start"
-                    />
-                  </>
-                );
-              })}
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
-      );
-    };
+    //                         {!option.inStock && (
+    //                           <div
+    //                             style={{
+    //                               border: "1px solid #D83232",
+    //                               padding: "2px 8px",
+    //                               borderRadius: "6px",
+    //                             }}
+    //                           >
+    //                             <Typography color="#D83232" variant="subtitle1">
+    //                               Out of Stock
+    //                             </Typography>
+    //                           </div>
+    //                         )}
+    //                         <Typography
+    //                           variant="body1"
+    //                           sx={{
+    //                             fontWeight: 600,
+    //                             marginRight: 2,
+    //                             minWidth: 50,
+    //                             textAlign: "right",
+    //                           }}
+    //                         >
+    //                           <CurrencyRupeeIcon
+    //                             sx={{ fontSize: 16, marginBottom: "2px" }}
+    //                           />
+    //                           {option.price}
+    //                         </Typography>
+    //                       </div>
+    //                     </>
+    //                   }
+    //                   labelPlacement="start"
+    //                 />
+    //               </>
+    //             );
+    //           })}
+    //         </Grid>
+    //       </AccordionDetails>
+    //     </Accordion>
+    //   );
+    // };
 
     return (
       <div>
