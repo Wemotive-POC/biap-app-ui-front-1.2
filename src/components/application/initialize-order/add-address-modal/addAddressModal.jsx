@@ -55,8 +55,8 @@ export default function AddAddressModal(props) {
 
   function checkName() {
     if (validator.isEmpty(address?.name.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         name_error: "Please enter Name",
       }));
       return false;
@@ -66,15 +66,15 @@ export default function AddAddressModal(props) {
 
   function checkEmail() {
     if (validator.isEmpty(address?.email.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         email_error: "Please enter Email",
       }));
       return false;
     }
     if (!validator.isEmail(address?.email.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         email_error: "Please enter a valid Email",
       }));
       return false;
@@ -84,15 +84,15 @@ export default function AddAddressModal(props) {
 
   function checkPhoneNumber() {
     if (validator.isEmpty(address?.phone.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         phone_error: "Please enter a valid phone number",
       }));
       return false;
     }
     if (!validator.isMobilePhone(address?.phone.trim(), "en-IN")) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         phone_error: "Please enter a valid phone number",
       }));
       return false;
@@ -102,8 +102,8 @@ export default function AddAddressModal(props) {
 
   function checkStreetName() {
     if (validator.isEmpty(address?.street?.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         street_name_error: "Street Name cannot be empty",
       }));
       return false;
@@ -124,8 +124,8 @@ export default function AddAddressModal(props) {
 
   function checkCity() {
     if (validator.isEmpty(address?.city.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         city_name_error: "City Name cannot be empty",
       }));
       return false;
@@ -135,8 +135,8 @@ export default function AddAddressModal(props) {
 
   function checkState() {
     if (validator.isEmpty(address?.state.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         state_name_error: "State Name cannot be empty",
       }));
       return false;
@@ -146,8 +146,8 @@ export default function AddAddressModal(props) {
 
   function checkTag() {
     if (validator.isEmpty(address?.tag.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         tag_error: "Please select tag",
       }));
       return false;
@@ -157,15 +157,15 @@ export default function AddAddressModal(props) {
 
   function checkPinCode() {
     if (validator.isEmpty(address?.areaCode.trim())) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         areaCode_error: "Pin code cannot be empty",
       }));
       return false;
     }
     if (address?.areaCode?.length < 6) {
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         areaCode_error: "Please enter a valid Pin Code",
       }));
       return false;
@@ -390,13 +390,13 @@ export default function AddAddressModal(props) {
         ? data?.copResults?.city
         : data?.copResults?.district;
       const stateName = data?.copResults?.state;
-      setAddress((address) => ({
-        ...address,
+      setAddress((addr) => ({
+        ...addr,
         city: cityName,
         state: stateName,
       }));
-      setError((error) => ({
-        ...error,
+      setError((err) => ({
+        ...err,
         city_name_error: "",
         state_name_error: "",
       }));
@@ -413,8 +413,8 @@ export default function AddAddressModal(props) {
           message: message,
         },
       });
-      setAddress((address) => ({
-        ...address,
+      setAddress((addr) => ({
+        ...addr,
         areaCode: "",
         city: "",
         state: "",
@@ -455,12 +455,12 @@ export default function AddAddressModal(props) {
                     has_error={error.name_error}
                     onChange={(event) => {
                       const name = event.target.value;
-                      setAddress((address) => ({
-                        ...address,
+                      setAddress((addr) => ({
+                        ...addr,
                         name: name,
                       }));
-                      setError((error) => ({
-                        ...error,
+                      setError((err) => ({
+                        ...err,
                         name_error: "",
                       }));
                     }}
@@ -479,12 +479,12 @@ export default function AddAddressModal(props) {
                     has_error={error.email_error}
                     onChange={(event) => {
                       const name = event.target.value;
-                      setAddress((address) => ({
-                        ...address,
+                      setAddress((addr) => ({
+                        ...addr,
                         email: name,
                       }));
-                      setError((error) => ({
-                        ...error,
+                      setError((err) => ({
+                        ...err,
                         email_error: "",
                       }));
                     }}
@@ -510,12 +510,12 @@ export default function AddAddressModal(props) {
                       )
                         return;
                       const name = event.target.value;
-                      setAddress((address) => ({
-                        ...address,
+                      setAddress((addr) => ({
+                        ...addr,
                         phone: name,
                       }));
-                      setError((error) => ({
-                        ...error,
+                      setError((err) => ({
+                        ...err,
                         phone_error: "",
                       }));
                     }}
@@ -534,12 +534,12 @@ export default function AddAddressModal(props) {
                     value={address?.street}
                     onChange={(event) => {
                       const name = event.target.value;
-                      setAddress((address) => ({
-                        ...address,
+                      setAddress((addr) => ({
+                        ...addr,
                         street: name,
                       }));
-                      setError((error) => ({
-                        ...error,
+                      setError((err) => ({
+                        ...err,
                         street_name_error: "",
                       }));
                     }}
@@ -558,12 +558,12 @@ export default function AddAddressModal(props) {
                     value={address?.door}
                     onChange={(event) => {
                       const name = event.target.value;
-                      setAddress((address) => ({
-                        ...address,
+                      setAddress((addr) => ({
+                        ...addr,
                         door: name,
                       }));
-                      setError((error) => ({
-                        ...error,
+                      setError((err) => ({
+                        ...err,
                         door_error: "",
                       }));
                     }}
@@ -594,12 +594,12 @@ export default function AddAddressModal(props) {
                       if (areaCode.length === 6) {
                         fetchCityAndStateOnAreacode(areaCode);
                       }
-                      setAddress((address) => ({
-                        ...address,
+                      setAddress((addr) => ({
+                        ...addr,
                         areaCode: areaCode,
                       }));
-                      setError((error) => ({
-                        ...error,
+                      setError((err) => ({
+                        ...err,
                         areaCode_error: "",
                       }));
                     }}
@@ -649,12 +649,12 @@ export default function AddAddressModal(props) {
                             // disabled={loading}
                             checked={tag === address?.tag}
                             onClick={() => {
-                              setAddress((address) => ({
-                                ...address,
+                              setAddress((addr) => ({
+                                ...addr,
                                 tag: tag,
                               }));
-                              setError((error) => ({
-                                ...error,
+                              setError((err) => ({
+                                ...err,
                                 tag_error: "",
                               }));
                             }}
