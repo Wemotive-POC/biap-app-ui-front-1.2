@@ -19,7 +19,7 @@ import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 import { getCall, postCall } from "../../../api/axios";
 import { getValueFromCookie } from "../../../utils/cookies";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
-import CustomerActionCard from "./action-card/actionCard";
+import CustomerActionCard from "./action-card/customerActionCard";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";

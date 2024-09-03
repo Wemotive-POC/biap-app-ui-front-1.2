@@ -1,12 +1,10 @@
 import React, { useContext, useState, useRef } from "react";
 import CrossIcon from "../../../shared/svg/cross-icon";
 import { ONDC_COLORS } from "../../../shared/colors";
-import { buttonTypes } from "../../../shared/button/utils";
 import styles from "../../../../styles/search-product-modal/searchProductModal.module.scss";
 import ErrorMessage from "../../../shared/error-message/errorMessage";
 import Input from "../../../shared/input/input";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
-import axios from "axios";
 import { getValueFromCookie } from "../../../../utils/cookies";
 import { ToastContext } from "../../../../context/toastContext";
 import validator from "validator";
@@ -25,8 +23,6 @@ export default function CustomerActionCard({
   onClose,
   onSuccess,
 }) {
-  // CONSTANTS
-  const token = getValueFromCookie("token");
   // CONSTANTS
   const ACTION_TYPES = {
     closeIssue: "CLOSE_ISSUE",
@@ -101,7 +97,14 @@ export default function CustomerActionCard({
     cancelPartialEventSourceResponseRef.current = [];
     setLoading(true);
     try {
-      const { bpp_id, issue_actions, issue_id, transaction_id, created_at, domain } = supportActionDetails;
+      const {
+        bpp_id,
+        issue_actions,
+        issue_id,
+        transaction_id,
+        created_at,
+        domain,
+      } = supportActionDetails;
 
       const dataObject = {
         context: {
@@ -109,7 +112,7 @@ export default function CustomerActionCard({
           bpp_id,
           domain,
           timestamp: new Date(),
-          transaction_id
+          transaction_id,
         },
       };
 
@@ -166,14 +169,19 @@ export default function CustomerActionCard({
         dispatchToast("Something went wrong", toast_types.error);
       } else {
         if (selectedCancelType === ACTION_TYPES.escalateIssue) {
-          fetchCancelPartialOrderDataThroughEvents(data.context?.message_id, issue_actions);
+          fetchCancelPartialOrderDataThroughEvents(
+            data.context?.message_id,
+            issue_actions
+          );
         } else {
-          onSuccess([{
-            respondent_action: "CLOSE",
-            short_desc: "Complaint closed",
-            updated_at: new Date(),
-            updated_by: issue_actions.complainant_actions[0].updated_by,
-          }]);
+          onSuccess([
+            {
+              respondent_action: "CLOSE",
+              short_desc: "Complaint closed",
+              updated_at: new Date(),
+              updated_by: issue_actions.complainant_actions[0].updated_by,
+            },
+          ]);
         }
       }
     } catch (err) {
@@ -232,22 +240,24 @@ export default function CustomerActionCard({
         ...cancelPartialEventSourceResponseRef.current,
         data,
       ];
-      let successData = [{
-        respondent_action: "ESCALATE",
-        short_desc: customerRemarks,
-        updated_at: new Date(),
-        updated_by: issue_actions.complainant_actions[0].updated_by,
-      }]
+      let successData = [
+        {
+          respondent_action: "ESCALATE",
+          short_desc: customerRemarks,
+          updated_at: new Date(),
+          updated_by: issue_actions.complainant_actions[0].updated_by,
+        },
+      ];
       if (data?.message) {
         setLoading(false);
-        let respondentArray = data.message?.issue?.issue_actions?.respondent_actions
-        let processObj = respondentArray[respondentArray.length - 1]
-        onSuccess([...successData, processObj])
+        let respondentArray =
+          data.message?.issue?.issue_actions?.respondent_actions;
+        let processObj = respondentArray[respondentArray.length - 1];
+        onSuccess([...successData, processObj]);
       } else {
         setLoading(false);
-        onSuccess(successData)
+        onSuccess(successData);
       }
-
     } catch (err) {
       setLoading(false);
       dispatchToast(err?.message, toast_types.error);
@@ -259,8 +269,8 @@ export default function CustomerActionCard({
   }
 
   const review = (type) => {
-    setInlineError((inlineError) => ({
-      ...inlineError,
+    setInlineError((inline_error) => ({
+      ...inline_error,
       remarks_error: "",
     }));
     if (type === "like") {
@@ -294,8 +304,8 @@ export default function CustomerActionCard({
             checked={selectedCancelType === ACTION_TYPES.closeIssue}
             onClick={() => {
               setSelectedCancelType(ACTION_TYPES.closeIssue);
-              setInlineError((inlineError) => ({
-                ...inlineError,
+              setInlineError((inline_error) => ({
+                ...inline_error,
                 remarks_error: "",
               }));
             }}
@@ -310,8 +320,8 @@ export default function CustomerActionCard({
             checked={selectedCancelType === ACTION_TYPES.escalateIssue}
             onClick={() => {
               setSelectedCancelType(ACTION_TYPES.escalateIssue);
-              setInlineError((inlineError) => ({
-                ...inlineError,
+              setInlineError((inline_error) => ({
+                ...inline_error,
                 remarks_error: "",
               }));
             }}
@@ -357,8 +367,8 @@ export default function CustomerActionCard({
               onChange={(event) => {
                 const remarks = event.target.value;
                 setCustomerRemarks(remarks);
-                setInlineError((inlineError) => ({
-                  ...inlineError,
+                setInlineError((inline_error) => ({
+                  ...inline_error,
                   remarks_error: "",
                 }));
               }}

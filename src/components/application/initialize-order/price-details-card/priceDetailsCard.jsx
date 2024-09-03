@@ -7,7 +7,6 @@ import IndianRupee from "../../../shared/svg/indian-rupee";
 export default function PriceDetailsCard(props) {
   const {
     productsQuote,
-    show_order_from = true,
     totalLabel = "Total Payable",
     updateCartLoading = false,
   } = props;
@@ -27,20 +26,31 @@ export default function PriceDetailsCard(props) {
       ) : (
         <>
           <div className={styles.card_body}>
-            {productsQuote?.providers
-              .map((provider, index) => (
-                <div className={styles.provider} key={`${provider.name}${index}`}>
-                  <div>{provider.name}</div>
-                  {provider.products.filter((quote) => quote?.title !== "").map((quote, qIndex) => (
+            {productsQuote?.providers.map((provider, index) => (
+              <div className={styles.provider} key={`${provider.name}${index}`}>
+                <div>{provider.name}</div>
+                {provider.products
+                  .filter((quote) => quote?.title !== "")
+                  .map((quote, qIndex) => (
                     <div
-                      className={`py-2 d-flex align-items-center ${qIndex !== (provider.products.length - 1) ? styles.border_bottom_dotted : ""}`}
+                      className={`py-2 d-flex align-items-center ${
+                        qIndex !== provider.products.length - 1
+                          ? styles.border_bottom_dotted
+                          : ""
+                      }`}
                       key={`quote-item-${qIndex}`}
                     >
                       <div className="pe-2 flex-grow-1">
                         {quote?.title && (
-                          <p className={`${styles.product_name} ${quote.textClass}`}>{quote?.title}</p>
+                          <p
+                            className={`${styles.product_name} ${quote.textClass}`}
+                          >
+                            {quote?.title}
+                          </p>
                         )}
-                        <p className={`${styles.ordered_from} ${quote.textClass}`}>
+                        <p
+                          className={`${styles.ordered_from} ${quote.textClass}`}
+                        >
                           {quote.quantityMessage}
                         </p>
                       </div>
@@ -53,16 +63,20 @@ export default function PriceDetailsCard(props) {
                               color={ONDC_COLORS.PRIMARYCOLOR}
                             />
                           </div>
-                          <p className={`${styles.sub_total_text} ${quote.textClass}`}>{quote?.price}</p>
+                          <p
+                            className={`${styles.sub_total_text} ${quote.textClass}`}
+                          >
+                            {quote?.price}
+                          </p>
                         </div>
                       )}
                     </div>
                   ))}
-                  {provider.error && (
-                    <p className={styles.error}>{provider.error}</p>
-                  )}
-                </div>
-              ))}
+                {provider.error && (
+                  <p className={styles.error}>{provider.error}</p>
+                )}
+              </div>
+            ))}
           </div>
           <div className={`${styles.card_footer} d-flex align-items-center`}>
             <p className={styles.card_body_text}>{totalLabel}</p>
