@@ -39,7 +39,7 @@ export default function OrderCard(props) {
     accoodion_id,
     currentSelectedAccordion,
     setCurrentSelectedAccordion,
-    domain
+    domain,
   } = props;
 
   // HELPERS
@@ -173,7 +173,10 @@ export default function OrderCard(props) {
           toast_types.error
         );
         return;
-      } else if (message.tracking.status === "active" && message?.tracking?.url !== "") {
+      } else if (
+        message.tracking.status === "active" &&
+        message?.tracking?.url !== ""
+      ) {
         setTrackOrderLoading(false);
         trackOrderRef.current.href = message?.tracking?.url;
         trackOrderRef.current.target = "_blank";
@@ -181,7 +184,7 @@ export default function OrderCard(props) {
       } else {
         setTrackOrderLoading(false);
         dispatchToast(
-          "Tracking information is not provided by the provider.",
+          "Tracking information is not provided by the provider",
           toast_types.error
         );
         return;
@@ -204,7 +207,6 @@ export default function OrderCard(props) {
       const data = await cancellablePromise(
         getCall(`/issueApis/v1/issue?transactionId=${transaction_id}`)
       );
-
 
       const { issueExistance } = data;
       if (issueExistance) {
@@ -523,7 +525,7 @@ export default function OrderCard(props) {
           bpp_id={bpp_id}
           bpp_uri={bpp_uri}
           fulfillments={fulfillments}
-          domain={ domain }
+          domain={domain}
         />
       )}
       <div
@@ -576,9 +578,9 @@ export default function OrderCard(props) {
             style={
               currentSelectedAccordion === accoodion_id
                 ? {
-                  transform: "rotate(180deg)",
-                  transition: "all 0.7s",
-                }
+                    transform: "rotate(180deg)",
+                    transition: "all 0.7s",
+                  }
                 : { transform: "rotate(0)", transition: "all 0.7s" }
             }
           >

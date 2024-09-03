@@ -15,8 +15,8 @@ const ProductRoutes = () => {
 
   useEffect(() => {
     if (locationData) {
-      const productId = query.get("productId");
-      setProductId(productId);
+      const product_Id = query.get("productId");
+      setProductId(product_Id);
     }
   }, [locationData]);
 

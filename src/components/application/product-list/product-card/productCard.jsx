@@ -19,13 +19,8 @@ export default function ProductCard(props) {
     onUpdateCart = () => {},
   } = props;
   const { id, descriptor, provider_details } = product;
-  const {
-    cartItems,
-    onAddProduct,
-    onAddQuantity,
-    onRemoveProduct,
-    onReduceQuantity,
-  } = useContext(CartContext);
+  const { cartItems, onAddProduct, onAddQuantity, onReduceQuantity } =
+    useContext(CartContext);
   const { name: provider_name } = bpp_provider_descriptor;
   const { name: product_name, images } = descriptor;
   const [quantityCount, setQuantityCount] = useState(0);
@@ -115,7 +110,7 @@ export default function ProductCard(props) {
                   <div
                     className={`${styles.add_svg_wrapper} d-flex align-items-center justify-content-center`}
                     onClick={() => {
-                      setQuantityCount((quantityCount) => quantityCount + 1);
+                      setQuantityCount((quantity_count) => quantity_count + 1);
                       onAddQuantity(id);
                       onUpdateCart();
                     }}
@@ -132,7 +127,7 @@ export default function ProductCard(props) {
                   className={styles.add_to_cart_button}
                   onClick={() => {
                     setToggleAddToCart(true);
-                    setQuantityCount((quantityCount) => quantityCount + 1);
+                    setQuantityCount((quantity_count) => quantity_count + 1);
                     onAddProduct({
                       id,
                       quantity: { count: quantityCount + 1 },

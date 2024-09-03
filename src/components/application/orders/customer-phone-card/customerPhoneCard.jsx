@@ -139,8 +139,8 @@ export default function CustomerPhoneCard({
               const regexp = /^[0-9]+$/;
               if (!regexp.test(phone_number) && phone_number !== "") return;
               setCustomerPhoneNumber(phone_number);
-              setInlineError((inlineError) => ({
-                ...inlineError,
+              setInlineError((inline_error) => ({
+                ...inline_error,
                 phone_number_error: "",
               }));
             }}

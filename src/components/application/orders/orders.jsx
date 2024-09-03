@@ -63,8 +63,12 @@ export default function Orders() {
         } = order;
         return {
           product: items?.map(({ id }, index) => {
-            let findQuote = quote?.breakup.find((item) => item["@ondc/org/item_id"] === id && item["@ondc/org/title_type"] === "item");
-            if (findQuote) { } else {
+            let findQuote = quote?.breakup.find(
+              (item) =>
+                item["@ondc/org/item_id"] === id &&
+                item["@ondc/org/title_type"] === "item"
+            );
+            if (!findQuote) {
               findQuote = quote?.breakup[index];
             }
             return {
@@ -77,13 +81,19 @@ export default function Orders() {
             };
           }),
           quote: {
-            breakup: quote?.breakup.filter((item) => item["@ondc/org/title_type"] !== "item"),
-            price: quote?.price
+            breakup: quote?.breakup.filter(
+              (item) => item["@ondc/org/title_type"] !== "item"
+            ),
+            price: quote?.price,
           },
-          quantity: items?.map(({ cancellation_status, return_status, quantity }) => {
-            quantity.isCancledOrReturned = cancellation_status !== undefined || return_status !== undefined
-            return quantity;
-          }),
+          quantity: items?.map(
+            ({ cancellation_status, return_status, quantity }) => {
+              quantity.isCancledOrReturned =
+                cancellation_status !== undefined ||
+                return_status !== undefined;
+              return quantity;
+            }
+          ),
           billing_address: {
             name: billing?.name,
             email: billing?.email,
@@ -102,7 +112,7 @@ export default function Orders() {
           createdAt,
           bpp_id: bppId,
           bpp_uri: bpp_uri,
-          fulfillments: fulfillments
+          fulfillments: fulfillments,
         };
       });
       setPagination((prev) => ({
@@ -205,7 +215,7 @@ export default function Orders() {
                       bpp_uri,
                       quote,
                       fulfillments,
-                      domain
+                      domain,
                     },
                     index
                   ) => {
@@ -234,7 +244,7 @@ export default function Orders() {
                               } else {
                                 return item;
                               }
-                            })
+                            });
                             setOrders(orderData);
                           }}
                           onFetchUpdatedOrder={() => {
