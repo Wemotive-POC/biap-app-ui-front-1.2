@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 import { useParams, useHistory } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
@@ -45,7 +45,7 @@ const MenuItems = (props) => {
     firstMenuItemDetails = null,
     isStoreDelivering,
   } = props;
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
   const { brandId, outletId } = useParams();
 

@@ -13,7 +13,7 @@ const moreImageContainer = (size, borderColor) => ({
   cursor: "pointer",
 });
 
-const useStyles = makeStyles({
+const style = makeStyles({
   breadCrumbs: {
     backgroundColor: palette.background.paper,
     height: 70,
@@ -232,4 +232,4 @@ const useStyles = makeStyles({
   sizeChartImage: {},
 });
 
-export default useStyles;
+export default style;

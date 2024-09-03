@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import ThemePalette from "../../../utils/Theme/theme.json";
 
-const useStyles = makeStyles({
+const styles = makeStyles({
   offersContainer: {
     width: "100%",
     display: "flex",
@@ -142,4 +142,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default styles;

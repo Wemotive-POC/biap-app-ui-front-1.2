@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
 import MuiLink from "@mui/material/Link";
@@ -31,7 +31,7 @@ import { ToastContext } from "../../../../context/toastContext";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
 
 const ProductDetails = ({ productId }) => {
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
   const dispatch = useContext(ToastContext);
   const { fetchCartItems, cartItems } = useContext(CartContext);

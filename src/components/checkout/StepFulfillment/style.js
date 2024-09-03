@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles({
+const style = makeStyles({
   formControlLabelAlign: {
     // marginLeft: "0px !important",
   },
@@ -15,4 +15,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default style;

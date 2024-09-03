@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
-import useStyles from "../product-list/product-details/style";
+import style from "../product-list/product-details/style";
 import { Button, Divider, Grid, IconButton, Typography } from "@mui/material";
 import CustomizationRenderer from "../product-list/product-details/CustomizationRenderer";
 import { getValueFromCookie } from "../../../utils/cookies";
@@ -19,7 +19,7 @@ const EditCustomizations = (props) => {
     currentCartItem,
   } = props;
 
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
   const { fetchCartItems } = useContext(CartContext);
   let user = {};

@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import palette from "../../../../utils/Theme/palette";
 
-const useStyles = makeStyles({
+const style = makeStyles({
   expandIcon: {
     height: "30px !important",
     width: "30px !important",
@@ -128,4 +128,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default style;

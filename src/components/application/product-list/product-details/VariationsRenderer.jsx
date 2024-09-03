@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 import { Grid, Typography } from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
 import RightArrowIcon from "@mui/icons-material/ArrowForwardRounded";
@@ -14,7 +14,7 @@ const VariationsRenderer = (props) => {
     chartImage = "",
     isFashion = false,
   } = props;
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
 
   const [variationGroups, setVariationGroups] = useState([]);

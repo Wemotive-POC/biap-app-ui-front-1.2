@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import useStyles from "./styles";
+import styles from "./styles";
 import { useHistory, Link } from "react-router-dom";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -47,7 +47,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
     }
   }
 
-  const classes = useStyles();
+  const classes = styles();
   const history = useHistory();
   const dispatch = useContext(ToastContext);
   const { deliveryAddress } = useContext(AddressContext);

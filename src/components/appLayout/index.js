@@ -6,7 +6,7 @@ import Footer from "./footer/footer";
 
 import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles({
+const styles = makeStyles({
   allLayoutContainer: {
     display: "flex",
     flexDirection: "column",
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 const AppLayout = ({ pageTitle, children, isCheckout = false }) => {
-  const classes = useStyles();
+  const classes = styles();
 
   useEffect(() => {
     window.scrollTo(0, 0);

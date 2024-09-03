@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -33,7 +33,7 @@ import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 
 const OutletDetails = (props) => {
   const { brandId, outletId } = props;
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
   const { locationData: deliveryAddressLocation } = useContext(SearchContext);
 

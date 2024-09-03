@@ -11,7 +11,7 @@ import { AddressContext } from "../../../../context/addressContext";
 import useCancellablePromise from "../../../../api/cancelRequest";
 import axios from "axios";
 import { AddCookie, removeCookie } from "../../../../utils/cookies";
-import useStyles from "./style";
+import style from "./style";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { ToastContext } from "../../../../context/toastContext";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
@@ -23,7 +23,7 @@ const SelectAddress = ({
   setUpdateAddress,
   onSelectAddress,
 }) => {
-  const classes = useStyles();
+  const classes = style();
   const { deliveryAddress, setDeliveryAddress, setBillingAddress } =
     useContext(AddressContext);
   const dispatch = useContext(ToastContext);

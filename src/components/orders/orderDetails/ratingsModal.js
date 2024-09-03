@@ -35,7 +35,7 @@ import Radio from "@mui/material/Radio";
 import { makeStyles } from "@mui/styles";
 import { Fullscreen } from "@mui/icons-material";
 
-const useStyles = makeStyles({
+const style = makeStyles({
   card: {
     padding: "10px 26px !Important",
     // borderRadius: "16px !important",
@@ -91,7 +91,7 @@ export default function RatingsModal({
   fulfillments,
 }) {
   console.log("partailsReturnProductList", productList);
-  const modalStyles = useStyles();
+  const modalStyles = style();
 
   // STATES
   const [ratings, setRatings] = useState({

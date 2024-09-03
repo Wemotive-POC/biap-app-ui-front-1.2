@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import palette from "../../utils/Theme/palette";
 
-const useStyles = makeStyles({
+const style = makeStyles({
   header: {
     background: palette.common.white,
     padding: "20px 100px 15px 100px !important",
@@ -230,4 +230,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default style;

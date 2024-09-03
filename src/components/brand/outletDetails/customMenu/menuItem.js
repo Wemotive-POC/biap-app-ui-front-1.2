@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -18,7 +18,7 @@ import { hasCustomizations } from "../../../application/product-list/product-det
 import Loading from "../../../shared/loading/loading";
 
 const MenuItem = (props) => {
-  const classes = useStyles();
+  const classes = style();
   const {
     productPayload,
     setProductPayload,

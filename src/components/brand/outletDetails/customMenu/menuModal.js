@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 
 import Typography from "@mui/material/Typography";
 
@@ -8,7 +8,7 @@ import { ReactComponent as MinusIcon } from "../../../../assets/images/minus.svg
 import { useHistory } from "react-router-dom";
 
 const MenuModal = ({ customMenu }) => {
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
 
   const [activeMenu, setActiveMenu] = useState("");
@@ -24,7 +24,9 @@ const MenuModal = ({ customMenu }) => {
             <Typography
               component="div"
               variant="body"
-              className={`${classes.dialogMenuName} ${activeMenu === id ? classes.isActiveMenu : ""}`}
+              className={`${classes.dialogMenuName} ${
+                activeMenu === id ? classes.isActiveMenu : ""
+              }`}
               onClick={() => {
                 if (activeMenu === id) {
                   setActiveMenu("");
@@ -39,7 +41,11 @@ const MenuModal = ({ customMenu }) => {
               ) : (
                 <PlusIcon className={classes.plusIcon} />
               )}
-              <span className={`${classes.itemsCount} ${activeMenu === id ? classes.isActiveMenu : ""}`}>
+              <span
+                className={`${classes.itemsCount} ${
+                  activeMenu === id ? classes.isActiveMenu : ""
+                }`}
+              >
                 {items.length}
               </span>
             </Typography>
@@ -53,7 +59,9 @@ const MenuModal = ({ customMenu }) => {
                         variant="body1"
                         className={classes.dialogMenuItemName}
                         onClick={() => {
-                          history.push(`/application/products?productId=${item.id}`);
+                          history.push(
+                            `/application/products?productId=${item.id}`
+                          );
                         }}
                       >
                         {item?.item_details?.descriptor?.name}

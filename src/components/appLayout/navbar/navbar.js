@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import useStyles from "./style";
+import style from "./style";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -46,7 +46,7 @@ import { ToastContext } from "../../../context/toastContext";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 
 const NavBar = ({ isCheckout = false }) => {
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
   const locationData = useLocation();
   const user = getUser();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import {
@@ -26,7 +26,7 @@ const CustomizationRenderer = (props) => {
     setItemOutOfStock,
   } = props;
 
-  const classes = useStyles();
+  const classes = style();
   const [isInitialized, setIsInitialized] = useState(false);
   const [customizationGroups, setCustomizationGroups] = useState([]);
   const [customizations, setCustomizations] = useState([]);

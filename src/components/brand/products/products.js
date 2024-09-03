@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 import { Link, useLocation, useParams, useHistory } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -33,7 +33,7 @@ import Offers from "../../common/Offers/Offers";
 import { getAllOffersRequest } from "../../../api/offer.api";
 
 const Products = ({ brandDetails, brandId }) => {
-  const classes = useStyles();
+  const classes = style();
   const history = useHistory();
   const { fetchCartItems } = useContext(CartContext);
   const { locationData: deliveryAddressLocation } = useContext(SearchContext);

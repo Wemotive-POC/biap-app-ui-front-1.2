@@ -13,7 +13,7 @@ const moreImageContainer = (size, borderColor) => ({
   cursor: "pointer",
 });
 
-const useStyles = makeStyles({
+const styles = makeStyles({
   headingContainer: {
     backgroundColor: palette.background.paper,
     height: 70,
@@ -157,4 +157,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default styles;

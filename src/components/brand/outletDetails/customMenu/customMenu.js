@@ -1,5 +1,5 @@
 import React, { Fragment, useRef, useEffect, useState } from "react";
-import useStyles from "./style";
+import style from "./style";
 import { useParams, useHistory } from "react-router-dom";
 
 import Fab from "@mui/material/Fab";
@@ -8,15 +8,23 @@ import Typography from "@mui/material/Typography";
 import ModalComponent from "../../../common/Modal";
 import MenuModal from "./menuModal";
 
-import { getBrandCustomMenuRequest, getCustomMenuItemsRequest } from "../../../../api/brand.api";
+import {
+  getBrandCustomMenuRequest,
+  getCustomMenuItemsRequest,
+} from "../../../../api/brand.api";
 import useCancellablePromise from "../../../../api/cancelRequest";
 import { ReactComponent as MenuIcon } from "../../../../assets/images/menu.svg";
 
 import MenuItems from "./menuItems";
 import Loading from "../../../shared/loading/loading";
 
-const CustomMenu = ({ brandDetails, outletDetails, brandId, isStoreDelivering }) => {
-  const classes = useStyles();
+const CustomMenu = ({
+  brandDetails,
+  outletDetails,
+  brandId,
+  isStoreDelivering,
+}) => {
+  const classes = style();
   const customMenuRef = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
   const [menuModal, setMenuModal] = useState(false);
@@ -30,7 +38,9 @@ const CustomMenu = ({ brandDetails, outletDetails, brandId, isStoreDelivering })
   const getBrandCustomMenu = async (domain) => {
     setBlockingCallLoading(true);
     try {
-      const data = await cancellablePromise(getBrandCustomMenuRequest(domain, brandId));
+      const data = await cancellablePromise(
+        getBrandCustomMenuRequest(domain, brandId)
+      );
       let resData = Object.assign([], JSON.parse(JSON.stringify(data.data)));
       setFirstMenuItemId(resData[0].id);
       resData = resData.map((singleCustomMenu) => {
@@ -50,10 +60,13 @@ const CustomMenu = ({ brandDetails, outletDetails, brandId, isStoreDelivering })
       let resData = Object.assign([], JSON.parse(JSON.stringify(data.data)));
 
       resData = resData.map((item) => {
-        const findVegNonVegTag = item.item_details.tags.find((tag) => tag.code === "veg_nonveg");
+        const findVegNonVegTag = item.item_details.tags.find(
+          (tag) => tag.code === "veg_nonveg"
+        );
         if (findVegNonVegTag) {
           item.item_details.isVeg =
-            findVegNonVegTag.list[0].value === "yes" || findVegNonVegTag.list[0].value === "Yes";
+            findVegNonVegTag.list[0].value === "yes" ||
+            findVegNonVegTag.list[0].value === "Yes";
         } else {
         }
         return item;
@@ -73,7 +86,10 @@ const CustomMenu = ({ brandDetails, outletDetails, brandId, isStoreDelivering })
   }, [brandDetails]);
 
   const updateItemsOfCustomMenuRef = (customMenuId, items) => {
-    let data = Object.assign([], JSON.parse(JSON.stringify(customMenuRef.current)));
+    let data = Object.assign(
+      [],
+      JSON.parse(JSON.stringify(customMenuRef.current))
+    );
     const findIndexFromId = data.findIndex((item) => item.id === customMenuId);
     if (findIndexFromId > -1) {
       data[findIndexFromId].items = items;
@@ -123,16 +139,18 @@ const CustomMenu = ({ brandDetails, outletDetails, brandId, isStoreDelivering })
                 isStoreDelivering={isStoreDelivering}
               />
 
-              {customMenuRef.current.slice(1, customMenuRef.current.length).map((menu, ind) => (
-                <MenuItems
-                  firstMenuItemId={firstMenuItemId}
-                  key={`custom-menu-ind-${ind}`}
-                  customMenu={menu}
-                  updateItemsOfCustomMenuRef={updateItemsOfCustomMenuRef}
-                  setBlockingCallLoading={setBlockingCallLoading}
-                  isStoreDelivering={isStoreDelivering}
-                />
-              ))}
+              {customMenuRef.current
+                .slice(1, customMenuRef.current.length)
+                .map((menu, ind) => (
+                  <MenuItems
+                    firstMenuItemId={firstMenuItemId}
+                    key={`custom-menu-ind-${ind}`}
+                    customMenu={menu}
+                    updateItemsOfCustomMenuRef={updateItemsOfCustomMenuRef}
+                    setBlockingCallLoading={setBlockingCallLoading}
+                    isStoreDelivering={isStoreDelivering}
+                  />
+                ))}
             </>
           ) : (
             <Typography variant="body1">Menu not available</Typography>

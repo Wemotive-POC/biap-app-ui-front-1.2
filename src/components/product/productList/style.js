@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import palette from "../../../utils/Theme/palette";
 
-const useStyles = makeStyles({
+const style = makeStyles({
   productContainer: {
     padding: "28px 54px !important",
   },
@@ -140,4 +140,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default style;

@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import palette from "../../../utils/Theme/palette";
 
-const useStyles = makeStyles({
+const style = makeStyles({
   orderDetailsContainer: {
     padding: "45px 52px",
   },
@@ -306,4 +306,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;
+export default style;
