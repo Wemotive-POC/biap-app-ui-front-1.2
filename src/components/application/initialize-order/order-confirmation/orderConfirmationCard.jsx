@@ -47,7 +47,7 @@ export default function OrderConfirmationCard(props) {
 
   // CONSTANTS
   const transaction_id = Cookies.get("transaction_id");
-  const latLongInfo = JSON.parse(Cookies.get("LatLongInfo") || "{}");
+
   const history = useHistory();
 
   // STATES
@@ -68,7 +68,7 @@ export default function OrderConfirmationCard(props) {
   const { cancellablePromise } = useCancellablePromise();
 
   // use this function to dispatch error
-  function dispatchToast(type = "toast_types.error", message) {
+  function dispatchToast(type, message) {
     dispatch({
       type: toast_actions.ADD_TOAST,
       payload: {
@@ -244,11 +244,11 @@ export default function OrderConfirmationCard(props) {
           updateInitLoading(false);
         } else {
           const parentTransactionIdMap = new Map();
-          data.map((data) => {
-            const provider_id = data?.context?.provider_id;
+          data.map((val) => {
+            const provider_id = val?.context?.provider_id;
             return parentTransactionIdMap.set(provider_id, {
-              parent_order_id: data?.context?.parent_order_id,
-              transaction_id: data?.context?.transaction_id,
+              parent_order_id: val?.context?.parent_order_id,
+              transaction_id: val?.context?.transaction_id,
             });
           });
           // store parent order id to cookies
@@ -283,7 +283,7 @@ export default function OrderConfirmationCard(props) {
         getCall(`/clientApis/v2/on_initialize_order?messageIds=${message_id}`)
       );
       responseRef.current = [...responseRef.current, data[0]];
-      setEventData((eventData) => [...eventData, data[0]]);
+      setEventData((event_data) => [...event_data, data[0]]);
     } catch (err) {
       dispatchToast(toast_types.error, err.message);
       setInitializeOrderLoading(false);
