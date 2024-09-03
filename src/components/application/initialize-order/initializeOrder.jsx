@@ -33,7 +33,6 @@ import { AddressContext } from "../../../context/addressContext";
 
 export default function InitializeOrder() {
   // CONSTANTS
-  const { location } = JSON.parse(getValueFromCookie("search_context") || "{}");
   const transaction_id = localStorage.getItem("transaction_id");
   const history = useHistory();
 
@@ -60,7 +59,7 @@ export default function InitializeOrder() {
   const eventTimeOutRef = useRef([]);
 
   // CONTEXT
-  const { cartItems, onUpdateProduct } = useContext(CartContext);
+  const { cartItems } = useContext(CartContext);
   const dispatch = useContext(ToastContext);
   const { setBillingAddress } = useContext(AddressContext);
 
@@ -201,7 +200,7 @@ export default function InitializeOrder() {
         getCall(`/clientApis/v2/on_select?messageIds=${message_id}`)
       );
       responseRef.current = [...responseRef.current, data[0]];
-      setEventData((eventData) => [...eventData, data[0]]);
+      setEventData((event_data) => [...event_data, data[0]]);
 
       // onUpdateProduct(data[0].message.quote.items, data[0].message.quote.fulfillments);
       data[0].message.quote.items.forEach((item) => {
