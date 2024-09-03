@@ -4,7 +4,7 @@ import { ONDC_COLORS } from "../../../shared/colors";
 import Button from "../../../shared/button/button";
 import { buttonTypes } from "../../../shared/button/utils";
 import styles from "../../../../styles/search-product-modal/searchProductModal.module.scss";
-import productCartStyles from '../../../../styles/products/productCard.module.scss';
+import productCartStyles from "../../../../styles/products/productCard.module.scss";
 import productStyles from "../../../../styles/orders/orders.module.scss";
 import ErrorMessage from "../../../shared/error-message/errorMessage";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
@@ -30,7 +30,6 @@ export default function ReturnOrderModal({
   onSuccess,
   quantity,
 }) {
-
   // STATES
   const [inlineError, setInlineError] = useState({
     selected_id_error: "",
@@ -248,7 +247,9 @@ export default function ReturnOrderModal({
 
   // use this function to add attribute in filter list
   function addProductToCancel(attribute, qty) {
-    let latestAttribute = JSON.parse(JSON.stringify(Object.assign({}, attribute)));
+    let latestAttribute = JSON.parse(
+      JSON.stringify(Object.assign({}, attribute))
+    );
     latestAttribute.quantity.count = qty;
     setSelectedIds([...selectedIds, latestAttribute]);
   }
@@ -264,9 +265,9 @@ export default function ReturnOrderModal({
     data = data.map((item) => {
       if (item.id === pId) {
         item.quantity.count = qty;
-      } else { }
+      }
       return item;
-    })
+    });
     setSelectedIds(data);
   }
 
@@ -281,14 +282,18 @@ export default function ReturnOrderModal({
 
   useEffect(() => {
     if (selectedIds.length > 0) {
-      const findNonReturnableItem = selectedIds.find((p) => !p?.["@ondc/org/returnable"]);
+      const findNonReturnableItem = selectedIds.find(
+        (p) => !p?.["@ondc/org/returnable"]
+      );
       if (findNonReturnableItem) {
-        const data = RETURN_REASONS.filter((r) => r.isApplicableForNonReturnable);
+        const data = RETURN_REASONS.filter(
+          (r) => r.isApplicableForNonReturnable
+        );
         setReasons(data);
       } else {
         setReasons(RETURN_REASONS);
       }
-    };
+    }
   }, [selectedIds]);
 
   useEffect(() => {
@@ -301,7 +306,7 @@ export default function ReturnOrderModal({
     let qtyData = Object.assign([], orderQty);
     qtyData[idx].count = qty;
     setOrderQty(qtyData);
-    updateQtyForSelectedProduct(pId, qty)
+    updateQtyForSelectedProduct(pId, qty);
   };
 
   return (
@@ -329,7 +334,11 @@ export default function ReturnOrderModal({
                       key={product?.id}
                       className="d-flex align-items-center"
                     >
-                      <div style={{ width: isProductSelected(product?.id) ? "70%" : "90%" }}>
+                      <div
+                        style={{
+                          width: isProductSelected(product?.id) ? "70%" : "90%",
+                        }}
+                      >
                         <Checkbox
                           id={product?.id}
                           checked={isProductSelected(product?.id)}
@@ -362,59 +371,76 @@ export default function ReturnOrderModal({
                           </div>
                         </Checkbox>
                       </div>
-                      {
-                        isProductSelected(product?.id) && (
-                          <div style={{ width: "20%" }}>
-                            <div className={productCartStyles.quantity_count_wrapper}>
-                              <div
-                                className={`${orderQty[idx]?.count > 1 ? productCartStyles.subtract_svg_wrapper : ""} d-flex align-items-center justify-content-center`}
-                                onClick={() => {
-                                  //   setQuantityCount(quantityCount - 1);
-                                  //   onReduceQuantity(id);
-                                  //   if (quantityCount - 1 === 0) {
-                                  //     setToggleAddToCart(false);
-                                  //   }
-                                  if (orderQty[idx]?.count > 1) {
-                                    onUpdateQty(orderQty[idx]?.count - 1, idx, product?.id);
-                                  }
-                                }}
-                              >
-                                {
-                                  orderQty[idx]?.count > 1 && (
-                                    <Subtract width="13" classes={productCartStyles.subtract_svg_color} />
-                                  )
+                      {isProductSelected(product?.id) && (
+                        <div style={{ width: "20%" }}>
+                          <div
+                            className={productCartStyles.quantity_count_wrapper}
+                          >
+                            <div
+                              className={`${
+                                orderQty[idx]?.count > 1
+                                  ? productCartStyles.subtract_svg_wrapper
+                                  : ""
+                              } d-flex align-items-center justify-content-center`}
+                              onClick={() => {
+                                //   setQuantityCount(quantityCount - 1);
+                                //   onReduceQuantity(id);
+                                //   if (quantityCount - 1 === 0) {
+                                //     setToggleAddToCart(false);
+                                //   }
+                                if (orderQty[idx]?.count > 1) {
+                                  onUpdateQty(
+                                    orderQty[idx]?.count - 1,
+                                    idx,
+                                    product?.id
+                                  );
                                 }
-                              </div>
-                              <div className="d-flex align-items-center justify-content-center">
-                                <p className={productCartStyles.quantity_count}>
-                                  {orderQty[idx]?.count ?? "0"}
-                                  {/* {quantityCount} */}
-                                </p>
-                              </div>
-                              <div
-                                className={`${orderQty[idx]?.count < quantity[idx]?.count ? productCartStyles.add_svg_wrapper : ""} d-flex align-items-center justify-content-center`}
-                                onClick={() => {
-                                  //   setQuantityCount((quantityCount) => quantityCount + 1);
-                                  //   onAddQuantity(id);
-                                  if (orderQty[idx]?.count < quantity[idx]?.count) {
-                                    onUpdateQty(orderQty[idx]?.count + 1, idx, product?.id);
-                                  }
-                                }}
-                              >
-                                {
-                                  orderQty[idx]?.count < quantity[idx]?.count && (
-                                    <Add
-                                      width="13"
-                                      height="13"
-                                      classes={productCartStyles.add_svg_color}
-                                    />
-                                  )
+                              }}
+                            >
+                              {orderQty[idx]?.count > 1 && (
+                                <Subtract
+                                  width="13"
+                                  classes={productCartStyles.subtract_svg_color}
+                                />
+                              )}
+                            </div>
+                            <div className="d-flex align-items-center justify-content-center">
+                              <p className={productCartStyles.quantity_count}>
+                                {orderQty[idx]?.count ?? "0"}
+                                {/* {quantityCount} */}
+                              </p>
+                            </div>
+                            <div
+                              className={`${
+                                orderQty[idx]?.count < quantity[idx]?.count
+                                  ? productCartStyles.add_svg_wrapper
+                                  : ""
+                              } d-flex align-items-center justify-content-center`}
+                              onClick={() => {
+                                //   setQuantityCount((quantityCount) => quantityCount + 1);
+                                //   onAddQuantity(id);
+                                if (
+                                  orderQty[idx]?.count < quantity[idx]?.count
+                                ) {
+                                  onUpdateQty(
+                                    orderQty[idx]?.count + 1,
+                                    idx,
+                                    product?.id
+                                  );
                                 }
-                              </div>
+                              }}
+                            >
+                              {orderQty[idx]?.count < quantity[idx]?.count && (
+                                <Add
+                                  width="13"
+                                  height="13"
+                                  classes={productCartStyles.add_svg_color}
+                                />
+                              )}
                             </div>
                           </div>
-                        )
-                      }
+                        </div>
+                      )}
                       <div className="ms-auto">
                         <p
                           className={productStyles.product_price}
@@ -432,59 +458,61 @@ export default function ReturnOrderModal({
           {inlineError.selected_id_error && (
             <ErrorMessage>{inlineError.selected_id_error}</ErrorMessage>
           )}
-          {
-            selectedIds && selectedIds.length > 0 && (
-              <div className="px-2">
-                <p className={styles.cancel_dropdown_label_text}>
-                  Select your Reason
-                </p>
-                <Dropdown
-                  id="dropdownOne"
-                  header={
-                    <div
-                      className={`${styles.cancel_dropdown_wrapper} d-flex align-items-center`}
-                    >
-                      <div className="px-2">
-                        <p className={styles.cancel_dropdown_text}>
-                          {selectedCancelReasonId?.value
-                            ? selectedCancelReasonId?.value
-                            : "Select reason for return"}
-                        </p>
-                      </div>
-                      <div className="px-2 ms-auto">
-                        <DropdownSvg
-                          width="15"
-                          height="10"
-                          color={ONDC_COLORS.ACCENTCOLOR}
-                        />
-                      </div>
+          {selectedIds && selectedIds.length > 0 && (
+            <div className="px-2">
+              <p className={styles.cancel_dropdown_label_text}>
+                Select your Reason
+              </p>
+              <Dropdown
+                id="dropdownOne"
+                header={
+                  <div
+                    className={`${styles.cancel_dropdown_wrapper} d-flex align-items-center`}
+                  >
+                    <div className="px-2">
+                      <p className={styles.cancel_dropdown_text}>
+                        {selectedCancelReasonId?.value
+                          ? selectedCancelReasonId?.value
+                          : "Select reason for return"}
+                      </p>
                     </div>
-                  }
-                  body_classes="dropdown-menu-end dropdown-menu-lg-start"
-                  style={{ width: "100% !important", maxHeight: "250px", overflow: "auto" }}
-                  click={(reasonValue) => {
-                    const REASONS = reasons;
-                    const type = REASONS.find(
-                      ({ value }) =>
-                        value.toLowerCase() === reasonValue.toLowerCase()
-                    );
-                    setSelectedCancelReasonId(type);
-                    setInlineError((error) => ({
-                      ...error,
-                      reason_error: "",
-                    }));
-                  }}
-                  options={reasons.map(({ value }) => ({
-                    value,
-                  }))}
-                  show_icons={false}
-                />
-                {inlineError.reason_error && (
-                  <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
-                )}
-              </div>
-            )
-          }
+                    <div className="px-2 ms-auto">
+                      <DropdownSvg
+                        width="15"
+                        height="10"
+                        color={ONDC_COLORS.ACCENTCOLOR}
+                      />
+                    </div>
+                  </div>
+                }
+                body_classes="dropdown-menu-end dropdown-menu-lg-start"
+                style={{
+                  width: "100% !important",
+                  maxHeight: "250px",
+                  overflow: "auto",
+                }}
+                click={(reasonValue) => {
+                  const REASONS = reasons;
+                  const type = REASONS.find(
+                    ({ value }) =>
+                      value.toLowerCase() === reasonValue.toLowerCase()
+                  );
+                  setSelectedCancelReasonId(type);
+                  setInlineError((error) => ({
+                    ...error,
+                    reason_error: "",
+                  }));
+                }}
+                options={reasons.map(({ value }) => ({
+                  value,
+                }))}
+                show_icons={false}
+              />
+              {inlineError.reason_error && (
+                <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
+              )}
+            </div>
+          )}
         </div>
         <div
           className={`${styles.card_footer} d-flex align-items-center justify-content-center`}

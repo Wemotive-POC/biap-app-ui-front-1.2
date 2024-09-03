@@ -44,7 +44,7 @@ const OrderDetails = () => {
   const getOrderDetails = async (isLoading = true) => {
     if (isLoading) {
       setIsLoading(true);
-    } else { }
+    }
     try {
       const data = await cancellablePromise(getOrderDetailsRequest(orderId));
       setOrderDetails(data[0]);
