@@ -62,17 +62,17 @@ export default function PaymentConfirmationCard(props) {
   //REFS
   const responseRef = useRef([]);
   const eventTimeOutRef = useRef([]);
-  const sdkPayload = useRef({
-    action: "initiate",
-    clientId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
-    merchantId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
-    merchantKeyId: process.env.REACT_APP_MERCHANT_KEY_ID,
-    signaturePayload: "",
-    signature: "",
-    environment: process.env.REACT_APP_PAYMENT_SDK_ENV,
-    integrationType: "iframe",
-    hyperSDKDiv: "sdk_frame", // Div ID to be used for rendering
-  });
+  // const sdkPayload = useRef({
+  //   action: "initiate",
+  //   clientId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
+  //   merchantId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
+  //   merchantKeyId: process.env.REACT_APP_MERCHANT_KEY_ID,
+  //   signaturePayload: "",
+  //   signature: "",
+  //   environment: process.env.REACT_APP_PAYMENT_SDK_ENV,
+  //   integrationType: "iframe",
+  //   hyperSDKDiv: "sdk_frame", // Div ID to be used for rendering
+  // });
   const processPayload = useRef({
     action: "paymentPage",
     merchantId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,

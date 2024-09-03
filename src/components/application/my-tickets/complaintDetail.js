@@ -164,16 +164,16 @@ const ComplaintDetail = () => {
   };
 
   // on Issue api
-  async function getPartialCancelOrderDetails(message_id, createdDateTime) {
+  async function getPartialCancelOrderDetails(msg_id, createdDateTime) {
     try {
-      const data = await cancellablePromise(
+      const res = await cancellablePromise(
         getCall(
-          `/issueApis/v1/on_issue?messageId=${message_id}&createdDateTime=${createdDateTime}`
+          `/issueApis/v1/on_issue?messageId=${msg_id}&createdDateTime=${createdDateTime}`
         )
       );
       onIssueEventSourceResponseRef.current = [
         ...onIssueEventSourceResponseRef.current,
-        data,
+        res,
       ];
     } catch (err) {
       console.log(err?.message);
@@ -199,7 +199,7 @@ const ComplaintDetail = () => {
     cancelPartialEventSourceResponseRef.current = [];
     setStatusLoading(true);
     try {
-      const data = await cancellablePromise(
+      const res = await cancellablePromise(
         postCall("/issueApis/v1/issue_status", {
           context: {
             transaction_id,
@@ -212,11 +212,11 @@ const ComplaintDetail = () => {
         })
       );
       //Error handling workflow eg, NACK
-      if (data.message && data.message.ack.status === "NACK") {
+      if (res.message && res.message.ack.status === "NACK") {
         setStatusLoading(false);
         dispatchToast("Something went wrong", toast_types.error);
       } else {
-        fetchIssueStatusThroughEvents(data.context?.message_id);
+        fetchIssueStatusThroughEvents(res.context?.message_id);
       }
     } catch (err) {
       setStatusLoading(false);
@@ -224,7 +224,7 @@ const ComplaintDetail = () => {
     }
   };
 
-  function fetchIssueStatusThroughEvents(message_id) {
+  function fetchIssueStatusThroughEvents(msg_id) {
     const token = getValueFromCookie("token");
     let header = {
       headers: {
@@ -234,7 +234,7 @@ const ComplaintDetail = () => {
       },
     };
     let es = new window.EventSourcePolyfill(
-      `${process.env.REACT_APP_BASE_URL}issueApis/events?messageId=${message_id}`,
+      `${process.env.REACT_APP_BASE_URL}issueApis/events?messageId=${msg_id}`,
       header
     );
     es.addEventListener("on_issue_status", (e) => {
@@ -262,20 +262,20 @@ const ComplaintDetail = () => {
     ];
   }
 
-  async function getIssueStatusDetails(message_id) {
+  async function getIssueStatusDetails(msg_id) {
     try {
-      const data = await cancellablePromise(
-        getCall(`/issueApis/v1/on_issue_status?messageId=${message_id}`)
+      const res = await cancellablePromise(
+        getCall(`/issueApis/v1/on_issue_status?messageId=${msg_id}`)
       );
       cancelPartialEventSourceResponseRef.current = [
         ...cancelPartialEventSourceResponseRef.current,
-        data,
+        res,
       ];
       setStatusLoading(false);
-      if (data?.message) {
+      if (res?.message) {
         mergeRespondantArrays({
           respondent_actions:
-            data.message.issue?.issue_actions.respondent_actions,
+            res.message.issue?.issue_actions.respondent_actions,
           complainant_actions: issue_actions.complainant_actions,
         });
         dispatch({
