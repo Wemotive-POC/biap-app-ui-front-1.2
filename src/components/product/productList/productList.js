@@ -357,7 +357,6 @@ const ProductList = () => {
     }
     if (categoryName) {
       params.set("c", categoryName);
-    } else {
     }
     history.replace({
       pathname: `/application/products`,

@@ -92,7 +92,6 @@ const CustomMenu = ({
     const findIndexFromId = data.findIndex((item) => item.id === customMenuId);
     if (findIndexFromId > -1) {
       data[findIndexFromId].items = items;
-    } else {
     }
     customMenuRef.current = data;
   };

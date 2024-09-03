@@ -379,7 +379,6 @@ const MenuItems = (props) => {
           minPrice: findLowerPriceObj.value,
         };
       }
-    } else {
     }
     return (
       <Accordion defaultExpanded={true}>

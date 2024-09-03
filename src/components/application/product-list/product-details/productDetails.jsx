@@ -47,7 +47,6 @@ const ProductDetails = ({ productId }) => {
   const [variationState, setVariationState] = useState([]);
 
   const [activeImage, setActiveImage] = useState("");
-  const [activeSize, setActiveSize] = useState("");
 
   const [customizationPrices, setCustomizationPrices] = useState(0);
   const [itemOutOfStock, setItemOutOfStock] = useState(false);
@@ -88,10 +87,10 @@ const ProductDetails = ({ productId }) => {
   //     }
   //   };
 
-  const getProductDetails = async (productId) => {
+  const getProductDetails = async (product_Id) => {
     try {
       const data = await cancellablePromise(
-        getCall(`/clientApis/v2/item-details?id=${productId}`)
+        getCall(`/clientApis/v2/item-details?id=${product_Id}`)
       );
       const { item_details } = data;
       fetchCartItems();
@@ -105,8 +104,8 @@ const ProductDetails = ({ productId }) => {
     }
   };
 
-  const calculateSubtotal = (groupId, customization_state) => {
-    let group = customization_state[groupId];
+  const calculateSubtotal = (groupId, customizations_state) => {
+    let group = customizations_state[groupId];
     if (!group) return;
 
     let prices = group.selected.map((s) => s.price);
@@ -115,7 +114,7 @@ const ProductDetails = ({ productId }) => {
     });
 
     group?.childs?.map((child) => {
-      calculateSubtotal(child, customization_state);
+      calculateSubtotal(child, customizations_state);
     });
   };
 
@@ -125,9 +124,9 @@ const ProductDetails = ({ productId }) => {
     let group = customization_state[groupId];
     if (!group) return;
 
-    let customizations = group.selected.map((s) =>
-      selectedCustomizationIds.push(s.id)
-    );
+    // let customizations = group.selected.map((s) =>
+    //   selectedCustomizationIds.push(s.id)
+    // );
     group?.childs?.map((child) => {
       getCustomization_(child);
     });
@@ -215,7 +214,6 @@ const ProductDetails = ({ productId }) => {
       if (areSame) {
         matchingCustomisation = cartItem;
       }
-    } else {
     }
     return matchingCustomisation ? true : false;
   };
@@ -313,7 +311,7 @@ const ProductDetails = ({ productId }) => {
     }
 
     if (cartItem.length === 0) {
-      const res = await postCall(url, payload);
+      await postCall(url, payload);
       fetchCartItems();
       setAddToCartLoading(false);
       dispatch({
@@ -378,7 +376,7 @@ const ProductDetails = ({ productId }) => {
               },
             });
           } else {
-            const res = await postCall(url, payload);
+            await postCall(url, payload);
             fetchCartItems();
             setAddToCartLoading(false);
             dispatch({
@@ -644,7 +642,6 @@ const ProductDetails = ({ productId }) => {
         minPrice: findLowerPriceObj.value,
       };
     }
-  } else {
   }
 
   const productImages = () => {

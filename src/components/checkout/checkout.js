@@ -888,7 +888,6 @@ const Checkout = () => {
         id: item.provider.local_id,
         locations: item.provider.locations.map((location) => location.local_id),
       };
-    } else {
     }
     return provider;
   };
