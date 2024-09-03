@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import Navbar from "../../shared/navbar/navbar";
 import styles from "../../../styles/cart/cartView.module.scss";
@@ -9,9 +9,7 @@ import {
   get_current_step,
 } from "../../../constants/checkout-steps";
 import { payment_methods } from "../../../constants/payment-methods";
-import { CartContext } from "../../../context/cartContext";
 import ProductCard from "../product-list/product-card/productCard";
-import { getValueFromCookie } from "../../../utils/cookies";
 
 export default function Checkout() {
   // LOCATION
@@ -129,11 +127,11 @@ export default function Checkout() {
                                       {!successOrderIds.includes(
                                         provider_id.toString()
                                       ) && (
-                                          <div
-                                            className={styles.product_disabled}
-                                            style={{ height: "100%" }}
-                                          />
-                                        )}
+                                        <div
+                                          className={styles.product_disabled}
+                                          style={{ height: "100%" }}
+                                        />
+                                      )}
                                     </div>
                                   </div>
                                 );
