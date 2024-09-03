@@ -9,12 +9,10 @@ import Radio from "../../../common/Radio";
 
 import { AddressContext } from "../../../../context/addressContext";
 import useCancellablePromise from "../../../../api/cancelRequest";
-import axios from "axios";
 import { AddCookie, removeCookie } from "../../../../utils/cookies";
 import style from "./style";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { ToastContext } from "../../../../context/toastContext";
-import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
 
 const SelectAddress = ({
   addresses,
@@ -26,10 +24,6 @@ const SelectAddress = ({
   const classes = style();
   const { deliveryAddress, setDeliveryAddress, setBillingAddress } =
     useContext(AddressContext);
-  const dispatch = useContext(ToastContext);
-
-  // HOOKS
-  const { cancellablePromise } = useCancellablePromise();
 
   const onSetDeliveryAddress = (id, descriptor, address) => {
     // fetchLatLongFromEloc(address?.areaCode);
