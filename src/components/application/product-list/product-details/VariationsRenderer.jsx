@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./style";
 import { Grid, Typography } from "@mui/material";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import RightArrowIcon from "@mui/icons-material/ArrowForwardRounded";
 import { colorCodeToName } from "./utils";
 import ModalComponent from "../../../common/Modal";
@@ -22,7 +22,7 @@ const VariationsRenderer = (props) => {
   const [initialVariationState, setInitialVariationState] = useState({});
   const [isUOM, setIsUOM] = useState(false);
   const [openSizeChart, setOpenSizeChart] = useState(false);
-  const [noVariations, setNoVariations] = useState(false);
+  // const [noVariations, setNoVariations] = useState(false);
 
   const getVariationGroups = () => {
     const parentId = productPayload.item_details.parent_item_id;
@@ -31,7 +31,7 @@ const VariationsRenderer = (props) => {
     );
 
     if (parentData) {
-      const attrTags = productPayload.categories[0].tags;
+      // const attrTags = productPayload.categories[0].tags;
       const groupInfo = new Set(); // Use a Set to store unique items
 
       for (const tag of parentData.tags) {
@@ -55,8 +55,8 @@ const VariationsRenderer = (props) => {
               groupInfo.add(itemString);
             }
 
-            const uniqueGroupInfo = Array.from(groupInfo).map((itemString) =>
-              JSON.parse(itemString)
+            const uniqueGroupInfo = Array.from(groupInfo).map((itemStr) =>
+              JSON.parse(itemStr)
             );
             setVariationGroups(uniqueGroupInfo);
             getRelatedVariations(uniqueGroupInfo);
@@ -65,7 +65,7 @@ const VariationsRenderer = (props) => {
         }
       }
     } else {
-      setNoVariations(true);
+      // setNoVariations(true);
     }
   };
 
@@ -93,11 +93,11 @@ const VariationsRenderer = (props) => {
     }
   };
 
-  const getRelatedVariations = (variations) => {
+  const getRelatedVariations = (variations_data) => {
     const relatedItems = productPayload?.related_items?.map((item) => {
       const attributes = item.attributes;
       const variationsInfo = {};
-      variations.forEach((variation) => {
+      variations_data.forEach((variation) => {
         variationsInfo[variation?.name] = attributes[variation?.name];
       });
       return {
@@ -160,8 +160,6 @@ const VariationsRenderer = (props) => {
   };
 
   const handleVariationClick = (groupData, option) => {
-    const groupJustBeforeLast = findGroupJustBeforeLast();
-
     let updatedVariationState = { ...variationState };
     groupData.selected = [option];
     updatedVariationState[groupData.id] = groupData;
