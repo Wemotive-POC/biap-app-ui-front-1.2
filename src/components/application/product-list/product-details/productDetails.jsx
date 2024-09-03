@@ -245,7 +245,6 @@ const ProductDetails = ({ productId }) => {
       if (findItem) {
         isItemAvailable = true;
         setItemAvailableInCart(findItem);
-      } else {
       }
       setIsItemAvailableInCart(isItemAvailable);
     } else {

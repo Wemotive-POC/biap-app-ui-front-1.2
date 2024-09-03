@@ -92,11 +92,9 @@ const ProductList = () => {
       paginationData.searchData.limit = paginationData.pageSize;
       if (searchName) {
         paginationData.searchData.name = searchName || "";
-      } else {
       }
       if (subCategoryName) {
         paginationData.searchData.categoryIds = subCategoryName || "";
-      } else {
       }
       const data = await cancellablePromise(
         getAllProductRequest(paginationData.searchData)

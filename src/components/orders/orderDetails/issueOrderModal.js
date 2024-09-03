@@ -34,7 +34,7 @@ export default function IssueOrderModal({
   onClose,
   onSuccess,
   quantity,
-  domain
+  domain,
 }) {
   // STATES
   const [inlineError, setInlineError] = useState({
@@ -42,7 +42,7 @@ export default function IssueOrderModal({
     subcategory_error: "",
     shortDescription_error: "",
     longDescription_error: "",
-    image_error: ""
+    image_error: "",
   });
   const [loading, setLoading] = useState(false);
   const [selectedIssueSubcategory, setSelectedIssueSubcategory] = useState();
@@ -90,7 +90,7 @@ export default function IssueOrderModal({
       checkIsOrderSelected(),
       checkShortDescription(),
       checkLongDescription(),
-      checkImages()
+      checkImages(),
     ].every(Boolean);
     if (!allCheckPassed) return;
 
@@ -98,12 +98,12 @@ export default function IssueOrderModal({
     setLoading(true);
     const user = JSON.parse(getValueFromCookie("user"));
     try {
-      const createdDateTime = new Date().toISOString()
+      const createdDateTime = new Date().toISOString();
       const data = await cancellablePromise(
         postCall("/issueApis/v1/issue", {
           context: {
             transaction_id,
-            domain
+            domain,
           },
           message: {
             issue: {
@@ -151,7 +151,10 @@ export default function IssueOrderModal({
         setLoading(false);
         dispatchToast("Something went wrong", toast_types.error);
       } else {
-        fetchCancelPartialOrderDataThroughEvents(data.context?.message_id, createdDateTime);
+        fetchCancelPartialOrderDataThroughEvents(
+          data.context?.message_id,
+          createdDateTime
+        );
       }
     } catch (err) {
       setLoading(false);
@@ -160,7 +163,10 @@ export default function IssueOrderModal({
   }
 
   // use this function to fetch cancel product through events
-  function fetchCancelPartialOrderDataThroughEvents(message_id, createdDateTime) {
+  function fetchCancelPartialOrderDataThroughEvents(
+    message_id,
+    createdDateTime
+  ) {
     const token = getValueFromCookie("token");
     let header = {
       headers: {
@@ -183,7 +189,6 @@ export default function IssueOrderModal({
         onSuccess();
       }
     });
-
 
     const timer = setTimeout(() => {
       // es.close();
@@ -210,7 +215,9 @@ export default function IssueOrderModal({
   async function getPartialCancelOrderDetails(message_id, createdDateTime) {
     try {
       const data = await cancellablePromise(
-        getCall(`/issueApis/v1/on_issue?messageId=${message_id}&createdDateTime=${createdDateTime}`)
+        getCall(
+          `/issueApis/v1/on_issue?messageId=${message_id}&createdDateTime=${createdDateTime}`
+        )
       );
       cancelPartialEventSourceResponseRef.current = [
         ...cancelPartialEventSourceResponseRef.current,
@@ -231,10 +238,7 @@ export default function IssueOrderModal({
 
   useEffect(() => {
     if (order_status === "Accepted" || order_status === "In-progress") {
-      const type = AllCategory.find(
-        ({ enums }) =>
-          enums === "FLM02"
-      );
+      const type = AllCategory.find(({ enums }) => enums === "FLM02");
       setSelectedIssueSubcategory(type);
     }
     return () => {
@@ -293,7 +297,12 @@ export default function IssueOrderModal({
 
   // use this function to check if any image is selected
   function checkImages() {
-    if (['ITM02', 'ITM03', 'ITM04', 'ITM05', 'FLM04'].includes(selectedIssueSubcategory?.enums) && baseImage <= 0) {
+    if (
+      ["ITM02", "ITM03", "ITM04", "ITM05", "FLM04"].includes(
+        selectedIssueSubcategory?.enums
+      ) &&
+      baseImage <= 0
+    ) {
       setInlineError((error) => ({
         ...error,
         image_error: "Please upload an image file",
@@ -374,7 +383,6 @@ export default function IssueOrderModal({
     data = data.map((item) => {
       if (item.id === pId) {
         item.quantity.count = qty;
-      } else {
       }
       return item;
     });
@@ -397,7 +405,9 @@ export default function IssueOrderModal({
           </div>
         </div>
         <div className={styles.card_body}>
-          <p className={`${styles.cancel_dropdown_label_text} ${styles.required}`}>
+          <p
+            className={`${styles.cancel_dropdown_label_text} ${styles.required}`}
+          >
             Choose Items that had a problem
           </p>
           <div style={{ maxHeight: "250px", overflow: "auto" }}>
@@ -469,12 +479,16 @@ export default function IssueOrderModal({
                         style={{ marginLeft: "30px !important" }}
                       >
                         <div
-                          className={`${orderQty[idx]?.count > 1
-                            ? productCartStyles.subtract_svg_wrapper
-                            : ""
-                            } d-flex align-items-center justify-content-center`}
+                          className={`${
+                            orderQty[idx]?.count > 1
+                              ? productCartStyles.subtract_svg_wrapper
+                              : ""
+                          } d-flex align-items-center justify-content-center`}
                           onClick={() => {
-                            if (orderQty[idx]?.count > 1 && isProductSelected(product?.id)) {
+                            if (
+                              orderQty[idx]?.count > 1 &&
+                              isProductSelected(product?.id)
+                            ) {
                               onUpdateQty(
                                 orderQty[idx]?.count - 1,
                                 idx,
@@ -496,12 +510,16 @@ export default function IssueOrderModal({
                           </p>
                         </div>
                         <div
-                          className={`${orderQty[idx]?.count < quantity[idx]?.count
-                            ? productCartStyles.add_svg_wrapper
-                            : ""
-                            } d-flex align-items-center justify-content-center`}
+                          className={`${
+                            orderQty[idx]?.count < quantity[idx]?.count
+                              ? productCartStyles.add_svg_wrapper
+                              : ""
+                          } d-flex align-items-center justify-content-center`}
                           onClick={() => {
-                            if (orderQty[idx]?.count < quantity[idx]?.count && isProductSelected(product?.id)) {
+                            if (
+                              orderQty[idx]?.count < quantity[idx]?.count &&
+                              isProductSelected(product?.id)
+                            ) {
                               onUpdateQty(
                                 orderQty[idx]?.count + 1,
                                 idx,
@@ -538,10 +556,11 @@ export default function IssueOrderModal({
           {inlineError.selected_id_error && (
             <ErrorMessage>{inlineError.selected_id_error}</ErrorMessage>
           )}
-          {
-            order_status === "Completed" &&
+          {order_status === "Completed" && (
             <div className="px-2">
-              <p className={`${styles.cancel_dropdown_label_text} ${styles.required}`}>
+              <p
+                className={`${styles.cancel_dropdown_label_text} ${styles.required}`}
+              >
                 Select Issue Subcategory
               </p>
               <Dropdown
@@ -579,26 +598,27 @@ export default function IssueOrderModal({
                     subcategory_error: "",
                   }));
                 }}
-                options={AllCategory.filter(({ enums }) => enums !== "FLM02").map(({ value }) => ({ value }))}
+                options={AllCategory.filter(
+                  ({ enums }) => enums !== "FLM02"
+                ).map(({ value }) => ({ value }))}
                 show_icons={false}
               />
               {inlineError.subcategory_error && (
                 <ErrorMessage>{inlineError.subcategory_error}</ErrorMessage>
               )}
             </div>
-          }
+          )}
 
           <div className="px-2">
-            {
-              (order_status === "Accepted" || order_status === "In-progress") && (
-                <Input
-                  label_name="Select Issue Subcategory"
-                  disabled
-                  type="text"
-                  value={'Delay in delivery'}
-                />
-              )
-            }
+            {(order_status === "Accepted" ||
+              order_status === "In-progress") && (
+              <Input
+                label_name="Select Issue Subcategory"
+                disabled
+                type="text"
+                value={"Delay in delivery"}
+              />
+            )}
             <Input
               label_name="Short Description"
               type="text"
@@ -654,7 +674,10 @@ export default function IssueOrderModal({
               onChange={(event) => {
                 const file = event.target.files[0];
                 if (file?.size / 1024 > 2048) {
-                  dispatchToast("File size cannot exceed more than 2MB", toast_types.error);
+                  dispatchToast(
+                    "File size cannot exceed more than 2MB",
+                    toast_types.error
+                  );
                 } else {
                   uploadImage(event);
                   setInlineError((error) => ({
@@ -663,7 +686,9 @@ export default function IssueOrderModal({
                   }));
                 }
               }}
-              required={['ITM02', 'ITM03', 'ITM04', 'ITM05', 'FLM04'].includes(selectedIssueSubcategory?.enums)}
+              required={["ITM02", "ITM03", "ITM04", "ITM05", "FLM04"].includes(
+                selectedIssueSubcategory?.enums
+              )}
               has_error={inlineError.image_error}
               disabled={baseImage.length === 4}
             />
@@ -678,8 +703,8 @@ export default function IssueOrderModal({
                 height: 80,
                 width: 60,
                 marginInline: 10,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
               };
               return (
                 <div key={index} style={bgStyle}>
@@ -687,9 +712,13 @@ export default function IssueOrderModal({
                     width="20"
                     height="20"
                     color={ONDC_COLORS.SECONDARYCOLOR}
-                    style={{ cursor: "pointer", backgroundColor: '#F0F0F0', marginTop: -10 }}
+                    style={{
+                      cursor: "pointer",
+                      backgroundColor: "#F0F0F0",
+                      marginTop: -10,
+                    }}
                     onClick={() =>
-                      setBaseImage(baseImage.filter(item => item !== image))
+                      setBaseImage(baseImage.filter((item) => item !== image))
                     }
                   />
                   {/* <img style={{ height: "100%", width: "100%" }} src={image} /> */}
@@ -697,12 +726,8 @@ export default function IssueOrderModal({
               );
             })}
           </div>
-
-
         </div>
-        <div
-          className={`${styles.card_footer} d-flex align-items-center`}
-        >
+        <div className={`${styles.card_footer} d-flex align-items-center`}>
           <div className="px-3">
             <Button
               sx={{ paddingLeft: 4, paddingRight: 4 }}
@@ -724,11 +749,7 @@ export default function IssueOrderModal({
                 handleRaiseOrderIssue();
               }}
             >
-              {loading ? (
-                <Loading />
-              ) : (
-                "Confirm"
-              )}
+              {loading ? <Loading /> : "Confirm"}
             </Button>
           </div>
         </div>

@@ -112,7 +112,10 @@ export default function CancelOrderModal(props) {
     const timer = setTimeout(() => {
       es.close();
       if (cancelEventSourceResponseRef.current.length <= 0) {
-        dispatchToast("Cannot proceed with you request now! Please try again", toast_types.error);
+        dispatchToast(
+          "Cannot proceed with you request now! Please try again",
+          toast_types.error
+        );
         setLoading(false);
       }
     }, SSE_TIMEOUT);
@@ -158,13 +161,21 @@ export default function CancelOrderModal(props) {
   // on cancel Api
   async function getCancelOrderDetails(message_id) {
     try {
-      const data = await cancellablePromise(getCall(`/clientApis/v2/on_cancel_order?messageId=${message_id}`));
-      cancelEventSourceResponseRef.current = [...cancelEventSourceResponseRef.current, data];
+      const data = await cancellablePromise(
+        getCall(`/clientApis/v2/on_cancel_order?messageId=${message_id}`)
+      );
+      cancelEventSourceResponseRef.current = [
+        ...cancelEventSourceResponseRef.current,
+        data,
+      ];
       setLoading(false);
       if (data?.message) {
         onSuccess();
       } else {
-        dispatchToast("Something went wrong!, product status cannot be updated", toast_types.error);
+        dispatchToast(
+          "Something went wrong!, product status cannot be updated",
+          toast_types.error
+        );
       }
     } catch (err) {
       setLoading(false);
@@ -199,7 +210,10 @@ export default function CancelOrderModal(props) {
     const timer = setTimeout(() => {
       es.close();
       if (cancelPartialEventSourceResponseRef.current.length <= 0) {
-        dispatchToast("Cannot proceed with you request now! Please try again", toast_types.error);
+        dispatchToast(
+          "Cannot proceed with you request now! Please try again",
+          toast_types.error
+        );
         setLoading(false);
       }
     }, SSE_TIMEOUT);
@@ -215,7 +229,9 @@ export default function CancelOrderModal(props) {
 
   // use this api to partial update orders
   async function handlePartialOrderCancel() {
-    const allCheckPassed = [checkReason(), checkIsOrderSelected()].every(Boolean);
+    const allCheckPassed = [checkReason(), checkIsOrderSelected()].every(
+      Boolean
+    );
     if (!allCheckPassed) return;
 
     cancelPartialEventSourceResponseRef.current = [];
@@ -237,7 +253,9 @@ export default function CancelOrderModal(props) {
       tags: {
         update_type: "cancel",
         reason_code: selectedCancelReasonId?.key,
-        ttl_approval: item?.["@ondc/org/return_window"] ? item?.["@ondc/org/return_window"] : "",
+        ttl_approval: item?.["@ondc/org/return_window"]
+          ? item?.["@ondc/org/return_window"]
+          : "",
         ttl_reverseqc: "P3D",
         image: "",
       },
@@ -291,13 +309,21 @@ export default function CancelOrderModal(props) {
   // on Update api
   async function getPartialCancelOrderDetails(message_id) {
     try {
-      const data = await cancellablePromise(getCall(`/clientApis/v2/on_update?messageId=${message_id}`));
-      cancelPartialEventSourceResponseRef.current = [...cancelPartialEventSourceResponseRef.current, data];
+      const data = await cancellablePromise(
+        getCall(`/clientApis/v2/on_update?messageId=${message_id}`)
+      );
+      cancelPartialEventSourceResponseRef.current = [
+        ...cancelPartialEventSourceResponseRef.current,
+        data,
+      ];
       setLoading(false);
       if (data?.message) {
         onSuccess();
       } else {
-        dispatchToast("Something went wrong!, product status cannot be updated", toast_types.error);
+        dispatchToast(
+          "Something went wrong!, product status cannot be updated",
+          toast_types.error
+        );
       }
     } catch (err) {
       setLoading(false);
@@ -335,12 +361,16 @@ export default function CancelOrderModal(props) {
 
   // use this function to check if the provider is already selected
   function isProductSelected(id) {
-    return selectedIds.filter(({ id: provider_id }) => provider_id === id).length > 0;
+    return (
+      selectedIds.filter(({ id: provider_id }) => provider_id === id).length > 0
+    );
   }
 
   // use this function to add attribute in filter list
   function addProductToCancel(attribute, qty) {
-    let latestAttribute = JSON.parse(JSON.stringify(Object.assign({}, attribute)));
+    let latestAttribute = JSON.parse(
+      JSON.stringify(Object.assign({}, attribute))
+    );
     latestAttribute.quantity.count = qty;
     setSelectedIds([...selectedIds, latestAttribute]);
   }
@@ -356,7 +386,6 @@ export default function CancelOrderModal(props) {
     data = data.map((item) => {
       if (item.id === pId) {
         item.quantity.count = qty;
-      } else {
       }
       return item;
     });
@@ -399,7 +428,9 @@ export default function CancelOrderModal(props) {
 
   useEffect(() => {
     if (selectedCancelType === CANCEL_ORDER_TYPES.allOrder) {
-      const data = CANCELATION_REASONS.filter((r) => !r.isApplicableForCancellation);
+      const data = CANCELATION_REASONS.filter(
+        (r) => !r.isApplicableForCancellation
+      );
       setReasons(data);
     } else if (selectedCancelType === CANCEL_ORDER_TYPES.partialOrders) {
       setReasons(CANCELATION_REASONS);
@@ -423,7 +454,10 @@ export default function CancelOrderModal(props) {
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.popup_card} style={{ width: "700px", overflow: 'inherit' }}>
+      <div
+        className={styles.popup_card}
+        style={{ width: "700px", overflow: "inherit" }}
+      >
         <div className={`${styles.card_header} d-flex align-items-center`}>
           <p className={styles.card_header_title}>Cancel Order</p>
           <div className="ms-auto">
@@ -446,7 +480,9 @@ export default function CancelOrderModal(props) {
               }}
             >
               <div className="px-3">
-                <p className={cancelRadioStyles.address_name_and_phone}>Cancel Complete Orders</p>
+                <p className={cancelRadioStyles.address_name_and_phone}>
+                  Cancel Complete Orders
+                </p>
               </div>
             </AddressRadioButton>
 
@@ -467,129 +503,207 @@ export default function CancelOrderModal(props) {
             </AddressRadioButton> */}
           </div>
           <div style={{ maxHeight: "250px", overflow: "auto" }}>
-            {areProductsToBeCancled() && selectedCancelType === CANCEL_ORDER_TYPES.partialOrders && (
-              <div className="px-1 py-2">
-                {partailsCancelProductList?.map((product, idx) => {
-                  return (
-                    <div className="d-flex mb-4">
-                      <div style={{ width: 100, height: 80 }}>
-                        <img src={product?.descriptor?.symbol} alt="" style={{ width: "100%", height: "100%" }} />
-                      </div>
-                      <div className="d-flex px-2" style={{ flex: 1, justifyContent: "space-between" }}>
-                        <div className="d-flex" style={{ flex: 1, flexDirection: "column" }}>
-                          <Typography
-                            className={productStyles.product_name}
-                            title={product?.name}
-                            style={{ fontSize: "16px", textAlign: "left" }}
-                          >
-                            {product?.name}
-                          </Typography>
-                          <div className="my-1">
-                            <Typography variant="subtitle1" color="#686868">
-                              QTY: {quantity?.[idx]?.count ?? "0"} X ₹{" "}
-                              {Number(product?.price?.value)?.toFixed(2) || "Price Not Available"}
-                            </Typography>
-                            {Object.keys(product?.customizations || {}).map((key, idx) => {
-                              const isLastItem = idx === Object.keys(product.customizations || {}).length - 1;
-                              return (
-                                <Grid container key={key}>
-                                  <Typography variant="subtitle1" color="#686868">
-                                    {product.customizations[key].title || "Customization Title"} (₹
-                                    {product.customizations[key].price.value || "0"}) {isLastItem ? "" : "+"}
-                                  </Typography>
-                                </Grid>
-                              );
-                            })}
-                          </div>
+            {areProductsToBeCancled() &&
+              selectedCancelType === CANCEL_ORDER_TYPES.partialOrders && (
+                <div className="px-1 py-2">
+                  {partailsCancelProductList?.map((product, idx) => {
+                    return (
+                      <div className="d-flex mb-4">
+                        <div style={{ width: 100, height: 80 }}>
+                          <img
+                            src={product?.descriptor?.symbol}
+                            alt=""
+                            style={{ width: "100%", height: "100%" }}
+                          />
                         </div>
-                        <div style={{ width: 100 }}>
-                          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Typography className={productStyles.quantity_count}>
-                              ₹{Number(product?.price?.value)?.toFixed(2)}
+                        <div
+                          className="d-flex px-2"
+                          style={{ flex: 1, justifyContent: "space-between" }}
+                        >
+                          <div
+                            className="d-flex"
+                            style={{ flex: 1, flexDirection: "column" }}
+                          >
+                            <Typography
+                              className={productStyles.product_name}
+                              title={product?.name}
+                              style={{ fontSize: "16px", textAlign: "left" }}
+                            >
+                              {product?.name}
                             </Typography>
-                            <Checkbox
-                              style={{
-                                padding: 0,
-                              }}
-                              id={product?.id}
-                              checked={isProductSelected(product?.id)}
-                              disabled={loading}
-                              boxBasis="8%"
-                              nameBasis="92%"
-                              onClick={() => {
-                                setInlineError((error) => ({
-                                  ...error,
-                                  selected_id_error: "",
-                                }));
-                                if (isProductSelected(product?.id)) {
-                                  removeProductToCancel(product);
-                                  return;
+                            <div className="my-1">
+                              <Typography variant="subtitle1" color="#686868">
+                                QTY: {quantity?.[idx]?.count ?? "0"} X ₹{" "}
+                                {Number(product?.price?.value)?.toFixed(2) ||
+                                  "Price Not Available"}
+                              </Typography>
+                              {Object.keys(product?.customizations || {}).map(
+                                (key, idx) => {
+                                  const isLastItem =
+                                    idx ===
+                                    Object.keys(product.customizations || {})
+                                      .length -
+                                      1;
+                                  return (
+                                    <Grid container key={key}>
+                                      <Typography
+                                        variant="subtitle1"
+                                        color="#686868"
+                                      >
+                                        {product.customizations[key].title ||
+                                          "Customization Title"}{" "}
+                                        (₹
+                                        {product.customizations[key].price
+                                          .value || "0"}
+                                        ) {isLastItem ? "" : "+"}
+                                      </Typography>
+                                    </Grid>
+                                  );
                                 }
-                                addProductToCancel(product, orderQty[idx]?.count);
-                              }}
-                            />
+                              )}
+                            </div>
                           </div>
-                          <div>
-                            {isProductSelected(product?.id) && (
-                              <div>
-                                <div className={productCartStyles.quantity_count_wrapper}>
+                          <div style={{ width: 100 }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Typography
+                                className={productStyles.quantity_count}
+                              >
+                                ₹{Number(product?.price?.value)?.toFixed(2)}
+                              </Typography>
+                              <Checkbox
+                                style={{
+                                  padding: 0,
+                                }}
+                                id={product?.id}
+                                checked={isProductSelected(product?.id)}
+                                disabled={loading}
+                                boxBasis="8%"
+                                nameBasis="92%"
+                                onClick={() => {
+                                  setInlineError((error) => ({
+                                    ...error,
+                                    selected_id_error: "",
+                                  }));
+                                  if (isProductSelected(product?.id)) {
+                                    removeProductToCancel(product);
+                                    return;
+                                  }
+                                  addProductToCancel(
+                                    product,
+                                    orderQty[idx]?.count
+                                  );
+                                }}
+                              />
+                            </div>
+                            <div>
+                              {isProductSelected(product?.id) && (
+                                <div>
                                   <div
-                                    className={`${orderQty[idx]?.count > 1 ? productCartStyles.subtract_svg_wrapper : ""
-                                      } d-flex align-items-center justify-content-center`}
-                                    onClick={() => {
-                                      if (orderQty[idx]?.count > 1) {
-                                        onUpdateQty(orderQty[idx]?.count - 1, idx, product?.id);
-                                      }
-                                    }}
+                                    className={
+                                      productCartStyles.quantity_count_wrapper
+                                    }
                                   >
-                                    {orderQty[idx]?.count > 1 && (
-                                      <Subtract width="13" classes={productCartStyles.subtract_svg_color} />
-                                    )}
-                                  </div>
-                                  <div className="d-flex align-items-center justify-content-center">
-                                    <p className={productCartStyles.quantity_count}>
-                                      {orderQty[idx]?.count ?? "0"}
-                                      {/* {quantityCount} */}
-                                    </p>
-                                  </div>
-                                  <div
-                                    className={`${orderQty[idx]?.count < quantity[idx]?.count
-                                      ? productCartStyles.add_svg_wrapper
-                                      : ""
+                                    <div
+                                      className={`${
+                                        orderQty[idx]?.count > 1
+                                          ? productCartStyles.subtract_svg_wrapper
+                                          : ""
                                       } d-flex align-items-center justify-content-center`}
-                                    onClick={() => {
-                                      //   setQuantityCount((quantityCount) => quantityCount + 1);
-                                      //   onAddQuantity(id);
-                                      if (orderQty[idx]?.count < quantity[idx]?.count) {
-                                        onUpdateQty(orderQty[idx]?.count + 1, idx, product?.id);
-                                      }
-                                    }}
-                                  >
-                                    {orderQty[idx]?.count < quantity[idx]?.count && (
-                                      <Add width="13" height="13" classes={productCartStyles.add_svg_color} />
-                                    )}
+                                      onClick={() => {
+                                        if (orderQty[idx]?.count > 1) {
+                                          onUpdateQty(
+                                            orderQty[idx]?.count - 1,
+                                            idx,
+                                            product?.id
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      {orderQty[idx]?.count > 1 && (
+                                        <Subtract
+                                          width="13"
+                                          classes={
+                                            productCartStyles.subtract_svg_color
+                                          }
+                                        />
+                                      )}
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-center">
+                                      <p
+                                        className={
+                                          productCartStyles.quantity_count
+                                        }
+                                      >
+                                        {orderQty[idx]?.count ?? "0"}
+                                        {/* {quantityCount} */}
+                                      </p>
+                                    </div>
+                                    <div
+                                      className={`${
+                                        orderQty[idx]?.count <
+                                        quantity[idx]?.count
+                                          ? productCartStyles.add_svg_wrapper
+                                          : ""
+                                      } d-flex align-items-center justify-content-center`}
+                                      onClick={() => {
+                                        //   setQuantityCount((quantityCount) => quantityCount + 1);
+                                        //   onAddQuantity(id);
+                                        if (
+                                          orderQty[idx]?.count <
+                                          quantity[idx]?.count
+                                        ) {
+                                          onUpdateQty(
+                                            orderQty[idx]?.count + 1,
+                                            idx,
+                                            product?.id
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      {orderQty[idx]?.count <
+                                        quantity[idx]?.count && (
+                                        <Add
+                                          width="13"
+                                          height="13"
+                                          classes={
+                                            productCartStyles.add_svg_color
+                                          }
+                                        />
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                    );
+                  })}
+                </div>
+              )}
           </div>
-          {inlineError.selected_id_error && <ErrorMessage>{inlineError.selected_id_error}</ErrorMessage>}
+          {inlineError.selected_id_error && (
+            <ErrorMessage>{inlineError.selected_id_error}</ErrorMessage>
+          )}
 
           {selectedCancelType === CANCEL_ORDER_TYPES.allOrder && (
             <div className="px-2">
-              <p className={styles.cancel_dropdown_label_text}>Select your Reason</p>
+              <p className={styles.cancel_dropdown_label_text}>
+                Select your Reason
+              </p>
               <Dropdown
                 id="dropdownOne"
                 header={
-                  <div className={`${styles.cancel_dropdown_wrapper} d-flex align-items-center`}>
+                  <div
+                    className={`${styles.cancel_dropdown_wrapper} d-flex align-items-center`}
+                  >
                     <div className="px-2">
                       <p className={styles.cancel_dropdown_text}>
                         {selectedCancelReasonId?.value
@@ -603,10 +717,18 @@ export default function CancelOrderModal(props) {
                   </div>
                 }
                 body_classes="dropdown-menu-end dropdown-menu-lg-start"
-                style={{ width: "100%", maxHeight: "250px", overflow: "auto", margin: "10px 0" }}
+                style={{
+                  width: "100%",
+                  maxHeight: "250px",
+                  overflow: "auto",
+                  margin: "10px 0",
+                }}
                 click={(reasonValue) => {
                   const REASONS = reasons;
-                  const type = REASONS.find(({ value }) => value.toLowerCase() === reasonValue.toLowerCase());
+                  const type = REASONS.find(
+                    ({ value }) =>
+                      value.toLowerCase() === reasonValue.toLowerCase()
+                  );
                   setSelectedCancelReasonId(type);
                   setInlineError((error) => ({
                     ...error,
@@ -618,47 +740,64 @@ export default function CancelOrderModal(props) {
                 }))}
                 show_icons={false}
               />
-              {inlineError.reason_error && <ErrorMessage>{inlineError.reason_error}</ErrorMessage>}
+              {inlineError.reason_error && (
+                <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
+              )}
             </div>
           )}
-          {selectedCancelType === CANCEL_ORDER_TYPES.partialOrders && selectedIds && selectedIds.length > 0 && (
-            <div className="px-2">
-              <p className={styles.cancel_dropdown_label_text}>Select your Reason</p>
-              <Dropdown
-                id="dropdownTwo"
-                header={
-                  <div className={`${styles.cancel_dropdown_wrapper} d-flex align-items-center`}>
-                    <div className="px-2">
-                      <p className={styles.cancel_dropdown_text}>
-                        {selectedCancelReasonId?.value
-                          ? selectedCancelReasonId?.value
-                          : "Select reason for cancellation"}
-                      </p>
+          {selectedCancelType === CANCEL_ORDER_TYPES.partialOrders &&
+            selectedIds &&
+            selectedIds.length > 0 && (
+              <div className="px-2">
+                <p className={styles.cancel_dropdown_label_text}>
+                  Select your Reason
+                </p>
+                <Dropdown
+                  id="dropdownTwo"
+                  header={
+                    <div
+                      className={`${styles.cancel_dropdown_wrapper} d-flex align-items-center`}
+                    >
+                      <div className="px-2">
+                        <p className={styles.cancel_dropdown_text}>
+                          {selectedCancelReasonId?.value
+                            ? selectedCancelReasonId?.value
+                            : "Select reason for cancellation"}
+                        </p>
+                      </div>
+                      <div className="px-2 ms-auto">
+                        <ExpandMoreIcon sx={{ color: "#979797" }} />
+                      </div>
                     </div>
-                    <div className="px-2 ms-auto">
-                      <ExpandMoreIcon sx={{ color: "#979797" }} />
-                    </div>
-                  </div>
-                }
-                body_classes="dropdown-menu-end dropdown-menu-lg-start"
-                style={{ width: "100%", maxHeight: "250px", overflow: "auto" }}
-                click={(reasonValue) => {
-                  const REASONS = reasons;
-                  const type = REASONS.find(({ value }) => value.toLowerCase() === reasonValue.toLowerCase());
-                  setSelectedCancelReasonId(type);
-                  setInlineError((error) => ({
-                    ...error,
-                    reason_error: "",
-                  }));
-                }}
-                options={reasons.map(({ value }) => ({
-                  value,
-                }))}
-                show_icons={false}
-              />
-              {inlineError.reason_error && <ErrorMessage>{inlineError.reason_error}</ErrorMessage>}
-            </div>
-          )}
+                  }
+                  body_classes="dropdown-menu-end dropdown-menu-lg-start"
+                  style={{
+                    width: "100%",
+                    maxHeight: "250px",
+                    overflow: "auto",
+                  }}
+                  click={(reasonValue) => {
+                    const REASONS = reasons;
+                    const type = REASONS.find(
+                      ({ value }) =>
+                        value.toLowerCase() === reasonValue.toLowerCase()
+                    );
+                    setSelectedCancelReasonId(type);
+                    setInlineError((error) => ({
+                      ...error,
+                      reason_error: "",
+                    }));
+                  }}
+                  options={reasons.map(({ value }) => ({
+                    value,
+                  }))}
+                  show_icons={false}
+                />
+                {inlineError.reason_error && (
+                  <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
+                )}
+              </div>
+            )}
         </div>
         <div className={`${styles.card_footer} d-flex align-items-center`}>
           <div className="px-3">

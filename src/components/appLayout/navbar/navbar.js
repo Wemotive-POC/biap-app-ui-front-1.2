@@ -123,7 +123,6 @@ const NavBar = ({ isCheckout = false }) => {
       }
       if (subCategoryName) {
         params.set("sc", subCategoryName);
-      } else {
       }
       if (locationData.pathname !== "/application/products") {
         history.push({

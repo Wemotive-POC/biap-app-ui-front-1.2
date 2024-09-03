@@ -353,7 +353,6 @@ export default function ReturnOrderModal({
     data = data.map((item) => {
       if (item.id === pId) {
         item.quantity.count = qty;
-      } else {
       }
       return item;
     });

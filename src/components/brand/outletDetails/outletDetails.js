@@ -82,7 +82,6 @@ const OutletDetails = (props) => {
         const startTime = moment(data.time.range.start, "hh:mm");
         const endTime = moment(data.time.range.end, "hh:mm");
         data.isOpen = time.isBetween(startTime, endTime);
-      } else {
       }
       setOutletDetails(data);
       if (data.time.label === "enable") {

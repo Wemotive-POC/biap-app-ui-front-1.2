@@ -87,7 +87,6 @@ const StepAddressContent = ({
           toggle: true,
           address: addressObject,
         });
-      } else {
       }
     }
   }, [deliveryAddress, billingAddress]);

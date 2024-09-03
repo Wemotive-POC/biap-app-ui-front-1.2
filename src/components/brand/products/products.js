@@ -89,7 +89,6 @@ const Products = ({ brandDetails, brandId }) => {
       }
       if (customMenuId) {
         paginationData.searchData.customMenu = customMenuId || "";
-      } else {
       }
       const data = await cancellablePromise(
         getAllProductRequest(paginationData.searchData)
