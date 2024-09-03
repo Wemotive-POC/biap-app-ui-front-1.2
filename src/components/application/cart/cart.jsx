@@ -24,7 +24,6 @@ import Loading from "../../shared/loading/loading";
 import { constructQouteObject } from "../../../api/utils/constructRequestObject";
 import useCancellablePromise from "../../../api/cancelRequest";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
-import { v4 as uuidv4 } from "uuid";
 import { AddressContext } from "../../../context/addressContext";
 import { CartContext } from "../../../context/cartContext";
 import EditCustomizations from "./EditCustomizations";
@@ -1465,7 +1464,6 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
           });
           history.replace("/application/products");
           return;
-        } else {
         }
         let c = cartItems.map((item) => {
           return item.item;

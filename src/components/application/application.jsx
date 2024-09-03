@@ -11,9 +11,6 @@ import Cart from "./cart/cart";
 // import Home from "../home/home";
 // import Profile from "./profile/profile";
 // import Support from "./support/support";
-import ProductDetails from "./product-list/product-details/productDetails";
-import Brand from "../brand/brand";
-import OutletDetails from "../brand/outletDetails/outletDetails";
 import Checkout from "../checkout/checkout";
 import Orders from "../orders/orders";
 import OrderDetails from "../orders/orderDetails/orderDetails";
@@ -21,7 +18,6 @@ import OrderDetails from "../orders/orderDetails/orderDetails";
 import MyTickets from "./my-tickets/myTickets";
 
 import AppLayout from "../appLayout";
-import Products from "../products/products";
 import BrandRoutes from "../brand/BrandRoutes";
 import ProductRoutes from "./product-list/ProductRoutes";
 import ComplaintDetail from "./my-tickets/complaintDetail";
@@ -32,7 +28,11 @@ export default function Application() {
       <Switch>
         <AddressContextProvider>
           <SearchContextProvider>
-            <Route path={"/application"} exact component={() => <Redirect to={"/application/products"} />} />
+            <Route
+              path={"/application"}
+              exact
+              component={() => <Redirect to={"/application/products"} />}
+            />
             <PrivateRoute exact path={"/application/products"}>
               <AppLayout>
                 <ProductRoutes />

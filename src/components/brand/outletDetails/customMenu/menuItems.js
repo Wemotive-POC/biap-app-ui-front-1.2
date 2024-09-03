@@ -88,7 +88,6 @@ const MenuItems = (props) => {
           item.item_details.isVeg =
             findVegNonVegTag.list[0].value === "yes" ||
             findVegNonVegTag.list[0].value === "Yes";
-        } else {
         }
         return item;
       });
