@@ -34,20 +34,20 @@ const EditCustomizations = (props) => {
     }
   }
 
-  const calculateSubtotal = () => {
-    let subtotal = 0;
+  // const calculateSubtotal = () => {
+  //   let subtotal = 0;
 
-    for (const level in customization_state) {
-      const selectedOptions = customization_state[level].selected;
-      if (selectedOptions.length > 0) {
-        subtotal += selectedOptions.reduce(
-          (acc, option) => acc + option.price,
-          0
-        );
-      }
-    }
-    return subtotal;
-  };
+  //   for (const level in customization_state) {
+  //     const selectedOptions = customization_state[level].selected;
+  //     if (selectedOptions.length > 0) {
+  //       subtotal += selectedOptions.reduce(
+  //         (acc, option) => acc + option.price,
+  //         0
+  //       );
+  //     }
+  //   }
+  //   return subtotal;
+  // };
 
   let selectedCustomizationIds = [];
 
@@ -55,9 +55,9 @@ const EditCustomizations = (props) => {
     let group = customization_state[groupId];
     if (!group) return;
 
-    let customizations = group.selected.map((s) =>
-      selectedCustomizationIds.push(s.id)
-    );
+    // let customizations = group.selected.map((s) =>
+    //   selectedCustomizationIds.push(s.id)
+    // );
     group?.childs?.map((child) => {
       getCustomization_(child);
     });
@@ -66,7 +66,6 @@ const EditCustomizations = (props) => {
   const getCustomizations = () => {
     const { customisation_items } = productPayload;
     const customizations = [];
-    const levels = Object.keys(customization_state);
     const firstGroupId = customization_state["firstGroup"].id;
 
     selectedCustomizationIds = [];
@@ -102,7 +101,7 @@ const EditCustomizations = (props) => {
       updatedCartItem = updatedCartItem.item;
       updatedCartItem.customisationState = customization_state;
 
-      const res = await putCall(url, updatedCartItem);
+      await putCall(url, updatedCartItem);
       setOpenDrawer(false);
       fetchCartItems();
     }

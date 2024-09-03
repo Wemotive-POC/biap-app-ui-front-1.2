@@ -13,7 +13,6 @@ import {
   Checkbox,
   Divider,
   Drawer,
-  FormGroup,
   Grid,
   TextField,
   Typography,
@@ -32,9 +31,6 @@ import EditCustomizations from "./EditCustomizations";
 import { ToastContext } from "../../../context/toastContext";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 import { SearchContext } from "../../../context/searchContext";
-import { CheckBox, OfflineShareRounded } from "@mui/icons-material";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { getAllOffersRequest } from "../../../api/offer.api";
 import OfferCard from "../../common/Offers/OfferCard";
@@ -59,7 +55,6 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
   const { locationData: deliveryAddressLocation } = useContext(SearchContext);
 
   const { cancellablePromise } = useCancellablePromise();
-  const transaction_id = localStorage.getItem("transaction_id");
 
   const responseRef = useRef([]);
   const eventTimeOutRef = useRef([]);
@@ -190,7 +185,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
 
               updatedCartItem = updatedCartItem.item;
               console.log("updatedCartItem", updatedCartItem);
-              const res = await putCall(url, updatedCartItem);
+              await putCall(url, updatedCartItem);
               setLoading(false);
               getCartItems();
               fetchCartItems();
@@ -202,7 +197,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
           } else {
             updatedCartItem.item.quantity.count += 1;
             updatedCartItem = updatedCartItem.item;
-            const res = await putCall(url, updatedCartItem);
+            await putCall(url, updatedCartItem);
             setLoading(false);
             getCartItems();
             fetchCartItems();
@@ -226,7 +221,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
             }
 
             updatedCartItem = updatedCartItem.item;
-            const res = await putCall(url, updatedCartItem);
+            await putCall(url, updatedCartItem);
             setLoading(false);
             getCartItems();
             fetchCartItems();
@@ -238,7 +233,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
 
   const deleteCartItem = async (itemId) => {
     const url = `/clientApis/v2/cart/${user.id}/${itemId}`;
-    const res = await deleteCall(url);
+    await deleteCall(url);
     getCartItems();
     fetchCartItems();
   };
@@ -340,224 +335,224 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
     );
   };
 
-  const offers_dummy_data = [
-    {
-      id: "DISCP60",
-      descriptor: {
-        code: "discount",
-        images: ["https://sellerNP.com/images/offer2-banner.png"],
-      },
-      location_ids: ["L1"],
-      item_ids: ["I1"],
-      time: {
-        label: "valid",
-        range: {
-          start: "2023-06-21T16:00:00.000Z",
-          end: "2023-06-21T23:00:00.000Z",
-        },
-      },
-      tags: [
-        {
-          code: "qualifier",
-          list: [
-            {
-              code: "min_value",
-              value: "159.00",
-            },
-          ],
-        },
-        {
-          code: "benefit",
-          list: [
-            {
-              code: "value_type",
-              value: "percent",
-            },
-            {
-              code: "value",
-              value: "-60.00",
-            },
-            {
-              code: "value_cap",
-              value: "-120.00",
-            },
-          ],
-        },
-        {
-          code: "meta",
-          list: [
-            {
-              code: "additive",
-              value: "yes",
-            },
-            {
-              code: "auto",
-              value: "yes",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: "FLAT150",
-      descriptor: {
-        code: "discount",
-        images: ["https://sellerNP.com/images/offer2-banner.png"],
-      },
-      location_ids: ["L1"],
-      item_ids: ["I1"],
-      time: {
-        label: "valid",
-        range: {
-          start: "2023-06-22T16:00:00.000Z",
-          end: "2023-06-22T23:00:00.000Z",
-        },
-      },
-      tags: [
-        {
-          code: "qualifier",
-          list: [
-            {
-              code: "min_value",
-              value: "499.00",
-            },
-          ],
-        },
-        {
-          code: "benefit",
-          list: [
-            {
-              code: "value_type",
-              value: "amount",
-            },
-            {
-              code: "value",
-              value: "-150.00",
-            },
-          ],
-        },
-        {
-          code: "meta",
-          list: [
-            {
-              code: "additive",
-              value: "yes",
-            },
-            {
-              code: "auto",
-              value: "yes",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: "BUY2GET3",
-      descriptor: {
-        code: "buyXgetY",
-        images: ["https://sellerNP.com/images/offer1-banner.png"],
-      },
-      location_ids: ["L1"],
-      item_ids: ["I1"],
-      time: {
-        label: "valid",
-        range: {
-          start: "2023-06-23T16:00:00.000Z",
-          end: "2023-06-23T23:00:00.000Z",
-        },
-      },
-      tags: [
-        {
-          code: "qualifier",
-          list: [
-            {
-              code: "item_count",
-              value: "2",
-            },
-          ],
-        },
-        {
-          code: "benefit",
-          list: [
-            {
-              code: "item_count",
-              value: "3",
-            },
-          ],
-        },
-        {
-          code: "meta",
-          list: [
-            {
-              code: "additive",
-              value: "no",
-            },
-            {
-              code: "auto",
-              value: "yes",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: "FREEBIE",
-      descriptor: {
-        code: "freebie",
-        images: ["https://sellerNP.com/images/offer3-banner.png"],
-      },
-      location_ids: ["L1"],
-      item_ids: ["I1"],
-      time: {
-        label: "valid",
-        range: {
-          start: "2023-06-24T16:00:00.000Z",
-          end: "2023-06-24T23:00:00.000Z",
-        },
-      },
-      tags: [
-        {
-          code: "qualifier",
-          list: [
-            {
-              code: "min_value",
-              value: "598.00",
-            },
-          ],
-        },
-        {
-          code: "benefit",
-          list: [
-            {
-              code: "item_count",
-              value: "1",
-            },
-            {
-              code: "item_id",
-              value: "sku id for extra item",
-            },
-            {
-              code: "item_value",
-              value: "200.00",
-            },
-          ],
-        },
-        {
-          code: "meta",
-          list: [
-            {
-              code: "additive",
-              value: "no",
-            },
-            {
-              code: "auto",
-              value: "yes",
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  // const offers_dummy_data = [
+  //   {
+  //     id: "DISCP60",
+  //     descriptor: {
+  //       code: "discount",
+  //       images: ["https://sellerNP.com/images/offer2-banner.png"],
+  //     },
+  //     location_ids: ["L1"],
+  //     item_ids: ["I1"],
+  //     time: {
+  //       label: "valid",
+  //       range: {
+  //         start: "2023-06-21T16:00:00.000Z",
+  //         end: "2023-06-21T23:00:00.000Z",
+  //       },
+  //     },
+  //     tags: [
+  //       {
+  //         code: "qualifier",
+  //         list: [
+  //           {
+  //             code: "min_value",
+  //             value: "159.00",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "benefit",
+  //         list: [
+  //           {
+  //             code: "value_type",
+  //             value: "percent",
+  //           },
+  //           {
+  //             code: "value",
+  //             value: "-60.00",
+  //           },
+  //           {
+  //             code: "value_cap",
+  //             value: "-120.00",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "meta",
+  //         list: [
+  //           {
+  //             code: "additive",
+  //             value: "yes",
+  //           },
+  //           {
+  //             code: "auto",
+  //             value: "yes",
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: "FLAT150",
+  //     descriptor: {
+  //       code: "discount",
+  //       images: ["https://sellerNP.com/images/offer2-banner.png"],
+  //     },
+  //     location_ids: ["L1"],
+  //     item_ids: ["I1"],
+  //     time: {
+  //       label: "valid",
+  //       range: {
+  //         start: "2023-06-22T16:00:00.000Z",
+  //         end: "2023-06-22T23:00:00.000Z",
+  //       },
+  //     },
+  //     tags: [
+  //       {
+  //         code: "qualifier",
+  //         list: [
+  //           {
+  //             code: "min_value",
+  //             value: "499.00",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "benefit",
+  //         list: [
+  //           {
+  //             code: "value_type",
+  //             value: "amount",
+  //           },
+  //           {
+  //             code: "value",
+  //             value: "-150.00",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "meta",
+  //         list: [
+  //           {
+  //             code: "additive",
+  //             value: "yes",
+  //           },
+  //           {
+  //             code: "auto",
+  //             value: "yes",
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: "BUY2GET3",
+  //     descriptor: {
+  //       code: "buyXgetY",
+  //       images: ["https://sellerNP.com/images/offer1-banner.png"],
+  //     },
+  //     location_ids: ["L1"],
+  //     item_ids: ["I1"],
+  //     time: {
+  //       label: "valid",
+  //       range: {
+  //         start: "2023-06-23T16:00:00.000Z",
+  //         end: "2023-06-23T23:00:00.000Z",
+  //       },
+  //     },
+  //     tags: [
+  //       {
+  //         code: "qualifier",
+  //         list: [
+  //           {
+  //             code: "item_count",
+  //             value: "2",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "benefit",
+  //         list: [
+  //           {
+  //             code: "item_count",
+  //             value: "3",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "meta",
+  //         list: [
+  //           {
+  //             code: "additive",
+  //             value: "no",
+  //           },
+  //           {
+  //             code: "auto",
+  //             value: "yes",
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: "FREEBIE",
+  //     descriptor: {
+  //       code: "freebie",
+  //       images: ["https://sellerNP.com/images/offer3-banner.png"],
+  //     },
+  //     location_ids: ["L1"],
+  //     item_ids: ["I1"],
+  //     time: {
+  //       label: "valid",
+  //       range: {
+  //         start: "2023-06-24T16:00:00.000Z",
+  //         end: "2023-06-24T23:00:00.000Z",
+  //       },
+  //     },
+  //     tags: [
+  //       {
+  //         code: "qualifier",
+  //         list: [
+  //           {
+  //             code: "min_value",
+  //             value: "598.00",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "benefit",
+  //         list: [
+  //           {
+  //             code: "item_count",
+  //             value: "1",
+  //           },
+  //           {
+  //             code: "item_id",
+  //             value: "sku id for extra item",
+  //           },
+  //           {
+  //             code: "item_value",
+  //             value: "200.00",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         code: "meta",
+  //         list: [
+  //           {
+  //             code: "additive",
+  //             value: "no",
+  //           },
+  //           {
+  //             code: "auto",
+  //             value: "yes",
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const gen_offer_benefit_label = (benefit) => {
     let b_type = benefit.list.find((tag) => {
@@ -569,10 +564,10 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
     let str = "";
     switch (b_type) {
       case "percent":
-        const cap_value =
-          benefit.list.find((tag) => {
-            return tag["code"] === "value_cap";
-          }).value * -1;
+        // const cap_value =
+        //   benefit.list.find((tag) => {
+        //     return tag["code"] === "value_cap";
+        //   }).value * -1;
         str = `Flat ${b_value * -1}% off`;
         break;
       case "amount":
@@ -1576,16 +1571,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
     );
   };
 
-  const renderNonAdditiveOffers = (offers) => {
-    const handleClick = (event) => {
-      if (event.target.value === selectedNonAdditiveOffer) {
-        setSelectedNonAdditiveOffer("");
-      } else {
-        setSelectedNonAdditiveOffer(event.target.value);
-        setSelectedAdditiveOffers([]);
-      }
-    };
-
+  const renderNonAdditiveOffers = (offers_data) => {
     function isOfferSelected(id) {
       return selectedNonAdditiveOffer === id;
     }
@@ -1597,7 +1583,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
           sx={{ marginBottom: 1.5, marginLeft: 3 }}
           direction={"column"}
         >
-          {offers?.map((offer) => {
+          {offers_data?.map((offer) => {
             return (
               <div className={classes.fulfillment}>
                 <FormControlLabel
@@ -1631,10 +1617,11 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
     );
   };
 
-  const renderAdditiveOffers = (offers, selectedAdditiveOffers) => {
+  const renderAdditiveOffers = (offers_data, selected_additive_offers) => {
     function isOfferSelected(id) {
       return (
-        selectedAdditiveOffers.filter((offer_id) => offer_id === id).length > 0
+        selected_additive_offers.filter((offer_id) => offer_id === id).length >
+        0
       );
     }
 
@@ -1645,7 +1632,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
           // sx={{ marginBottom: 1.5, marginLeft: 1.5 }}
           direction={"column"}
         >
-          {offers?.map((offer) => {
+          {offers_data?.map((offer) => {
             return (
               <div className={classes.fulfillment}>
                 <FormControlLabel
@@ -1657,7 +1644,7 @@ export default function Cart({ showOnlyItems = false, setCheckoutCartItems }) {
                       checked={isOfferSelected(offer.id)}
                       disabled={selectedNonAdditiveOffer}
                       onChange={(event) => {
-                        let ids = selectedAdditiveOffers;
+                        let ids = selected_additive_offers;
                         if (
                           ids.includes(offer.id) &&
                           event.target.checked === false
