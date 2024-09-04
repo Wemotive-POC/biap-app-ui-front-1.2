@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import useStyles from "./style";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
@@ -61,7 +61,7 @@ const SingleCategory = ({ data, index }) => {
   );
 };
 
-const CategoriesComponent = ({ brandDetails, brandId }) => {
+const Categories = ({ brandDetails, brandId }) => {
   const classes = useStyles();
   //  const {brandId} = useParams();
   const history = useHistory();
@@ -209,4 +209,4 @@ const CategoriesComponent = ({ brandDetails, brandId }) => {
   }
 };
 
-export default CategoriesComponent;
+export default Categories;
