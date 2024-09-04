@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import styles from "../../../styles/products/productList.module.scss";
 import Navbar from "../../shared/navbar/navbar";
-import Cart from '../../shared/svg/cart';
+import Cart from "../../shared/svg/cart";
 import { getCall } from "../../../api/axios";
 import { ONDC_COLORS } from "../../shared/colors";
 import Loading from "../../shared/loading/loading";
@@ -135,7 +135,10 @@ export default function ProductList() {
   }, []);
 
   useEffect(() => {
-    if ((!deliveryAddress || deliveryAddress === undefined) && Object.keys(search_context).length === 0) {
+    if (
+      (!deliveryAddress || deliveryAddress === undefined) &&
+      Object.keys(search_context).length === 0
+    ) {
       setSearchedLocation({
         name: "",
         lat: "",
@@ -147,22 +150,29 @@ export default function ProductList() {
   useEffect(() => {
     if (eventData?.filters && Object.keys(eventData?.filters).length > 0) {
       let filterSet = eventData?.filters;
-      filterSet.providers = filterSet.providers.filter((item) => item.name !== "" && item.name !== null);
-      filterSet.fulfillment = filterSet.fulfillment.filter((item) => item.name === undefined && item?.name !== "" && item?.name !== null);
-      filterSet.categories = filterSet.categories.filter((item) => item.name !== "" && item.name !== null);
-      setFilters((filters) => ({
-        ...filters,
-        categories: [...filters?.categories, ...filterSet?.categories],
-        fulfillment: [...filters?.fulfillment, ...filterSet?.fulfillment],
+      filterSet.providers = filterSet.providers.filter(
+        (item) => item.name !== "" && item.name !== null
+      );
+      filterSet.fulfillment = filterSet.fulfillment.filter(
+        (item) =>
+          item.name === undefined && item?.name !== "" && item?.name !== null
+      );
+      filterSet.categories = filterSet.categories.filter(
+        (item) => item.name !== "" && item.name !== null
+      );
+      setFilters((filters_data) => ({
+        ...filters_data,
+        categories: [...filters_data?.categories, ...filterSet?.categories],
+        fulfillment: [...filters_data?.fulfillment, ...filterSet?.fulfillment],
         maxPrice:
-          filters?.maxPrice > filterSet?.maxPrice
-            ? filters?.maxPrice
+          filters_data?.maxPrice > filterSet?.maxPrice
+            ? filters_data?.maxPrice
             : filterSet?.maxPrice,
         minPrice:
-          filters?.minPrice < filterSet?.minPrice
-            ? filters?.minPrice
+          filters_data?.minPrice < filterSet?.minPrice
+            ? filters_data?.minPrice
             : filterSet?.minPrice,
-        providers: [...filters?.providers, ...filterSet?.providers],
+        providers: [...filters_data?.providers, ...filterSet?.providers],
       }));
       setFetchFilterLoading(false);
     }
@@ -204,16 +214,23 @@ export default function ProductList() {
     }
   }
   // use this api to fetch the filters.
-  async function fetchAllFilters(messageId) {
+  async function fetchAllFilters(message_Id) {
     try {
       let data = await cancellablePromise(
-        getCall(`/clientApis/v1/getFilterParams?messageId=${messageId}`)
+        getCall(`/clientApis/v1/getFilterParams?messageId=${message_Id}`)
       );
-      data.providers = data.providers.filter((item) => item.name !== "" && item.name !== null);
-      data.fulfillment = data.fulfillment.filter((item) => item.name === undefined && item.name !== "" && item.name !== null);
-      data.categories = data.categories.filter((item) => item.name !== "" && item.name !== null);
-      setFilters((filters) => ({
-        ...filters,
+      data.providers = data.providers.filter(
+        (item) => item.name !== "" && item.name !== null
+      );
+      data.fulfillment = data.fulfillment.filter(
+        (item) =>
+          item.name === undefined && item.name !== "" && item.name !== null
+      );
+      data.categories = data.categories.filter(
+        (item) => item.name !== "" && item.name !== null
+      );
+      setFilters((filters_data) => ({
+        ...filters_data,
         minPrice: selected_filters.minPrice
           ? selected_filters?.minPrice
           : data.minPrice,
@@ -420,10 +437,11 @@ export default function ProductList() {
             search_empty_state
           ) : (
             <div
-              className={`py-2 ${cartItems.length > 0
-                ? styles.product_list_with_summary_wrapper
-                : styles.product_list_without_summary_wrapper
-                }`}
+              className={`py-2 ${
+                cartItems.length > 0
+                  ? styles.product_list_with_summary_wrapper
+                  : styles.product_list_without_summary_wrapper
+              }`}
             >
               {loading ? (
                 loadingSpin("100%", "100%")
@@ -469,7 +487,9 @@ export default function ProductList() {
                         </div>
                         <div className="ms-auto">
                           {fetchFilterLoading ? (
-                            <Loading backgroundColor={ONDC_COLORS.ACCENTCOLOR} />
+                            <Loading
+                              backgroundColor={ONDC_COLORS.ACCENTCOLOR}
+                            />
                           ) : (
                             <ProductSort
                               sortType={sortType?.name}
@@ -494,7 +514,7 @@ export default function ProductList() {
                           )}
                         </div>
                       </div>
-                      <div className="container" style={{ minHeight: '500px' }}>
+                      <div className="container" style={{ minHeight: "500px" }}>
                         <div className="row pe-2">
                           {products.map((product) => {
                             return (
@@ -514,7 +534,9 @@ export default function ProductList() {
                                       ? product.location_details?.id
                                       : ""
                                   }
-                                  bpp_provider_id={product?.provider_details?.id}
+                                  bpp_provider_id={
+                                    product?.provider_details?.id
+                                  }
                                 />
                               </div>
                             );
@@ -551,7 +573,8 @@ export default function ProductList() {
                 </div>
               )}
             </div>
-          )}
+          )
+        }
         {cartItems.length > 0 && <OrderSummary />}
       </div>
     </Fragment>
