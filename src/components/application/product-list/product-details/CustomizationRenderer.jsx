@@ -10,7 +10,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import Radio from "../../../common/Radio";
 import Checkbox from "../../../common/Checkbox";
 import { createCustomizationAndGroupMapping } from "./utils";
 
@@ -26,7 +25,6 @@ const CustomizationRenderer = (props) => {
   const classes = style();
   const [customizationGroups, setCustomizationGroups] = useState([]);
   const [customizations, setCustomizations] = useState([]);
-  const [highestSeq, setHighestSeq] = useState(0);
 
   const [customizationToGroupMap, setCustomizationToGroupMap] = useState({});
   // const [groupToCustomizationMap, setGroupToCustomizationMap] = useState({});

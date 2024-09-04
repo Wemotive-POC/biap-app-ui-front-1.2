@@ -2,7 +2,9 @@ export const formatCustomizations = (customisation_items) => {
   const customizations = customisation_items?.map((customization) => {
     const itemDetails = customization.item_details;
     const parentTag = itemDetails.tags.find((tag) => tag.code === "parent");
-    const vegNonVegTag = itemDetails.tags.find((tag) => tag.code === "veg_nonveg");
+    const vegNonVegTag = itemDetails.tags.find(
+      (tag) => tag.code === "veg_nonveg"
+    );
     const isDefaultTag = parentTag.list.find((tag) => tag.code === "default");
     const isDefault = isDefaultTag?.value.toLowerCase() === "yes";
     const childTag = itemDetails.tags.find((tag) => tag.code === "child");
@@ -13,8 +15,12 @@ export const formatCustomizations = (customisation_items) => {
       name: itemDetails.descriptor.name,
       price: itemDetails.price.value,
       inStock: itemDetails.quantity.available.count > 0,
-      parent: parentTag ? parentTag.list.find((tag) => tag.code === "id").value : null,
-      child: childTag ? childTag.list.find((tag) => tag.code === "id").value : null,
+      parent: parentTag
+        ? parentTag.list.find((tag) => tag.code === "id").value
+        : null,
+      child: childTag
+        ? childTag.list.find((tag) => tag.code === "id").value
+        : null,
       childs: childs?.length > 0 ? childs : null,
       isDefault: isDefault ?? false,
       vegNonVeg: vegNonVegTag ? vegNonVegTag.list[0].code : "",
@@ -28,7 +34,9 @@ export const formatCustomizationGroups = (customisation_groups) => {
     const configTags = group.tags.find((tag) => tag.code === "config").list;
     const minConfig = configTags.find((tag) => tag.code === "min").value;
     const maxConfig = configTags.find((tag) => tag.code === "max").value;
-    const inputTypeConfig = configTags.find((tag) => tag.code === "input").value;
+    const inputTypeConfig = configTags.find(
+      (tag) => tag.code === "input"
+    ).value;
     const seqConfig = configTags.find((tag) => tag.code === "seq").value;
 
     const customizationObj = {
@@ -57,7 +65,11 @@ export const getCustomizationGroupsForProduct = (allGroups, ids) => {
 };
 
 export const hasCustomizations = (productPayload) => {
-  return productPayload.item_details.tags.find((item) => item.code === "custom_group") ? true : false;
+  return productPayload.item_details.tags.find(
+    (item) => item.code === "custom_group"
+  )
+    ? true
+    : false;
   // return productPayload.item_details.tags.find(
   //   (item) => item.code === "custom_group"
   // )
@@ -65,7 +77,11 @@ export const hasCustomizations = (productPayload) => {
   //   : false;
 };
 
-export const initializeCustomizationState_ = async (customizationGroups, customizations, customization_state) => {
+export const initializeCustomizationState_ = async (
+  customizationGroups,
+  customizations,
+  customization_state
+) => {
   let firstGroup = null;
   for (const group of customizationGroups) {
     if (group.seq === 1) {
@@ -79,25 +95,33 @@ export const initializeCustomizationState_ = async (customizationGroups, customi
     const newState = { ...customization_state };
 
     while (currentGroup) {
-      const group = customizationGroups.find((group) => group.id === currentGroup);
-      if (group) {
+      const group_details = customizationGroups.find(
+        (group) => group.id === currentGroup
+      );
+      if (group_details) {
         newState[level] = {
-          id: group.id,
-          seq: group.seq,
-          name: group.name,
-          inputType: group?.inputType,
+          id: group_details.id,
+          seq: group_details.seq,
+          name: group_details.name,
+          inputType: group_details?.inputType,
           options: [],
           selected: [],
         };
-        newState[level].options = customizations.filter((customization) => customization.parent === currentGroup);
+        newState[level].options = customizations.filter(
+          (customization) => customization.parent === currentGroup
+        );
 
         // Skip selecting an option for non-mandatory groups (minQuantity === 0)
-        if (group.minQuantity === 1) {
-          const selectedCustomization = newState[level].options.find((opt) => opt.isDefault && opt.inStock);
+        if (group_details.minQuantity === 1) {
+          const selectedCustomization = newState[level].options.find(
+            (opt) => opt.isDefault && opt.inStock
+          );
 
           // If no default option, select the first available option
           if (!selectedCustomization) {
-            newState[level].selected = [newState[level].options.find((opt) => opt.inStock)];
+            newState[level].selected = [
+              newState[level].options.find((opt) => opt.inStock),
+            ];
           } else {
             newState[level].selected = [selectedCustomization];
           }
@@ -107,7 +131,7 @@ export const initializeCustomizationState_ = async (customizationGroups, customi
         level++;
 
         // If a non-mandatory group is encountered, break the loop
-        if (group.minQuantity === 0) {
+        if (group_details.minQuantity === 0) {
           break;
         }
       } else {
@@ -129,7 +153,8 @@ export const createCustomizationAndGroupMapping = (customizations) => {
 
     customizationToGroupMap = {
       ...customizationToGroupMap,
-      [customization.id]: customization.childs == undefined ? [] : customization.childs,
+      [customization.id]:
+        customization.childs == undefined ? [] : customization.childs,
     };
 
     if (!newCustomizationGroupMappings[groupId]) {
@@ -140,7 +165,9 @@ export const createCustomizationAndGroupMapping = (customizations) => {
 
   const finalizedCustomizationGroupMappings = {};
   for (const groupId in newCustomizationGroupMappings) {
-    finalizedCustomizationGroupMappings[groupId] = Array.from(newCustomizationGroupMappings[groupId]);
+    finalizedCustomizationGroupMappings[groupId] = Array.from(
+      newCustomizationGroupMappings[groupId]
+    );
   }
 
   return {
@@ -170,7 +197,10 @@ export function findMinMaxSeq(customizationGroups) {
   return { minSeq, maxSeq };
 }
 
-export const findSelectedCustomizationForGroup = (group, childCustomizations) => {
+export const findSelectedCustomizationForGroup = (
+  group,
+  childCustomizations
+) => {
   if (!group.isMandatory) return [];
   let defaultCustomization = childCustomizations.filter(
     (customization) => customization.isDefault && customization.inStock
@@ -183,7 +213,11 @@ export const findSelectedCustomizationForGroup = (group, childCustomizations) =>
   }
 };
 
-export const initializeCustomizationState = async (customizationGroups, customizations, customization_state) => {
+export const initializeCustomizationState = async (
+  customizationGroups,
+  customizations,
+  customization_state
+) => {
   const mappings = createCustomizationAndGroupMapping(customizations);
   const customizationToGroupMap = mappings.customizationToGroupMap;
   const minSeq = findMinMaxSeq(customizationGroups).minSeq;
@@ -207,7 +241,9 @@ export const initializeCustomizationState = async (customizationGroups, customiz
       type: group.maxQuantity > 1 ? "Checkbox" : "Radio",
     };
 
-    const childCustomizations = customizations.filter((customization) => customization.parent === groupId);
+    const childCustomizations = customizations.filter(
+      (customization) => customization.parent === groupId
+    );
 
     customization_state[groupId].options = childCustomizations;
     customization_state[groupId].selected = findSelectedCustomizationForGroup(

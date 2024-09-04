@@ -160,26 +160,26 @@ const ProductDetails = ({ productId }) => {
     return customizations;
   };
 
-  function findMinMaxSeq(customizationGroups) {
-    if (!customizationGroups || customizationGroups.length === 0) {
-      return { minSeq: undefined, maxSeq: undefined };
-    }
+  // function findMinMaxSeq(customizationGroups) {
+  //   if (!customizationGroups || customizationGroups.length === 0) {
+  //     return { minSeq: undefined, maxSeq: undefined };
+  //   }
 
-    let minSeq = Infinity;
-    let maxSeq = -Infinity;
+  //   let minSeq = Infinity;
+  //   let maxSeq = -Infinity;
 
-    customizationGroups.forEach((group) => {
-      const seq = group.seq;
-      if (seq < minSeq) {
-        minSeq = seq;
-      }
-      if (seq > maxSeq) {
-        maxSeq = seq;
-      }
-    });
+  //   customizationGroups.forEach((group) => {
+  //     const seq = group.seq;
+  //     if (seq < minSeq) {
+  //       minSeq = seq;
+  //     }
+  //     if (seq > maxSeq) {
+  //       maxSeq = seq;
+  //     }
+  //   });
 
-    return { minSeq, maxSeq };
-  }
+  //   return { minSeq, maxSeq };
+  // }
 
   function areCustomisationsSame(existingIds, currentIds) {
     if (existingIds.length !== currentIds.length) {
@@ -615,7 +615,7 @@ const ProductDetails = ({ productId }) => {
   const deleteCartItem = async (itemId) => {
     const user = JSON.parse(getValueFromCookie("user"));
     const url = `/clientApis/v2/cart/${user.id}/${itemId}`;
-    const res = await deleteCall(url);
+    await deleteCall(url);
     fetchCartItems();
   };
 

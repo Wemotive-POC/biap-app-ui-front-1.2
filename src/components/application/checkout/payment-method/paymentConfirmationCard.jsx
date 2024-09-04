@@ -120,33 +120,33 @@ export default function PaymentConfirmationCard(props) {
 
   // JUSPAY SDK METHODS
   // CALLBACK HANDLER
-  function hyperCallbackHandler(event_data) {
-    try {
-      if (event_data) {
-        const eventJSON =
-          typeof event_data === "string" ? JSON.parse(event_data) : event_data;
-        const event = eventJSON.event;
-        // Check for event key
-        // eslint-disable-next-line
-        if (event == "initiate_result") {
-          setLoadingSdkForPayment(false);
-          processPayment();
-          // eslint-disable-next-line
-        } else if (event == "process_result") {
-          //Handle process result here
-          // eslint-disable-next-line
-        } else if (event == "user_event") {
-          //Handle Payment Page events
-        } else {
-          console.log("Unhandled event", event, " Event data", event_data);
-        }
-      } else {
-        console.log("No data received in event", event_data);
-      }
-    } catch (error) {
-      console.log("Error in hyperSDK response", error);
-    }
-  }
+  // function hyperCallbackHandler(event_data) {
+  //   try {
+  //     if (event_data) {
+  //       const eventJSON =
+  //         typeof event_data === "string" ? JSON.parse(event_data) : event_data;
+  //       const event = eventJSON.event;
+  //       // Check for event key
+  //       // eslint-disable-next-line
+  //       if (event == "initiate_result") {
+  //         setLoadingSdkForPayment(false);
+  //         processPayment();
+  //         // eslint-disable-next-line
+  //       } else if (event == "process_result") {
+  //         //Handle process result here
+  //         // eslint-disable-next-line
+  //       } else if (event == "user_event") {
+  //         //Handle Payment Page events
+  //       } else {
+  //         console.log("Unhandled event", event, " Event data", event_data);
+  //       }
+  //     } else {
+  //       console.log("No data received in event", event_data);
+  //     }
+  //   } catch (error) {
+  //     console.log("Error in hyperSDK response", error);
+  //   }
+  // }
 
   // INIT SDK METHOD
   // async function initiateSDK() {

@@ -8,11 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import Radio from "../../../common/Radio";
 
 import { AddressContext } from "../../../../context/addressContext";
-import useCancellablePromise from "../../../../api/cancelRequest";
 import { AddCookie, removeCookie } from "../../../../utils/cookies";
 import style from "./style";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import { ToastContext } from "../../../../context/toastContext";
 
 const SelectAddress = ({
   addresses,

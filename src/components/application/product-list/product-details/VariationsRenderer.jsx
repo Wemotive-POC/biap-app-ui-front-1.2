@@ -111,24 +111,24 @@ const VariationsRenderer = (props) => {
     setVariations(relatedItems);
   };
 
-  const findGroupJustBeforeLast = () => {
-    // Find the last group in variationGroups
-    const lastGroup = variationGroups[variationGroups.length - 1];
+  // const findGroupJustBeforeLast = () => {
+  //   // Find the last group in variationGroups
+  //   const lastGroup = variationGroups[variationGroups.length - 1];
 
-    // Iterate through variationState
-    for (const groupId in variationState) {
-      if (variationState.hasOwnProperty(groupId)) {
-        const group = variationState[groupId];
+  //   // Iterate through variationState
+  //   for (const groupId in variationState) {
+  //     if (variationState.hasOwnProperty(groupId)) {
+  //       const group = variationState[groupId];
 
-        // Check if the current group's ID is one less than the ID of the last group
-        if (group.id === lastGroup.seq - 1) {
-          return group; // This is the group just before the last group
-        }
-      }
-    }
+  //       // Check if the current group's ID is one less than the ID of the last group
+  //       if (group.id === lastGroup.seq - 1) {
+  //         return group; // This is the group just before the last group
+  //       }
+  //     }
+  //   }
 
-    return null; // If not found
-  };
+  //   return null; // If not found
+  // };
 
   const findMatchingVariation = () => {
     // Iterate through variations
