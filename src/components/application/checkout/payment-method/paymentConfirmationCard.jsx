@@ -37,18 +37,10 @@ export default function PaymentConfirmationCard(props) {
   } = props;
 
   // CONSTANTS
-  const token = getValueFromCookie("token");
   const user = JSON.parse(getValueFromCookie("user"));
-  const parent_order_id = getValueFromCookie("parent_order_id");
-  const billingAddress = JSON.parse(
-    getValueFromCookie("billing_address") || "{}"
-  );
   const parentOrderIDMap = new Map(
     JSON.parse(getValueFromCookie("parent_and_transaction_id_map"))
   );
-
-  // JUSPAY SDK
-  const hyperServiceObject = new window.HyperServices();
 
   // HISTORY
   const history = useHistory();
@@ -74,20 +66,20 @@ export default function PaymentConfirmationCard(props) {
   //   integrationType: "iframe",
   //   hyperSDKDiv: "sdk_frame", // Div ID to be used for rendering
   // });
-  const processPayload = useRef({
-    action: "paymentPage",
-    merchantId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
-    clientId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
-    orderId: "",
-    amount: "",
-    customerId: user.id,
-    customerEmail: "",
-    customerMobile: "",
-    orderDetails: "",
-    signature: "",
-    merchantKeyId: process.env.REACT_APP_MERCHANT_KEY_ID,
-    environment: process.env.REACT_APP_PAYMENT_SDK_ENV,
-  });
+  // const processPayload = useRef({
+  //   action: "paymentPage",
+  //   merchantId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
+  //   clientId: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
+  //   orderId: "",
+  //   amount: "",
+  //   customerId: user.id,
+  //   customerEmail: "",
+  //   customerMobile: "",
+  //   orderDetails: "",
+  //   signature: "",
+  //   merchantKeyId: process.env.REACT_APP_MERCHANT_KEY_ID,
+  //   environment: process.env.REACT_APP_PAYMENT_SDK_ENV,
+  // });
 
   // CONTEXT
   const { cartItems, setCartItems } = useContext(CartContext);
