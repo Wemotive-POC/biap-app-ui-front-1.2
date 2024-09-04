@@ -1,6 +1,5 @@
 import React, { Fragment, useRef, useEffect, useState } from "react";
 import style from "./style";
-import { useParams, useHistory } from "react-router-dom";
 
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
@@ -26,7 +25,6 @@ const CustomMenu = ({
 }) => {
   const classes = style();
   const customMenuRef = useRef([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [menuModal, setMenuModal] = useState(false);
   const [firstMenuItemId, setFirstMenuItemId] = useState("");
   const [firstMenuItemDetails, setFirstMenuItemDetails] = useState(null);
@@ -48,7 +46,7 @@ const CustomMenu = ({
         return singleCustomMenu;
       });
       customMenuRef.current = resData;
-      const firstMenuData = await getCustomMenuItems(resData[0].id);
+      await getCustomMenuItems(resData[0].id);
     } catch (err) {
       setBlockingCallLoading(false);
     }

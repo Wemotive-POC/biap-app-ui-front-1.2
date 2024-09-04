@@ -21,16 +21,9 @@ const MenuItem = (props) => {
   const classes = style();
   const {
     productPayload,
-    setProductPayload,
     product,
     productId,
     price,
-    bpp_id,
-    location_id,
-    bpp_provider_id,
-    bpp_provider_descriptor,
-    show_quantity_button = true,
-    onUpdateCart = () => {},
     handleAddToCart,
     setCustomizationModal,
     getProductDetails,
@@ -41,7 +34,6 @@ const MenuItem = (props) => {
 
   const {
     name: product_name,
-    images,
     short_desc: product_description,
     symbol,
   } = descriptor;
@@ -68,7 +60,7 @@ const MenuItem = (props) => {
     checkProductDisability(productPayload);
   }, [productPayload]);
 
-  const renderVegNonvegIcon = (isVeg) => {
+  const renderVegNonvegIcon = (is_veg) => {
     const tags = product.tags;
     let category = "veg";
 
@@ -92,10 +84,6 @@ const MenuItem = (props) => {
       );
     }
   };
-
-  let customGroupTag = productPayload.item_details.tags.find(
-    (item) => item.code === "custom_group"
-  );
 
   return (
     <Grid container spacing={3}>

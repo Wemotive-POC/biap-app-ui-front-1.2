@@ -16,11 +16,11 @@ const BrandRoutes = () => {
 
   useEffect(() => {
     if (locationData) {
-      const brandId = query.get("brandId");
-      const outletId = query.get("outletId");
+      const brand_Id = query.get("brandId");
+      const outlet_Id = query.get("outletId");
 
-      setBrandId(brandId);
-      setOutletId(outletId);
+      setBrandId(brand_Id);
+      setOutletId(outlet_Id);
     }
   }, [locationData]);
 

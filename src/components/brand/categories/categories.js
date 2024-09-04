@@ -28,15 +28,29 @@ const SingleCategory = ({ data, index }) => {
   const { name, images } = descriptor;
   const updateSearchParams = (cmId) => {
     const params = new URLSearchParams({ ["brandId"]: brandId, ["cm"]: cmId });
-    history.replace({ pathname: locationData.pathname, search: params.toString() });
+    history.replace({
+      pathname: locationData.pathname,
+      search: params.toString(),
+    });
   };
 
   return (
-    <div className={classes.categoryItem} onClick={() => updateSearchParams(id)}>
-      <div className={`${classes.categoryItemImageContainer} ${customMenuId === id ? classes.selectedCategory : ""}`}>
+    <div
+      className={classes.categoryItem}
+      onClick={() => updateSearchParams(id)}
+    >
+      <div
+        className={`${classes.categoryItemImageContainer} ${
+          customMenuId === id ? classes.selectedCategory : ""
+        }`}
+      >
         <img
           className={classes.categoryImage}
-          src={images && images.length > 0 && images[0] ? images[0] : no_image_found}
+          src={
+            images && images.length > 0 && images[0]
+              ? images[0]
+              : no_image_found
+          }
           alt={`sub-category-img-${index}`}
         />
       </div>
@@ -70,7 +84,9 @@ const CategoriesComponent = ({ brandDetails, brandId }) => {
   const getCustomMenu = async (domain) => {
     setIsLoading(true);
     try {
-      const data = await cancellablePromise(getBrandCustomMenuRequest(domain, brandId));
+      const data = await cancellablePromise(
+        getBrandCustomMenuRequest(domain, brandId)
+      );
       setSubCatList(data.data);
     } catch (err) {
     } finally {
@@ -86,7 +102,9 @@ const CategoriesComponent = ({ brandDetails, brandId }) => {
 
   useEffect(() => {
     if (customMenuId && subCatList.length > 0) {
-      const findsubCatIndex = subCatList.findIndex((item) => item.id === customMenuId);
+      const findsubCatIndex = subCatList.findIndex(
+        (item) => item.id === customMenuId
+      );
       setPage(findsubCatIndex);
     }
   }, [customMenuId, subCatList, locationData]);
@@ -100,15 +118,21 @@ const CategoriesComponent = ({ brandDetails, brandId }) => {
             count={subCatList.length}
             page={page}
             className={classes.categoriesContainer}
-            onChange={(event, page) => {
-              const subCat = subCatList[page];
+            onChange={(event, new_page) => {
+              const subCat = subCatList[new_page];
               const params = new URLSearchParams({});
               if (customMenuId) {
                 params.set("cm", subCat.id);
-                history.replace({ pathname: locationData.pathname, search: params.toString() });
+                history.replace({
+                  pathname: locationData.pathname,
+                  search: params.toString(),
+                });
               } else {
                 params.set("cm", subCat.id);
-                history.push({ pathname: locationData.pathname, search: params.toString() });
+                history.push({
+                  pathname: locationData.pathname,
+                  search: params.toString(),
+                });
               }
             }}
             boundaryCount={2}
@@ -127,10 +151,16 @@ const CategoriesComponent = ({ brandDetails, brandId }) => {
                       const params = new URLSearchParams({});
                       if (customMenuId) {
                         params.set("cm", subCat.id);
-                        history.replace({ pathname: locationData.pathname, search: params.toString() });
+                        history.replace({
+                          pathname: locationData.pathname,
+                          search: params.toString(),
+                        });
                       } else {
                         params.set("cm", subCat.id);
-                        history.push({ pathname: locationData.pathname, search: params.toString() });
+                        history.push({
+                          pathname: locationData.pathname,
+                          search: params.toString(),
+                        });
                       }
                     }}
                     disabled={subCatList.length === item.page}
@@ -148,10 +178,16 @@ const CategoriesComponent = ({ brandDetails, brandId }) => {
                       const params = new URLSearchParams({});
                       if (customMenuId) {
                         params.set("cm", subCat.id);
-                        history.replace({ pathname: locationData.pathname, search: params.toString() });
+                        history.replace({
+                          pathname: locationData.pathname,
+                          search: params.toString(),
+                        });
                       } else {
                         params.set("cm", subCat.id);
-                        history.push({ pathname: locationData.pathname, search: params.toString() });
+                        history.push({
+                          pathname: locationData.pathname,
+                          search: params.toString(),
+                        });
                       }
                     }}
                     disabled={item.page < 0}
