@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { search_types } from "../../../../constants/searchTypes";
 import { postCall, getCall } from "../../../../api/axios";
-import {
-  AddCookie,
-  removeCookie,
-  getValueFromCookie,
-} from "../../../../utils/cookies";
+import { AddCookie, getValueFromCookie } from "../../../../utils/cookies";
 import { debounce } from "../../../../utils/search";
 import Loading from "../../../shared/loading/loading";
 import { ONDC_COLORS } from "../../../shared/colors";
@@ -14,7 +10,6 @@ import styles from "../../../../styles/search-product-modal/searchProductModal.m
 import bannerStyles from "../../../../styles/products/productList.module.scss";
 import ErrorMessage from "../../../shared/error-message/errorMessage";
 import DropdownSvg from "../../../shared/svg/dropdonw";
-import CrossIcon from "../../../shared/svg/cross-icon";
 import MMI_LOGO from "../../../../assets/images/mmi_logo.svg";
 import LocationSvg from "../../../shared/svg/location";
 import Dropdown from "../../../shared/dropdown/dropdown";
@@ -58,12 +53,10 @@ export default function SearchBanner({ onSearch, location }) {
   const [fetchDeliveryAddressLoading, setFetchDeliveryAddressLoading] =
     useState();
   const [addressList, setAddressList] = useState([]);
-  const { deliveryAddress, setDeliveryAddress, setBillingAddress } =
-    useContext(AddressContext);
+  const { deliveryAddress, setDeliveryAddress } = useContext(AddressContext);
 
   // CONTEXT
   const dispatch = useContext(ToastContext);
-  const { setCartItems } = useContext(CartContext);
 
   // HOOKS
   const { cancellablePromise } = useCancellablePromise();
@@ -187,10 +180,10 @@ export default function SearchBanner({ onSearch, location }) {
           `${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_query?query=${query}`
         )
       );
-      const formattedLocations = data.map((location) => ({
-        place_id: location?.eLoc,
-        name: location?.placeName,
-        description: location?.placeAddress,
+      const formattedLocations = data.map((location_data) => ({
+        place_id: location_data?.eLoc,
+        name: location_data?.placeName,
+        description: location_data?.placeAddress,
       }));
       setLocations(formattedLocations);
     } catch (err) {
@@ -229,23 +222,23 @@ export default function SearchBanner({ onSearch, location }) {
   }
 
   // get the area code of the location selected
-  async function getAreadCodeFromLatLong(location) {
+  async function getAreadCodeFromLatLong(location_data) {
     try {
       const { data } = await cancellablePromise(
         axios.get(
-          `${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_latlong_info?lat=${location?.lat}&long=${location?.long}`
+          `${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_latlong_info?lat=${location_data?.lat}&long=${location_data?.long}`
         )
       );
       const { lat, lng, pincode, city, state } = data?.results?.[0];
       setSearchedLocation({
         ...searchedLocation,
-        name: location?.name,
+        name: location_data?.name,
         lat,
         lng,
         pincode,
         city,
         state,
-        tag: location?.tag,
+        tag: location_data?.tag,
       });
       setToggleLocationListCard(false);
     } catch (err) {
@@ -299,8 +292,8 @@ export default function SearchBanner({ onSearch, location }) {
       ...searchedLocation,
       name: searched_location,
     });
-    setInlineError((inlineError) => ({
-      ...inlineError,
+    setInlineError((inline_Error) => ({
+      ...inline_Error,
       location_error: "",
     }));
     setSearchLocationLoading(true);
@@ -356,14 +349,14 @@ export default function SearchBanner({ onSearch, location }) {
     // removeCookie("search_context");
   }
 
-  const loadingSpin = (
-    <div
-      className="d-flex align-items-center justify-content-center"
-      style={{ height: "100px" }}
-    >
-      <Loading backgroundColor={ONDC_COLORS.ACCENTCOLOR} />
-    </div>
-  );
+  // const loadingSpin = (
+  //   <div
+  //     className="d-flex align-items-center justify-content-center"
+  //     style={{ height: "100px" }}
+  //   >
+  //     <Loading backgroundColor={ONDC_COLORS.ACCENTCOLOR} />
+  //   </div>
+  // );
 
   return (
     <div
@@ -388,8 +381,8 @@ export default function SearchBanner({ onSearch, location }) {
                 {searchedLocation.tag
                   ? searchedLocation.tag
                   : searchedLocation.name
-                    ? searchedLocation.name
-                    : "Select your address"}
+                  ? searchedLocation.name
+                  : "Select your address"}
                 {(searchedLocation.tag || searchedLocation.name) && (
                   <>: {searchedLocation?.pincode}</>
                 )}
@@ -509,8 +502,8 @@ export default function SearchBanner({ onSearch, location }) {
                   }
                   body_classes="dropdown-menu-end dropdown-menu-lg-start"
                   click={(search_type) => {
-                    setSearch((search) => ({
-                      ...search,
+                    setSearch((search_data) => ({
+                      ...search_data,
                       type: search_type,
                       value: "",
                     }));
@@ -531,12 +524,12 @@ export default function SearchBanner({ onSearch, location }) {
                     onBlur={checkSearch}
                     onChange={(event) => {
                       const searchValue = event.target.value;
-                      setSearch((search) => ({
-                        ...search,
+                      setSearch((search_data) => ({
+                        ...search_data,
                         value: searchValue,
                       }));
-                      setInlineError((inlineError) => ({
-                        ...inlineError,
+                      setInlineError((inline_error) => ({
+                        ...inline_error,
                         search_error: "",
                       }));
                     }}
@@ -557,8 +550,8 @@ export default function SearchBanner({ onSearch, location }) {
                     disabled={searchProductLoading}
                     className={bannerStyles.secondary_action}
                     onClick={(e) => {
-                      setSearch((search) => ({
-                        ...search,
+                      setSearch((search_data) => ({
+                        ...search_data,
                         value: "",
                       }));
                       clearSearch(e);
