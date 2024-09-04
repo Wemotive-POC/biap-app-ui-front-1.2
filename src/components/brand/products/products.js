@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./style";
-import { Link, useLocation, useParams, useHistory } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -64,7 +64,7 @@ const Products = ({ brandDetails, brandId }) => {
   // HOOKS
   const { cancellablePromise } = useCancellablePromise();
 
-  const getAllProducts = async (brandId, customMenuId) => {
+  const getAllProducts = async (brand_Id, customMenuId) => {
     setIsLoading(true);
     try {
       let paginationData = Object.assign(
@@ -84,8 +84,8 @@ const Products = ({ brandDetails, brandId }) => {
       {});
       paginationData.searchData.pageNumber = paginationData.page;
       paginationData.searchData.limit = paginationData.pageSize;
-      if (brandId) {
-        paginationData.searchData.providerIds = brandId || "";
+      if (brand_Id) {
+        paginationData.searchData.providerIds = brand_Id || "";
       }
       if (customMenuId) {
         paginationData.searchData.customMenu = customMenuId || "";
@@ -257,40 +257,40 @@ const Products = ({ brandDetails, brandId }) => {
   };
 
   const handleAddToCart = async (
-    productPayload,
+    product_payload,
     isDefault = false,
-    navigate
+    navigate = false
   ) => {
     const user = JSON.parse(getValueFromCookie("user"));
     const url = `/clientApis/v2/cart/${user.id}`;
 
-    const subtotal = productPayload.item_details.price.value;
+    const subtotal = product_payload.item_details.price.value;
     const payload = {
-      id: productPayload.id,
-      local_id: productPayload.local_id,
-      bpp_id: productPayload.bpp_details.bpp_id,
-      bpp_uri: productPayload.context.bpp_uri,
-      domain: productPayload.context.domain,
+      id: product_payload.id,
+      local_id: product_payload.local_id,
+      bpp_id: product_payload.bpp_details.bpp_id,
+      bpp_uri: product_payload.context.bpp_uri,
+      domain: product_payload.context.domain,
       quantity: {
         count: 1,
       },
       provider: {
-        id: productPayload.bpp_details.bpp_id,
-        locations: productPayload.locations,
-        ...productPayload.provider_details,
+        id: product_payload.bpp_details.bpp_id,
+        locations: product_payload.locations,
+        ...product_payload.provider_details,
       },
       product: {
-        id: productPayload.id,
+        id: product_payload.id,
         subtotal,
-        ...productPayload.item_details,
+        ...product_payload.item_details,
       },
       customisations: [],
       hasCustomisations:
-        productPayload.hasOwnProperty("customisation_groups") &&
-        productPayload.customisation_groups.length > 0,
+        product_payload.hasOwnProperty("customisation_groups") &&
+        product_payload.customisation_groups.length > 0,
     };
 
-    const res = await postCall(url, payload);
+    await postCall(url, payload);
     if (navigate) {
       history.push("/application/cart");
     }
