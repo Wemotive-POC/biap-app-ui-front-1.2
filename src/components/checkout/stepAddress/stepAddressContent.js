@@ -94,17 +94,16 @@ const StepAddressContent = ({
   const transaction_id = localStorage.getItem("transaction_id");
   const responseRef = useRef([]);
   const eventTimeOutRef = useRef([]);
-  const [getQuoteLoading, setGetQuoteLoading] = useState(true);
-  const [errorMessageTimeOut, setErrorMessageTimeOut] = useState(
-    "Fetching details for this product"
-  );
-  const [toggleInit, setToggleInit] = useState(false);
-  const [eventData, setEventData] = useState([]);
+  // const [getQuoteLoading, setGetQuoteLoading] = useState(true);
+  // const [errorMessageTimeOut, setErrorMessageTimeOut] = useState(
+  //   "Fetching details for this product"
+  // );
+  // const [toggleInit, setToggleInit] = useState(false);
+  // const [eventData, setEventData] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const updatedCartItems = useRef([]);
 
-  const [initializeOrderLoading, setInitializeOrderLoading] = useState(false);
-  const latLongInfo = JSON.parse(Cookies.get("LatLongInfo") || "{}");
+  // const [initializeOrderLoading, setInitializeOrderLoading] = useState(false);
 
   useEffect(() => {
     if (cartItemsData) {
@@ -147,7 +146,7 @@ const StepAddressContent = ({
       );
       responseRef.current = [...responseRef.current, data[0]];
 
-      setEventData((eventData) => [...eventData, data[0]]);
+      // setEventData((eventData) => [...eventData, data[0]]);
 
       // onUpdateProduct(data[0].message.quote.items, data[0].message.quote.fulfillments);
       data[0].message.quote.items.forEach((item) => {
@@ -175,7 +174,7 @@ const StepAddressContent = ({
       setUpdateCartItemsData([...[], data[0]]);
     } catch (err) {
       dispatchToast(toast_types.error, err?.response?.data?.error?.message);
-      setGetQuoteLoading(false);
+      // setGetQuoteLoading(false);
     }
     // eslint-disable-next-line
   };
@@ -207,7 +206,7 @@ const StepAddressContent = ({
           clearTimeout(timer);
         });
         if (responseRef.current.length <= 0) {
-          setGetQuoteLoading(false);
+          // setGetQuoteLoading(false);
           dispatchToast(
             toast_types.error,
             "Cannot fetch details for this product"
@@ -222,9 +221,9 @@ const StepAddressContent = ({
             toast_types.error,
             "Cannot fetch details for some product those products will be ignored!"
           );
-          setErrorMessageTimeOut("Cannot fetch details for this product");
+          // setErrorMessageTimeOut("Cannot fetch details for this product");
         }
-        setToggleInit(true);
+        // setToggleInit(true);
       }, SSE_TIMEOUT);
 
       eventTimeOutRef.current = [
@@ -292,7 +291,7 @@ const StepAddressContent = ({
         );
         if (isNACK) {
           dispatchToast(toast_types.error, isNACK.error.message);
-          setGetQuoteLoading(false);
+          // setGetQuoteLoading(false);
         } else {
           // fetch through events
           onFetchQuote(
@@ -303,7 +302,7 @@ const StepAddressContent = ({
           );
         }
       } catch (err) {
-        setGetQuoteLoading(false);
+        // setGetQuoteLoading(false);
         history.replace("/application/products");
       }
     } else {

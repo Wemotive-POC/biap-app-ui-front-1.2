@@ -19,7 +19,6 @@ import Cookies from "js-cookie";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
 import { ToastContext } from "../../../context/toastContext";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
-import Razorpay from "../../common/Razorpay/Razorpay";
 import { getSelectedOffers } from "../util";
 
 const StepPaymentContent = ({
@@ -39,14 +38,12 @@ const StepPaymentContent = ({
 }) => {
   const classes = useStyles();
 
-  const { deliveryAddress, billingAddress, setBillingAddress } =
-    useContext(AddressContext);
+  const { deliveryAddress, billingAddress } = useContext(AddressContext);
 
   const transaction_id = localStorage.getItem("transaction_id");
-  const latLongInfo = JSON.parse(Cookies.get("LatLongInfo") || "{}");
 
   const [initializeOrderLoading, setInitializeOrderLoading] = useState(false);
-  const [eventData, setEventData] = useState([]);
+  // const [eventData, setEventData] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const updatedCartItems = useRef([]);
   const responseRef = useRef([]);
@@ -74,8 +71,6 @@ const StepPaymentContent = ({
     }
     if (updatedCartItemsData) {
       updatedCartItems.current = updatedCartItemsData;
-    }
-    if (cartItemsData && updatedCartItemsData) {
     }
   }, [cartItemsData, updatedCartItemsData]);
 
@@ -142,7 +137,7 @@ const StepPaymentContent = ({
         getCall(`/clientApis/v2/on_initialize_order?messageIds=${message_id}`)
       );
       responseRef.current = [...responseRef.current, data[0]];
-      setEventData((eventData) => [...eventData, data[0]]);
+      // setEventData((eventData) => [...eventData, data[0]]);
 
       let oldData = updatedCartItems.current;
       oldData[0].message.quote.quote = data[0].message.order.quote;
@@ -234,12 +229,11 @@ const StepPaymentContent = ({
               if (updatedCartItems.current) {
                 let findItemFromQuote =
                   updatedCartItems.current[0].message.quote.items.find(
-                    (data) => data.id === itemData.local_id
+                    (item) => item.id === itemData.local_id
                   );
                 if (findItemFromQuote) {
                   itemData.parent_item_id = findItemFromQuote.parent_item_id;
                 }
-              } else {
               }
               return itemData;
             });
@@ -298,11 +292,11 @@ const StepPaymentContent = ({
         updateInitLoading(false);
       } else {
         const parentTransactionIdMap = new Map();
-        data.map((data) => {
-          const provider_id = data?.context?.provider_id;
+        data.map((data_v) => {
+          const provider_id = data_v?.context?.provider_id;
           return parentTransactionIdMap.set(provider_id, {
-            parent_order_id: data?.context?.parent_order_id,
-            transaction_id: data?.context?.transaction_id,
+            parent_order_id: data_v?.context?.parent_order_id,
+            transaction_id: data_v?.context?.transaction_id,
           });
         });
         // store parent order id to cookies

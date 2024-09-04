@@ -14,13 +14,7 @@ import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
 import Loading from "../../shared/loading/loading";
 
 const StepCartContent = (props) => {
-  const {
-    isError,
-    handleNext,
-    cartItemsData,
-    updatedCartItemsData,
-    setUpdateCartItemsData,
-  } = props;
+  const { handleNext, updatedCartItemsData, setUpdateCartItemsData } = props;
 
   const classes = useStyles();
   const history = useHistory();
@@ -43,14 +37,14 @@ const StepCartContent = (props) => {
   const responseRef = useRef([]);
   const eventTimeOutRef = useRef([]);
   const [getQuoteLoading, setGetQuoteLoading] = useState(false);
-  const [errorMessageTimeOut, setErrorMessageTimeOut] = useState(
-    "Fetching details for this product"
-  );
-  const [toggleInit, setToggleInit] = useState(false);
-  const [eventData, setEventData] = useState([]);
+  // const [errorMessageTimeOut, setErrorMessageTimeOut] = useState(
+  //   "Fetching details for this product"
+  // );
+  // const [toggleInit, setToggleInit] = useState(false);
+  // const [eventData, setEventData] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const updatedCartItems = useRef([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [quoteError, setQuoteError] = useState(false);
 
   const getQuote = async (items, searchContextData = null) => {
@@ -175,11 +169,11 @@ const StepCartContent = (props) => {
             toast_types.error,
             "Cannot fetch details for some product those products will be ignored!"
           );
-          setErrorMessageTimeOut("Cannot fetch details for this product");
+          // setErrorMessageTimeOut("Cannot fetch details for this product");
           setGetQuoteLoading(false);
           setQuoteError(true);
         }
-        setToggleInit(true);
+        // setToggleInit(true);
       }, SSE_TIMEOUT);
 
       eventTimeOutRef.current = [
@@ -199,7 +193,7 @@ const StepCartContent = (props) => {
       );
       responseRef.current = [...responseRef.current, data[0]];
 
-      setEventData((eventData) => [...eventData, data[0]]);
+      // setEventData((eventData) => [...eventData, data[0]]);
 
       // onUpdateProduct(data[0].message.quote.items, data[0].message.quote.fulfillments);
       data[0].message.quote.items.forEach((item) => {

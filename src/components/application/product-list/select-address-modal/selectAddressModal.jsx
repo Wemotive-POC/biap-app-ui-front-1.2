@@ -22,9 +22,6 @@ export default function SelectAddressModal(props) {
   } = props;
   const { deliveryAddress, setDeliveryAddress, setBillingAddress } =
     useContext(AddressContext);
-  const dispatch = useContext(ToastContext);
-  // HOOKS
-  const { cancellablePromise } = useCancellablePromise();
 
   const onSetDeliveryAddress = (id, descriptor, address) => {
     // fetchLatLongFromEloc(address?.areaCode);
