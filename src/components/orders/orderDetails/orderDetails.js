@@ -26,7 +26,6 @@ import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 
 const OrderDetails = () => {
   const classes = useStyles();
-  const history = useHistory();
   const { orderId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
@@ -41,8 +40,8 @@ const OrderDetails = () => {
       getOrderDetails(true);
     }
   }, [orderId]);
-  const getOrderDetails = async (isLoading = true) => {
-    if (isLoading) {
+  const getOrderDetails = async (is_loading = true) => {
+    if (is_loading) {
       setIsLoading(true);
     }
     try {

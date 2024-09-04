@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import CrossIcon from "../../shared/svg/cross-icon";
 import { ONDC_COLORS } from "../../shared/colors";
 // import Button from "../../shared/button/button";
-import { buttonTypes } from "../../shared/button/utils";
 import styles from "../../../styles/search-product-modal/searchProductModal.module.scss";
 import productCartStyles from "../../../styles/products/productCard.module.scss";
 import cancelRadioStyles from "../../../styles/cart/cartView.module.scss";
@@ -35,11 +34,8 @@ export default function CancelOrderModal(props) {
     quantity,
     domain,
     bpp_uri,
-    handleFetchUpdatedStatus,
     onUpdateOrder,
   } = props;
-
-  console.log(partailsCancelProductList);
 
   // CONSTANTS
   const CANCEL_ORDER_TYPES = {
@@ -538,9 +534,9 @@ export default function CancelOrderModal(props) {
                                   "Price Not Available"}
                               </Typography>
                               {Object.keys(product?.customizations || {}).map(
-                                (key, idx) => {
+                                (key, idj) => {
                                   const isLastItem =
-                                    idx ===
+                                    idj ===
                                     Object.keys(product.customizations || {})
                                       .length -
                                       1;

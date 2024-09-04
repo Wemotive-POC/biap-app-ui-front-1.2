@@ -12,7 +12,6 @@ const OfferCard = (props) => {
     id,
     title,
     offerText,
-    link,
     brandImage,
     isDisplayOnStorePage,
     isDisplayOnCartPage,

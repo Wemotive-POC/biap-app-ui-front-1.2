@@ -18,16 +18,13 @@ const OrderCard = ({ data, orderDetails }) => {
   const history = useHistory();
   const { provider, items, createdAt, quote, state } = orderDetails;
   const { descriptor } = provider;
-  const renderItemsName = (quoteBreakup, items) => {
+  const renderItemsName = (quoteBreakup, items_data) => {
     const filterItems = quoteBreakup.filter(
       (item) => item["@ondc/org/title_type"] === "item"
     );
     return (
       <>
         {filterItems.map((item, itemIndex) => {
-          const findItem = items.find(
-            (prod) => prod.id === item["@ondc/org/item_id"]
-          );
           const findVegNonvegTag = undefined; //findItem?.product?.tags.find((tag) => tag.code === "veg_nonveg");
           let isVeg = false;
           if (findVegNonvegTag) {
@@ -40,7 +37,6 @@ const OrderCard = ({ data, orderDetails }) => {
             } else {
               isVeg = false;
             }
-          } else {
           }
           return (
             <span key={`veg-nonveg-${itemIndex}`}>

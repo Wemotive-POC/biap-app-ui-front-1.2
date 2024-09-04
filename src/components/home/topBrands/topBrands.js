@@ -52,7 +52,7 @@ const BrandCard = ({ data, index, onMouseOver }) => {
 
 const TopBrands = () => {
   const classes = useStyles();
-  const [activeBrandIndex, setActiveBrandIndex] = useState(1);
+  // const [activeBrandIndex, setActiveBrandIndex] = useState(1);
   const [brands, setBrands] = useState([]);
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -181,7 +181,7 @@ const TopBrands = () => {
                     index={brandIndex}
                     // isActive={brandIndex === activeBrandIndex}
                     onMouseOver={() => {
-                      setActiveBrandIndex(brandIndex);
+                      // setActiveBrandIndex(brandIndex);
                     }}
                   />
                 ))}
