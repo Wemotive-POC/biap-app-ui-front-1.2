@@ -1,10 +1,9 @@
 import React from "react";
 import useStyles from "./style";
 
-import { isLoggedIn, getUser } from "../../../utils/validateToken";
+import { getUser } from "../../../utils/validateToken";
 
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -35,15 +34,6 @@ const StepFulfillmentContent = ({
   setSelectedFulfillment,
 }) => {
   const classes = useStyles();
-  const user = getUser();
-  const stringAvatar = (name) => {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-    };
-  };
 
   const should_allow_fulfillment_selection = () => {
     // by default is different fulfillments are selected for diff items, we don't allow fulfillment selection
@@ -70,13 +60,13 @@ const StepFulfillmentContent = ({
         defaultValue={Object.values(selectedFulfillment)[0]}
       >
         {fulfillments?.map((fulfillment) => {
-          let deliveryTime = fulfillment["@ondc/org/TAT"];
+          // let deliveryTime = fulfillment["@ondc/org/TAT"];
           // Create a duration object from the ISO 8601 string
           const duration = moment.duration(fulfillment["@ondc/org/TAT"]);
 
           // Get the number of hours from the duration object
           const hours = duration.humanize();
-          deliveryTime = `${hours}`;
+          let deliveryTime = `${hours}`;
           return (
             <div className={classes.fulfillment} key={fulfillment.id}>
               <FormControlLabel
@@ -91,7 +81,7 @@ const StepFulfillmentContent = ({
     );
   };
 
-  const renderSelectedFulfillments = () => { };
+  const renderSelectedFulfillments = () => {};
 
   return (
     <Grid container spacing={3}>

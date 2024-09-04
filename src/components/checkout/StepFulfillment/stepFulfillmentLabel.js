@@ -3,7 +3,6 @@ import useStyles from "./style";
 
 import Typography from "@mui/material/Typography";
 
-import { getUser, isLoggedIn } from "../../../utils/validateToken";
 import moment from "moment";
 
 const StepFulfillmentLabel = ({
@@ -24,20 +23,20 @@ const StepFulfillmentLabel = ({
 
   const renderCommonFulfillment = () => {
     const fulfillment = fulfillments.find(
-      (fulfillment) => fulfillment.id === Object.values(selectedFulfillments)[0]
+      (fulfillment_data) =>
+        fulfillment_data.id === Object.values(selectedFulfillments)[0]
     );
-    if(fulfillment){
-      let deliveryTime = fulfillment["@ondc/org/TAT"];
+    if (fulfillment) {
+      // let deliveryTime = fulfillment["@ondc/org/TAT"];
       // Create a duration object from the ISO 8601 string
       const duration = moment.duration(fulfillment["@ondc/org/TAT"]);
       // Get the number of hours from the duration object
       const hours = duration.humanize();
-      deliveryTime = `${hours}`;
+      let deliveryTime = `${hours}`;
       return `${fulfillment["@ondc/org/category"]} - Delivery in ${deliveryTime}`;
-    }else{
-      return ''
+    } else {
+      return "";
     }
-
   };
 
   const renderAllFulfillments = () => {
@@ -45,13 +44,14 @@ const StepFulfillmentLabel = ({
       <div>
         {products.map((product) => {
           const fulfillment = fulfillments.find(
-            (fulfillment) => fulfillment.id === selectedFulfillments[product.id]
+            (fulfillment_data) =>
+              fulfillment_data.id === selectedFulfillments[product.id]
           );
           let deliveryTime = "";
           let category = "";
-          if(fulfillment){
-            category=fulfillment["@ondc/org/category"]
-            deliveryTime = fulfillment["@ondc/org/TAT"];
+          if (fulfillment) {
+            category = fulfillment["@ondc/org/category"];
+            // deliveryTime = fulfillment["@ondc/org/TAT"];
             // Create a duration object from the ISO 8601 string
             const duration = moment.duration(fulfillment["@ondc/org/TAT"]);
 
