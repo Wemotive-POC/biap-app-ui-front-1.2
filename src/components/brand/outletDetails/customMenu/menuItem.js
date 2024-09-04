@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-import ItemImage from "../../../../assets/images/item.png";
 import VegIcon from "../../../../assets/images/veg.svg";
 import NonVegIcon from "../../../../assets/images/nonveg.svg";
 import { ReactComponent as CustomiseIcon } from "../../../../assets/images/customise.svg";

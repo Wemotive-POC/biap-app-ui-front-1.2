@@ -1,6 +1,5 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./style";
-import { useParams, useHistory } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -140,9 +139,8 @@ const MenuItems = (props) => {
     let group = customization_state_data[groupId];
     if (!group) return;
 
-    let customizations = group.selected.map((s) =>
-      selectedCustomizationIds.push(s.id)
-    );
+    group.selected.map((s) => selectedCustomizationIds.push(s.id));
+
     group?.childs?.map((child) => {
       getCustomization_(child, customization_state_data);
     });
