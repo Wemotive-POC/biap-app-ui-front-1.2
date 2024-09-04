@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from "./style";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
@@ -22,7 +22,11 @@ const SingleBrand = ({ data, onMouseOver }) => {
   };
 
   return (
-    <div className={classes.brandItemContainer} onMouseOver={onMouseOver} onClick={() => redirectBasedOnDomain()}>
+    <div
+      className={classes.brandItemContainer}
+      onMouseOver={onMouseOver}
+      onClick={() => redirectBasedOnDomain()}
+    >
       <Card className={classes.brandCard}>
         <img
           className={classes.brandImage}
@@ -30,7 +34,11 @@ const SingleBrand = ({ data, onMouseOver }) => {
           alt={`sub-cat-img-${data.value}`}
         />
       </Card>
-      <Typography component="div" variant="body" className={classes.brandNameTypo}>
+      <Typography
+        component="div"
+        variant="body"
+        className={classes.brandNameTypo}
+      >
         {brand_name || ""}
       </Typography>
     </div>

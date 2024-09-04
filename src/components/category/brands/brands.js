@@ -12,15 +12,10 @@ import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 import { useLocation } from "react-router-dom";
 import { categoryList } from "../../../constants/categories";
 import SingleBrand from "./singleBrand";
-import { AddressContext } from "../../../context/addressContext";
 import { getValueFromCookie } from "../../../utils/cookies";
 
 import Loading from "../../shared/loading/loading";
 import { SearchContext } from "../../../context/searchContext";
-import Button from "../../shared/button/button";
-import { Box, IconButton } from "@mui/material";
-import { ReactComponent as PreviousIcon } from "../../../assets/images/previous.svg";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Brands = () => {
   const observerTarget = useRef(null);

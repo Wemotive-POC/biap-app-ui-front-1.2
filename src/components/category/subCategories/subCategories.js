@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import useStyles from "./style";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -13,8 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Card from "@mui/material/Card";
 import no_image_found from "../../../assets/images/no_image_found.png";
 
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import IconButton from "@mui/material/IconButton";
 import { ReactComponent as PreviousIcon } from "../../../assets/images/previous.svg";
 import { ReactComponent as NextIcon } from "../../../assets/images/next.svg";
@@ -27,7 +25,7 @@ import { getAllOffersRequest } from "../../../api/offer.api";
 import useCancellablePromise from "../../../api/cancelRequest";
 
 import Offers from "../../common/Offers/Offers";
-import { AddCookie, getValueFromCookie } from "../../../utils/cookies";
+import { getValueFromCookie } from "../../../utils/cookies";
 
 const SubCaregoryCard = ({ data, onMouseOver, isActive = false }) => {
   const classes = useStyles();

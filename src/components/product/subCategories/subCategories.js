@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import useStyles from "./style";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { PRODUCT_SUBCATEGORY } from "../../../constants/categories";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import IconButton from "@mui/material/IconButton";
 import { ReactComponent as PreviousIcon } from "../../../assets/images/previous.svg";
 import { ReactComponent as NextIcon } from "../../../assets/images/next.svg";
@@ -25,17 +23,28 @@ const SingleCategory = ({ data, index }) => {
   const categoryName = query.get("c");
   const subCategoryName = query.get("sc");
   const updateSearchParams = () => {
-    const params = new URLSearchParams({ ["c"]: categoryName, ["sc"]: data.value });
-    history.replace({ pathname: locationData.pathname, search: params.toString() });
+    const params = new URLSearchParams({
+      ["c"]: categoryName,
+      ["sc"]: data.value,
+    });
+    history.replace({
+      pathname: locationData.pathname,
+      search: params.toString(),
+    });
   };
 
   return (
     <div className={classes.categoryItem} onClick={() => updateSearchParams()}>
       <div
-        className={`${classes.categoryItemImageContainer} ${subCategoryName === data.value ? classes.selectedCategory : ""
-          }`}
+        className={`${classes.categoryItemImageContainer} ${
+          subCategoryName === data.value ? classes.selectedCategory : ""
+        }`}
       >
-        <img className={classes.categoryImage} src={data.imageUrl} alt={`sub-category-img-${index}`} />
+        <img
+          className={classes.categoryImage}
+          src={data.imageUrl}
+          alt={`sub-category-img-${index}`}
+        />
       </div>
       <Typography variant="body1" className={classes.categoryNameTypo}>
         {data.value}
@@ -79,12 +88,28 @@ const CategoriesComponent = () => {
   return (
     <Grid container spacing={3} className={classes.categoriesRootContainer}>
       <Grid item xs={12} sm={12} md={1.5} lg={1.5} xl={1.5}></Grid>
-      <Grid item xs={12} sm={12} md={9} lg={9} xl={9} className={classes.subCatContainer}>
-        <div style={{ marginLeft: 'auto', marginTop: 'auto', marginBottom: 'auto' }} className={classes.previousIconContainer}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={9}
+        lg={9}
+        xl={9}
+        className={classes.subCatContainer}
+      >
+        <div
+          style={{
+            marginLeft: "auto",
+            marginTop: "auto",
+            marginBottom: "auto",
+          }}
+          className={classes.previousIconContainer}
+        >
           <IconButton
-            color="inherit" className={classes.actionButton}
+            color="inherit"
+            className={classes.actionButton}
             onClick={() => {
-              setPage(page - 1)
+              setPage(page - 1);
               // setActiveSubCatIndex(activeSubCatIndex-1)
             }}
             disabled={page === 0}
@@ -102,17 +127,25 @@ const CategoriesComponent = () => {
               if (categoryName) {
                 params.set("c", categoryName);
               }
-              history.replace({ pathname: locationData.pathname, search: params.toString() });
+              history.replace({
+                pathname: locationData.pathname,
+                search: params.toString(),
+              });
             }}
           >
             <AllIcon />
-            <Typography variant="body1" color="primary" className={classes.allNameTypo}>
+            <Typography
+              variant="body1"
+              color="primary"
+              className={classes.allNameTypo}
+            >
               All Options
             </Typography>
           </div>
         </div>
-        {
-          subCatList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((subCat, subCatIndex) => (
+        {subCatList
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((subCat, subCatIndex) => (
             // <SubCaregoryCard
             //   key={`sub-cat-index-${subCatIndex}`}
             //   data={subCat}
@@ -122,16 +155,22 @@ const CategoriesComponent = () => {
             //   }}
             // />
             <SingleCategory data={subCat} index={subCatIndex} />
-          ))
-        }
-        <div style={{ marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto' }}>
+          ))}
+        <div
+          style={{
+            marginRight: "auto",
+            marginTop: "auto",
+            marginBottom: "auto",
+          }}
+        >
           <IconButton
-            color="inherit" className={classes.actionButton}
+            color="inherit"
+            className={classes.actionButton}
             onClick={() => {
-              setPage(page + 1)
+              setPage(page + 1);
               // setActiveSubCatIndex(activeSubCatIndex+1)
             }}
-            disabled={page === (totalPageCount - 1)}
+            disabled={page === totalPageCount - 1}
           >
             <NextIcon />
           </IconButton>
