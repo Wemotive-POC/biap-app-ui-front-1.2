@@ -7,7 +7,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import MuiLink from "@mui/material/Link";
 import Loading from "../../shared/loading/loading";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SingleOutlet from "./singleOutlet";
 
 import { getAllOutletsRequest } from "../../../api/brand.api";
@@ -21,7 +21,7 @@ const Outlets = ({ brandDetails, brandId }) => {
   const { locationData: deliveryAddressLocation } = useContext(SearchContext);
 
   const { descriptor } = brandDetails;
-  const { name: brandName, images, symbol } = descriptor;
+  const { name: brandName, symbol } = descriptor;
 
   const [isLoading, setIsLoading] = useState(false);
   const [outlets, setOutlets] = useState([]);
@@ -37,7 +37,9 @@ const Outlets = ({ brandDetails, brandId }) => {
         lat: sc.location.lat,
         lng: sc.location.lng,
       };
-      const data = await cancellablePromise(getAllOutletsRequest(brandId, reqParams));
+      const data = await cancellablePromise(
+        getAllOutletsRequest(brandId, reqParams)
+      );
       setOutlets(data.data);
     } catch (err) {
     } finally {
@@ -54,10 +56,17 @@ const Outlets = ({ brandDetails, brandId }) => {
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <div role="presentation">
           <Breadcrumbs aria-label="breadcrumb">
-            <MuiLink component={Link} underline="hover" color="inherit" to="/application/products">
+            <MuiLink
+              component={Link}
+              underline="hover"
+              color="inherit"
+              to="/application/products"
+            >
               Home
             </MuiLink>
-            {brandId && <Typography color="text.primary">{brandName}</Typography>}
+            {brandId && (
+              <Typography color="text.primary">{brandName}</Typography>
+            )}
           </Breadcrumbs>
         </div>
       </Grid>
@@ -77,7 +86,15 @@ const Outlets = ({ brandDetails, brandId }) => {
               {outlets.length > 0 ? (
                 <>
                   {outlets.map((outlet, ind) => (
-                    <Grid key={`outlet-item-${ind}`} item xs={12} sm={12} md={3} lg={3} xl={3}>
+                    <Grid
+                      key={`outlet-item-${ind}`}
+                      item
+                      xs={12}
+                      sm={12}
+                      md={3}
+                      lg={3}
+                      xl={3}
+                    >
                       <SingleOutlet
                         brandId={brandId}
                         outletDetails={outlet}

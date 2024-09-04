@@ -10,13 +10,12 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import moment from "moment";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import no_image_found from "../../../assets/images/no_image_found.png";
 
 import CustomMenu from "./customMenu/customMenu";
-import PlacePickerMap from "../../common/PlacePickerMap/PlacePickerMap";
 import ViewOnlyMap from "../../common/ViewOnlyMap/ViewOnlyMap";
-import { AddCookie, getValueFromCookie } from "../../../utils/cookies";
+import { getValueFromCookie } from "../../../utils/cookies";
 
 import {
   getBrandDetailsRequest,
@@ -34,7 +33,6 @@ import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 const OutletDetails = (props) => {
   const { brandId, outletId } = props;
   const classes = style();
-  const history = useHistory();
   const { locationData: deliveryAddressLocation } = useContext(SearchContext);
 
   const [brandDetails, setBrandDetails] = useState(null);

@@ -3,26 +3,34 @@ import useStyles from "./style";
 
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const SingleOutlet = ({ outletDetails, brandImageUrl, brandId }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { id, address, circle } = outletDetails;
-  const { radius } = circle;
+  const { id, address } = outletDetails;
 
   return (
     <div
       className={classes.outletItemContainer}
-      onClick={() => history.push(`/application/brand?brandId=${brandId}&outletId=${id}`)}
+      onClick={() =>
+        history.push(`/application/brand?brandId=${brandId}&outletId=${id}`)
+      }
     >
       <Card className={classes.outletCard}>
-        <img className={classes.outletImage} src={brandImageUrl} alt={`outlet-img-${outletDetails.id}`} />
+        <img
+          className={classes.outletImage}
+          src={brandImageUrl}
+          alt={`outlet-img-${outletDetails.id}`}
+        />
       </Card>
-      <Typography component="div" variant="body" className={classes.outletNameTypo}>
+      <Typography
+        component="div"
+        variant="body"
+        className={classes.outletNameTypo}
+      >
         {`${address.street}, ${address.city}`}
       </Typography>
       {/*<Box*/}
