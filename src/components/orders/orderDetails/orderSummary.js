@@ -56,7 +56,7 @@ const OrderSummary = ({
   const [allNonCancellable, setAllNonCancellable] = useState(false);
   const [statusLoading, setStatusLoading] = useState(false);
   const [isIssueRaised, setIsIssueRaised] = useState(false);
-  const [orderIssueId, setOrderIssueId] = useState("");
+  // const [orderIssueId, setOrderIssueId] = useState("");
   const [issueLoading, setIssueLoading] = useState(false);
   const [toggleIssueModal, setToggleIssueModal] = useState(false);
 
@@ -137,14 +137,14 @@ const OrderSummary = ({
           let uuid = 0;
           const breakup = orderDetails.updatedQuote.breakup;
           const all_items = breakup?.map((break_up_item) => {
-            const items = Object.assign(
+            const order_details_items = Object.assign(
               [],
               JSON.parse(JSON.stringify(orderDetails.items))
             );
-            const itemIndex = items.findIndex(
+            const itemIndex = order_details_items.findIndex(
               (one) => one.id === break_up_item["@ondc/org/item_id"]
             );
-            const item = itemIndex > -1 ? items[itemIndex] : null;
+            const item = itemIndex > -1 ? order_details_items[itemIndex] : null;
             let itemQuantity = item ? item?.quantity?.count : 0;
             let quantity = break_up_item["@ondc/org/item_quantity"]
               ? break_up_item["@ondc/org/item_quantity"]["count"]
@@ -157,7 +157,7 @@ const OrderSummary = ({
                 quantityMessage = "Out of stock";
 
                 if (itemIndex > -1) {
-                  items.splice(itemIndex, 1);
+                  order_details_items.splice(itemIndex, 1);
                 }
               }
             } else if (quantity !== itemQuantity) {
@@ -202,7 +202,7 @@ const OrderSummary = ({
           let valid_fulfullment_ids = orderDetails?.items.map(
             (item) => item.fulfillment_id
           );
-          let selected_fulfillment_id = orderDetails?.items[0]?.fulfillment_id;
+
           all_items.forEach((item) => {
             setQuoteItemInProcessing(item.id);
             // for type item
@@ -349,9 +349,7 @@ const OrderSummary = ({
               };
             }
             if (item.title_type === "discount") {
-              if (item.isCustomization) {
-                let id = item.parent_item_id;
-              } else {
+              if (!item.isCustomization) {
                 let id = item.id;
                 items[id]["discount"] = {
                   title: item.title,
@@ -387,7 +385,6 @@ const OrderSummary = ({
 
             // for order level offer
             if (item.isOffer && item.offer?.type === "order") {
-              let key = item.id;
               let offer = {
                 title: item.offer?.name,
                 value: item.price,
@@ -424,8 +421,8 @@ const OrderSummary = ({
 
   useEffect(() => {
     if (orderDetails && itemQuotes) {
-      const productsList = generateProductsList(orderDetails, itemQuotes);
-      setProductsList(productsList);
+      const products_list = generateProductsList(orderDetails, itemQuotes);
+      setProductsList(products_list);
     }
   }, [orderDetails, itemQuotes]);
 
@@ -455,7 +452,7 @@ const OrderSummary = ({
       if (issueExistance) {
         setIssueLoading(false);
         setIsIssueRaised(true);
-        setOrderIssueId(issue.issueId);
+        // setOrderIssueId(issue.issueId);
       } else {
         setIssueLoading(false);
       }
@@ -469,10 +466,10 @@ const OrderSummary = ({
     return !products.some((obj) => obj["@ondc/org/cancellable"]);
   };
 
-  function generateProductsList(orderDetails, itemQuotes) {
-    return orderDetails?.items
+  function generateProductsList(order_details, item_quotes) {
+    return order_details?.items
       ?.map(({ id, parent_item_id }, index) => {
-        let findQuote = orderDetails.updatedQuote?.breakup.find((item) => {
+        let findQuote = order_details.updatedQuote?.breakup.find((item) => {
           if (item.item?.parent_item_id) {
             return (
               item["@ondc/org/item_id"] === id &&
@@ -488,7 +485,9 @@ const OrderSummary = ({
         });
         if (findQuote) {
           if (findQuote?.item?.tags) {
-            const tag = findQuote.item.tags.find((tag) => tag.code === "type");
+            const tag = findQuote.item.tags.find(
+              (tag_data) => tag_data.code === "type"
+            );
             const tagList = tag?.list;
             const type = tagList?.find((item) => item.code === "type");
             if (type?.value === "item") {
@@ -496,24 +495,24 @@ const OrderSummary = ({
               let customizations = null;
               if (parentId) {
                 customizations =
-                  itemQuotes && itemQuotes[parentId]?.customizations;
-              } else {
+                  item_quotes && item_quotes[parentId]?.customizations;
               }
               return {
                 id,
                 name: findQuote?.title ?? "NA",
                 cancellation_status:
-                  orderDetails.items?.[index]?.cancellation_status ?? "",
-                return_status: orderDetails.items?.[index]?.return_status ?? "",
-                fulfillment_id: orderDetails.items?.[index]?.fulfillment_id,
+                  order_details.items?.[index]?.cancellation_status ?? "",
+                return_status:
+                  order_details.items?.[index]?.return_status ?? "",
+                fulfillment_id: order_details.items?.[index]?.fulfillment_id,
                 fulfillment_status:
-                  orderDetails.items?.[index]?.fulfillment_status ?? "",
+                  order_details.items?.[index]?.fulfillment_status ?? "",
                 customizations: customizations ?? null,
-                ...orderDetails.items?.[index]?.product,
+                ...order_details.items?.[index]?.product,
                 parent_item_id: parentId,
-                provider_details: orderDetails.provider,
+                provider_details: order_details.provider,
                 quantityForReturn:
-                  itemQuotes[parentId || findQuote["@ondc/org/item_id"]]
+                  item_quotes[parentId || findQuote["@ondc/org/item_id"]]
                     .quantity,
               };
             }
@@ -523,22 +522,23 @@ const OrderSummary = ({
               id,
               name: findQuote?.title ?? "NA",
               cancellation_status:
-                orderDetails.items?.[index]?.cancellation_status ?? "",
-              return_status: orderDetails.items?.[index]?.return_status ?? "",
+                order_details.items?.[index]?.cancellation_status ?? "",
+              return_status: order_details.items?.[index]?.return_status ?? "",
               fulfillment_status:
-                orderDetails.items?.[index]?.fulfillment_status ?? "",
+                order_details.items?.[index]?.fulfillment_status ?? "",
               customizations: null,
-              ...orderDetails.items?.[index]?.product,
+              ...order_details.items?.[index]?.product,
               parent_item_id: parentId,
-              provider_details: orderDetails.provider,
+              provider_details: order_details.provider,
               quantityForReturn:
-                itemQuotes[parentId || findQuote["@ondc/org/item_id"]]
+                item_quotes[parentId || findQuote["@ondc/org/item_id"]]
                   ?.quantity,
             };
           }
-        } else {
-          findQuote = orderDetails.updatedQuote?.breakup[index];
         }
+        //  else {
+        //   findQuote = order_details.updatedQuote?.breakup[index];
+        // }
         return null;
       })
       .filter((item) => item !== null && item.quantityForReturn > 0);
@@ -567,37 +567,37 @@ const OrderSummary = ({
     dispatchError(msg);
   };
 
-  const getSubTotal = (quote) => {
-    let subtotal = 0;
-    quote.forEach((item) => {
-      subtotal += parseFloat(item?.price?.value);
-    });
-    return subtotal;
-  };
+  // const getSubTotal = (quote) => {
+  //   let subtotal = 0;
+  //   quote.forEach((item) => {
+  //     subtotal += parseFloat(item?.price?.value);
+  //   });
+  //   return subtotal;
+  // };
 
-  const getItemsWithCustomizations = () => {
-    const breakup = orderDetails?.updatedQuote?.breakup;
-    let returnBreakup = [];
-    const filterItems = breakup.filter(
-      (item) => item["@ondc/org/title_type"] === "item"
-    );
-    const filterCustomizations = breakup.filter(
-      (item) => item["@ondc/org/title_type"] === "customization"
-    );
-    filterItems.forEach((item) => {
-      const itemId = item["@ondc/org/item_id"];
-      const filterCustomizationItems = filterCustomizations.filter(
-        (cust) => cust.item.parent_item_id === itemId
-      );
-      returnBreakup.push(item);
-      if (filterCustomizationItems.length > 0) {
-        filterCustomizationItems.forEach((custItem) => {
-          returnBreakup.push(custItem);
-        });
-      }
-    });
-    return returnBreakup;
-  };
+  // const getItemsWithCustomizations = () => {
+  //   const breakup = orderDetails?.updatedQuote?.breakup;
+  //   let returnBreakup = [];
+  //   const filterItems = breakup.filter(
+  //     (item) => item["@ondc/org/title_type"] === "item"
+  //   );
+  //   const filterCustomizations = breakup.filter(
+  //     (item) => item["@ondc/org/title_type"] === "customization"
+  //   );
+  //   filterItems.forEach((item) => {
+  //     const itemId = item["@ondc/org/item_id"];
+  //     const filterCustomizationItems = filterCustomizations.filter(
+  //       (cust) => cust.item.parent_item_id === itemId
+  //     );
+  //     returnBreakup.push(item);
+  //     if (filterCustomizationItems.length > 0) {
+  //       filterCustomizationItems.forEach((custItem) => {
+  //         returnBreakup.push(custItem);
+  //       });
+  //     }
+  //   });
+  //   return returnBreakup;
+  // };
 
   const renderItems = () => {
     return (
@@ -1280,7 +1280,7 @@ const OrderSummary = ({
         onUpdateTrakingDetails(null);
         setTrackOrderLoading(false);
         dispatchToast(
-          "Tracking information is not provided by the provider.",
+          "Tracking information is not provided by the provider",
           toast_types.error
         );
         return;
