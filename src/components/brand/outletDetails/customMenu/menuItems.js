@@ -4,7 +4,6 @@ import { useParams, useHistory } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Fab from "@mui/material/Fab";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -18,7 +17,6 @@ import ModalComponent from "../../../common/Modal";
 import Loading from "../../../shared/loading/loading";
 
 import useCancellablePromise from "../../../../api/cancelRequest";
-import { ReactComponent as MenuIcon } from "../../../../assets/images/menu.svg";
 import { getCustomMenuItemsRequest } from "../../../../api/brand.api";
 
 import CustomizationRenderer from "../../../application/product-list/product-details/CustomizationRenderer";
@@ -41,17 +39,13 @@ const MenuItems = (props) => {
   const {
     customMenu,
     updateItemsOfCustomMenuRef,
-    firstMenuItemId,
     firstMenuItemDetails = null,
     isStoreDelivering,
   } = props;
   const classes = style();
-  const history = useHistory();
-  const { brandId, outletId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
-  const [menuModal, setMenuModal] = useState(false);
 
   const [customizationModal, setCustomizationModal] = useState(false);
   const [productPayload, setProductPayload] = useState(null);
@@ -63,7 +57,6 @@ const MenuItems = (props) => {
 
   const [customizationPrices, setCustomizationPrices] = useState(0);
   const [itemOutOfStock, setItemOutOfStock] = useState(false);
-  const [addToCartLoading, setAddToCartLoading] = useState(false);
 
   // HOOKS
   const { cancellablePromise } = useCancellablePromise();
@@ -128,8 +121,8 @@ const MenuItems = (props) => {
     }
   };
 
-  const calculateSubtotal = (groupId, customization_state) => {
-    let group = customization_state[groupId];
+  const calculateSubtotal = (groupId, customization_state_data) => {
+    let group = customization_state_data[groupId];
     if (!group) return;
 
     let prices = group.selected.map((s) => s.price);
@@ -138,31 +131,34 @@ const MenuItems = (props) => {
     });
 
     group?.childs?.map((child) => {
-      calculateSubtotal(child, customization_state);
+      calculateSubtotal(child, customization_state_data);
     });
   };
 
   let selectedCustomizationIds = [];
-  const getCustomization_ = (groupId, customization_state) => {
-    let group = customization_state[groupId];
+  const getCustomization_ = (groupId, customization_state_data) => {
+    let group = customization_state_data[groupId];
     if (!group) return;
 
     let customizations = group.selected.map((s) =>
       selectedCustomizationIds.push(s.id)
     );
     group?.childs?.map((child) => {
-      getCustomization_(child, customization_state);
+      getCustomization_(child, customization_state_data);
     });
   };
 
-  const getCustomizations = async (productPayload, customization_state) => {
-    const { customisation_items } = productPayload;
+  const getCustomizations = async (
+    product_payload,
+    customization_state_data
+  ) => {
+    const { customisation_items } = product_payload;
     const customizations = [];
 
-    const firstGroupId = customization_state["firstGroup"]?.id;
+    const firstGroupId = customization_state_data["firstGroup"]?.id;
     if (!firstGroupId) return;
 
-    getCustomization_(firstGroupId, customization_state);
+    getCustomization_(firstGroupId, customization_state_data);
 
     for (const cId of selectedCustomizationIds) {
       let c = customisation_items.find((item) => item.local_id === cId);
@@ -179,11 +175,11 @@ const MenuItems = (props) => {
     return customizations;
   };
 
-  const addToCart = async (productPayload, isDefault = false) => {
-    setProductLoading(productPayload.id);
+  const addToCart = async (product_payload, isDefault = false) => {
+    setProductLoading(product_payload.id);
     const user = JSON.parse(getValueFromCookie("user"));
     const url = `/clientApis/v2/cart/${user.id}`;
-    const hasCustomisations = hasCustomizations(productPayload) ? true : false;
+    const hasCustomisations = hasCustomizations(product_payload) ? true : false;
 
     let groups = [];
     let cus = [];
@@ -193,9 +189,9 @@ const MenuItems = (props) => {
 
     if (hasCustomisations) {
       groups = await formatCustomizationGroups(
-        productPayload.customisation_groups
+        product_payload.customisation_groups
       );
-      cus = await formatCustomizations(productPayload.customisation_items);
+      cus = await formatCustomizations(product_payload.customisation_items);
       newState = await initializeCustomizationState(
         groups,
         cus,
@@ -203,36 +199,36 @@ const MenuItems = (props) => {
       );
       customizationState = isDefault ? newState : customization_state;
       customisations = await getCustomizations(
-        productPayload,
+        product_payload,
         customizationState
       );
     }
 
     calculateSubtotal(customizationState["firstGroup"]?.id, customizationState);
     const subtotal =
-      productPayload?.item_details?.price?.value + customizationPrices;
+      product_payload?.item_details?.price?.value + customizationPrices;
 
     const payload = {
-      id: productPayload.id,
-      local_id: productPayload.local_id,
-      bpp_id: productPayload.bpp_details.bpp_id,
-      bpp_uri: productPayload.context.bpp_uri,
-      domain: productPayload.context.domain,
-      tags: productPayload.item_details.tags,
+      id: product_payload.id,
+      local_id: product_payload.local_id,
+      bpp_id: product_payload.bpp_details.bpp_id,
+      bpp_uri: product_payload.context.bpp_uri,
+      domain: product_payload.context.domain,
+      tags: product_payload.item_details.tags,
       customisationState: customizationState,
-      contextCity: productPayload.context.city,
+      contextCity: product_payload.context.city,
       quantity: {
         count: itemQty,
       },
       provider: {
-        id: productPayload.bpp_details.bpp_id,
-        locations: productPayload.locations,
-        ...productPayload.provider_details,
+        id: product_payload.bpp_details.bpp_id,
+        locations: product_payload.locations,
+        ...product_payload.provider_details,
       },
       product: {
-        id: productPayload.id,
+        id: product_payload.id,
         subtotal,
-        ...productPayload.item_details,
+        ...product_payload.item_details,
       },
       customisations,
       hasCustomisations,
@@ -253,7 +249,7 @@ const MenuItems = (props) => {
     }
 
     if (cartItem.length === 0) {
-      const res = await postCall(url, payload);
+      await postCall(url, payload);
       fetchCartItems();
       setCustomizationState({});
       setCustomizationModal(false);
@@ -287,7 +283,6 @@ const MenuItems = (props) => {
           setCustomizationModal(false);
           setProductLoading(false);
         } else {
-          console.log(3.2);
           const currentIds = customisations.map((item) => item.id);
           let matchingCustomisation = null;
 
@@ -302,7 +297,6 @@ const MenuItems = (props) => {
           }
 
           if (matchingCustomisation) {
-            console.log(4);
             updateCartItem(cartItems, true, matchingCustomisation._id);
             dispatch({
               type: toast_actions.ADD_TOAST,
@@ -316,8 +310,7 @@ const MenuItems = (props) => {
             setCustomizationModal(false);
             setProductLoading(false);
           } else {
-            console.log(5);
-            const res = await postCall(url, payload);
+            await postCall(url, payload);
             setCustomizationState({});
             setCustomizationModal(false);
             setProductLoading(false);
