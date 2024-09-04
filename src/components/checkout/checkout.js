@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useContext,
-} from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import useStyles from "./style";
 
 import Grid from "@mui/material/Grid";
@@ -51,7 +45,6 @@ const Checkout = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { billingAddress } = useContext(AddressContext);
   const steps = ["Cart", "Customer", "Fulfillment", "Add Address", "Payment"];
   const [activeStep, setActiveStep] = useState(0);
   const [cartItems, setCartItems] = useState([]);
@@ -184,10 +177,8 @@ const Checkout = () => {
                   );
                   if (findCust) {
                     isCustimization = true;
-                  } else {
                   }
                 }
-              } else {
               }
               cartItems.forEach((ci) => {
                 if (isCustimization) {
@@ -228,7 +219,7 @@ const Checkout = () => {
                   }
                 }
               } else if (
-                !(break_up_item["@ondc/org/title_type"] === "offer") &&
+                break_up_item["@ondc/org/title_type"] !== "offer" &&
                 quantity !== cartQuantity
               ) {
                 textClass =
@@ -247,7 +238,6 @@ const Checkout = () => {
 
               if (error && error.code === "30009") {
                 cartList.splice(cartIndex, 1);
-              } else {
               }
               // if (error && error.code === "40002") {
               // } else {
@@ -285,112 +275,124 @@ const Checkout = () => {
             let selected_fulfillments = selectedFulfillments;
 
             if (Object.keys(selectedFulfillments).length === 0) {
-              updatedCartItems[0]?.message?.quote.items.forEach((item) => {
-                selected_fulfillments[item.id] = item.fulfillment_id;
+              updatedCartItems[0]?.message?.quote.items.forEach((item_data) => {
+                selected_fulfillments[item_data.id] = item_data.fulfillment_id;
               });
               setSelectedFulfillments(selected_fulfillments);
-            } else {
             }
 
             let selected_fulfillment_ids = Object.values(selected_fulfillments);
 
-            all_items.forEach((item) => {
-              errorCode = item.errorCode;
-              setQuoteItemInProcessing(item.id);
-              if (item.isError) {
-                outOfStock.push(item);
+            all_items.forEach((item_data) => {
+              errorCode = item_data.errorCode;
+              setQuoteItemInProcessing(item_data.id);
+              if (item_data.isError) {
+                outOfStock.push(item_data);
                 isAnyError = true;
               }
               // for type item
-              if (item.title_type === "item" && !item.isCustomization) {
-                let key = item.parent_item_id || item.id;
+              if (
+                item_data.title_type === "item" &&
+                !item_data.isCustomization
+              ) {
+                let key = item_data.parent_item_id || item_data.id;
                 let price = {
-                  title: item.quantity + " * Base Price",
-                  value: item.price,
+                  title: item_data.quantity + " * Base Price",
+                  value: item_data.price,
                 };
                 let prev_item_data = items[key];
-                let addition_item_data = { title: item.title, price: price };
+                let addition_item_data = {
+                  title: item_data.title,
+                  price: price,
+                };
                 items[key] = { ...prev_item_data, ...addition_item_data };
               }
               if (
-                item.title_type === "tax" &&
-                !item.isCustomization &&
-                !item.isFulfillment &&
-                !selected_fulfillment_ids.includes(item.id)
+                item_data.title_type === "tax" &&
+                !item_data.isCustomization &&
+                !item_data.isFulfillment &&
+                !selected_fulfillment_ids.includes(item_data.id)
                 // item.id !== selected_fulfillments
               ) {
-                let key = item.parent_item_id || item.id;
+                let key = item_data.parent_item_id || item_data.id;
                 items[key] = items[key] || {};
                 items[key]["tax"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
               if (
-                item.title_type === "discount" &&
-                !item.isCustomization &&
-                !item.isFulfillment
+                item_data.title_type === "discount" &&
+                !item_data.isCustomization &&
+                !item_data.isFulfillment
               ) {
-                let key = item.parent_item_id || item.id;
+                let key = item_data.parent_item_id || item_data.id;
                 items[key] = items[key] || {};
                 items[key]["discount"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
 
               //for customizations
-              if (item.title_type === "item" && item.isCustomization) {
-                let key = item.parent_item_id;
+              if (
+                item_data.title_type === "item" &&
+                item_data.isCustomization
+              ) {
+                let key = item_data.parent_item_id;
                 items[key]["customizations"] =
                   items[key]["customizations"] || {};
-                let existing_data = items[key]["customizations"][item.id] || {};
+                let existing_data =
+                  items[key]["customizations"][item_data.id] || {};
                 let customisation_details = {
-                  title: item.title,
+                  title: item_data.title,
                   price: {
-                    title: item.quantity + " * Base Price",
-                    value: item.price,
+                    title: item_data.quantity + " * Base Price",
+                    value: item_data.price,
                   },
-                  quantityMessage: item.quantityMessage,
-                  textClass: item.textClass,
-                  quantity: item.quantity,
-                  cartQuantity: item.cartQuantity,
+                  quantityMessage: item_data.quantityMessage,
+                  textClass: item_data.textClass,
+                  quantity: item_data.quantity,
+                  cartQuantity: item_data.cartQuantity,
                 };
-                items[key]["customizations"][item.id] = {
+                items[key]["customizations"][item_data.id] = {
                   ...existing_data,
                   ...customisation_details,
                 };
               }
-              if (item.title_type === "tax" && item.isCustomization) {
-                let key = item.parent_item_id;
+              if (item_data.title_type === "tax" && item_data.isCustomization) {
+                let key = item_data.parent_item_id;
                 items[key]["customizations"] =
                   items[key]["customizations"] || {};
-                items[key]["customizations"][item.id] =
-                  items[key]["customizations"][item.id] || {};
-                items[key]["customizations"][item.id]["tax"] = {
-                  title: item.title,
-                  value: item.price,
+                items[key]["customizations"][item_data.id] =
+                  items[key]["customizations"][item_data.id] || {};
+                items[key]["customizations"][item_data.id]["tax"] = {
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
-              if (item.title_type === "discount" && item.isCustomization) {
-                let key = item.parent_item_id;
+              if (
+                item_data.title_type === "discount" &&
+                item_data.isCustomization
+              ) {
+                let key = item_data.parent_item_id;
                 items[key]["customizations"] =
                   items[key]["customizations"] || {};
-                items[key]["customizations"][item.id] =
-                  items[key]["customizations"][item.id] || {};
-                items[key]["customizations"][item.id]["discount"] = {
-                  title: item.title,
-                  value: item.price,
+                items[key]["customizations"][item_data.id] =
+                  items[key]["customizations"][item_data.id] || {};
+                items[key]["customizations"][item_data.id]["discount"] = {
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
 
               // for item level offer
-              if (item.isOffer && item.offer?.type === "item") {
-                let key = item.id;
+              if (item_data.isOffer && item_data.offer?.type === "item") {
+                let key = item_data.id;
                 items[key] = items[key] || {};
                 let offer = {
-                  title: item.offer?.name,
-                  value: item.price,
+                  title: item_data.offer?.name,
+                  value: item_data.price,
                 };
                 const existing_offers = items[key]["offers"] || [];
                 items[key]["offers"] = [...existing_offers, offer];
@@ -398,86 +400,84 @@ const Checkout = () => {
 
               //for delivery
               if (
-                item.title_type === "delivery" &&
-                selected_fulfillment_ids.includes(item.id)
+                item_data.title_type === "delivery" &&
+                selected_fulfillment_ids.includes(item_data.id)
                 // item.id === selected_fulfillments
               ) {
                 delivery["delivery"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
               if (
-                (item.title_type === "discount_f" ||
-                  item.title_type === "discount") &&
-                item.isFulfillment
+                (item_data.title_type === "discount_f" ||
+                  item_data.title_type === "discount") &&
+                item_data.isFulfillment
               ) {
                 delivery["discount"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
               if (
-                (item.title_type === "tax_f" || item.title_type === "tax") &&
-                selected_fulfillment_ids.includes(item.id)
+                (item_data.title_type === "tax_f" ||
+                  item_data.title_type === "tax") &&
+                selected_fulfillment_ids.includes(item_data.id)
                 // item.id === selected_fulfillments
               ) {
                 delivery["tax"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
               if (
-                item.title_type === "packing" &&
-                selected_fulfillment_ids.includes(item.id)
+                item_data.title_type === "packing" &&
+                selected_fulfillment_ids.includes(item_data.id)
                 // item.id === selected_fulfillments
               ) {
                 delivery["packing"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
-              if (item.title_type === "discount") {
-                if (item.isCustomization) {
-                  let id = item.parent_item_id;
-                } else {
-                  let id = item.id;
+              if (item_data.title_type === "discount") {
+                if (!item_data.isCustomization) {
+                  let id = item_data.id;
                   items[id]["discount"] = {
-                    title: item.title,
-                    value: item.price,
+                    title: item_data.title,
+                    value: item_data.price,
                   };
                 }
               }
               if (
-                item.title_type === "misc" &&
-                selected_fulfillment_ids.includes(item.id)
+                item_data.title_type === "misc" &&
+                selected_fulfillment_ids.includes(item_data.id)
                 // item.id === selected_fulfillments
               ) {
                 delivery["misc"] = {
-                  title: item.title,
-                  value: item.price,
+                  title: item_data.title,
+                  value: item_data.price,
                 };
               }
               // for fulfillment level offer
               if (
-                item.isOffer &&
-                item.offer?.type === "fulfillment" &&
-                selected_fulfillment_ids.includes(item.id)
+                item_data.isOffer &&
+                item_data.offer?.type === "fulfillment" &&
+                selected_fulfillment_ids.includes(item_data.id)
               ) {
                 let offer = {
-                  title: item.offer?.name,
-                  value: item.price,
+                  title: item_data.offer?.name,
+                  value: item_data.price,
                 };
                 const existing_offers = delivery["offers"] || [];
                 delivery["offers"] = [...existing_offers, offer];
               }
 
               // for order level offer
-              if (item.isOffer && item.offer?.type === "order") {
-                let key = item.id;
+              if (item_data.isOffer && item_data.offer?.type === "order") {
                 let offer = {
-                  title: item.offer?.name,
-                  value: item.price,
+                  title: item_data.offer?.name,
+                  value: item_data.price,
                 };
                 offers.push(offer);
               }
@@ -826,7 +826,7 @@ const Checkout = () => {
         getCall(`clientApis/v2/on_confirm_order?messageIds=${message_id}`)
       );
       responseRef.current = [...responseRef.current, data[0]];
-      setEventData((eventData) => [...eventData, data[0]]);
+      setEventData((event_data) => [...event_data, data[0]]);
       fetchCartItems();
     } catch (err) {
       dispatchError(err?.response?.data?.error?.message);
@@ -945,7 +945,9 @@ const Checkout = () => {
       // const isNACK = data.find(
       //   (item) => item.error && item.message.ack.status === "NACK"
       // );
-      const isNACK = data.find((item) => item.error && item.code !== "");
+      const isNACK = data.find(
+        (item_data) => item_data.error && item_data.code !== ""
+      );
       if (isNACK) {
         dispatchError(isNACK.error.message);
         setConfirmOrderLoading(false);
@@ -1025,7 +1027,9 @@ const Checkout = () => {
       // const isNACK = data.find(
       //   (item) => item.error && item.message.ack.status === "NACK"
       // );
-      const isNACK = data.find((item) => item.error && item.code !== "");
+      const isNACK = data.find(
+        (item_data) => item_data.error && item_data.code !== ""
+      );
       if (isNACK) {
         dispatchError(isNACK.error.message);
         setConfirmOrderLoading(false);
@@ -1539,7 +1543,7 @@ const Checkout = () => {
                 activeStep !== 4
               }
               onClick={() => {
-                const { productQuotes, successOrderIds } = JSON.parse(
+                const { successOrderIds } = JSON.parse(
                   localStorage.getItem("checkout_details") || "{}"
                 );
                 setConfirmOrderLoading(true);
