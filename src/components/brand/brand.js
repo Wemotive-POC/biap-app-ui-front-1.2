@@ -7,14 +7,14 @@ import Outlets from "./outlets/outlets";
 
 import { getBrandDetailsRequest } from "../../api/brand.api";
 import useCancellablePromise from "../../api/cancelRequest";
-import { useParams } from "react-router-dom";
 
 import Loading from "../shared/loading/loading";
 const Brand = ({ brandId }) => {
   const classes = useStyles();
 
   const [brandDetails, setBrandDetails] = useState(null);
-  const [brandIsFromFAndBCategory, setBrandIsFromFAndBCategory] = useState(false);
+  const [brandIsFromFAndBCategory, setBrandIsFromFAndBCategory] =
+    useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // HOOKS

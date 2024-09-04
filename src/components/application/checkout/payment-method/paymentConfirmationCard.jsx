@@ -198,66 +198,66 @@ export default function PaymentConfirmationCard(props) {
   // }
 
   // PROCESS SDK METHOD
-  async function processPayment() {
-    try {
-      if (!hyperServiceObject.isInitialised()) {
-        alert("not initiated");
-      }
-      const processPayloadObj = {
-        merchant_id: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
-        customer_id: user.id,
-        order_id: parent_order_id,
-        customer_phone: billingAddress?.phone,
-        customer_email: billingAddress?.email,
-        amount:
-          process.env.REACT_APP_PAYMENT_SDK_ENV === "sandbox"
-            ? 9
-            : productsQuote.total_payable,
-        timestamp: String(new Date().getTime()),
-        return_url: String(window.location.href),
-      };
-      const { data } = await cancellablePromise(
-        axios.post(
-          `${process.env.REACT_APP_BASE_URL}clientApis/payment/signPayload`,
-          {
-            payload: JSON.stringify(processPayloadObj),
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      );
-      processPayload.current = {
-        ...processPayload.current,
-        customerEmail: billingAddress?.email,
-        customerMobile: billingAddress?.phone,
-        orderId: parent_order_id,
-        orderDetails: JSON.stringify(processPayloadObj),
-        signature: data.signedPayload,
-        amount:
-          process.env.REACT_APP_PAYMENT_SDK_ENV === "sandbox"
-            ? 9
-            : productsQuote.total_payable,
-      };
-      hyperServiceObject.process(
-        {
-          service: "in.juspay.hyperpay",
-          requestId: parent_order_id,
-          payload: processPayload.current,
-        },
-        () => {}
-      );
-    } catch (err) {
-      dispatch({
-        type: toast_actions.ADD_TOAST,
-        payload: {
-          id: Math.floor(Math.random() * 100),
-          type: toast_types.error,
-          message: "Something went wrong!",
-        },
-      });
-    }
-  }
+  // async function processPayment() {
+  //   try {
+  //     if (!hyperServiceObject.isInitialised()) {
+  //       alert("not initiated");
+  //     }
+  //     const processPayloadObj = {
+  //       merchant_id: process.env.REACT_APP_JUSTPAY_CLIENT_AND_MERCHANT_KEY,
+  //       customer_id: user.id,
+  //       order_id: parent_order_id,
+  //       customer_phone: billingAddress?.phone,
+  //       customer_email: billingAddress?.email,
+  //       amount:
+  //         process.env.REACT_APP_PAYMENT_SDK_ENV === "sandbox"
+  //           ? 9
+  //           : productsQuote.total_payable,
+  //       timestamp: String(new Date().getTime()),
+  //       return_url: String(window.location.href),
+  //     };
+  //     const { data } = await cancellablePromise(
+  //       axios.post(
+  //         `${process.env.REACT_APP_BASE_URL}clientApis/payment/signPayload`,
+  //         {
+  //           payload: JSON.stringify(processPayloadObj),
+  //         },
+  //         {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }
+  //       )
+  //     );
+  //     processPayload.current = {
+  //       ...processPayload.current,
+  //       customerEmail: billingAddress?.email,
+  //       customerMobile: billingAddress?.phone,
+  //       orderId: parent_order_id,
+  //       orderDetails: JSON.stringify(processPayloadObj),
+  //       signature: data.signedPayload,
+  //       amount:
+  //         process.env.REACT_APP_PAYMENT_SDK_ENV === "sandbox"
+  //           ? 9
+  //           : productsQuote.total_payable,
+  //     };
+  //     hyperServiceObject.process(
+  //       {
+  //         service: "in.juspay.hyperpay",
+  //         requestId: parent_order_id,
+  //         payload: processPayload.current,
+  //       },
+  //       () => {}
+  //     );
+  //   } catch (err) {
+  //     dispatch({
+  //       type: toast_actions.ADD_TOAST,
+  //       payload: {
+  //         id: Math.floor(Math.random() * 100),
+  //         type: toast_types.error,
+  //         message: "Something went wrong!",
+  //       },
+  //     });
+  //   }
+  // }
 
   // use this function to confirm the order
   function onConfirm(message_id) {

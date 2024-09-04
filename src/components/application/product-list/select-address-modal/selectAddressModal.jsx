@@ -40,39 +40,39 @@ export default function SelectAddressModal(props) {
   };
 
   // use this function to fetch lat and long from eloc
-  async function fetchLatLongFromEloc(eloc) {
-    try {
-      const { data } = await cancellablePromise(
-        axios.get(
-          `${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_place_info?eloc=${eloc}`
-        )
-      );
-      const { latitude, longitude } = data;
-      if (latitude && longitude) {
-        AddCookie("LatLongInfo", JSON.stringify({ latitude, longitude }));
-      } else {
-        dispatch({
-          type: toast_actions.ADD_TOAST,
-          payload: {
-            id: Math.floor(Math.random() * 100),
-            type: toast_types.error,
-            message:
-              "Cannot get latitude and longitude info for this pincode Please update the Address",
-          },
-        });
-        setDeliveryAddress({});
-      }
-    } catch (err) {
-      dispatch({
-        type: toast_actions.ADD_TOAST,
-        payload: {
-          id: Math.floor(Math.random() * 100),
-          type: toast_types.error,
-          message: err?.message,
-        },
-      });
-    }
-  }
+  // async function fetchLatLongFromEloc(eloc) {
+  //   try {
+  //     const { data } = await cancellablePromise(
+  //       axios.get(
+  //         `${process.env.REACT_APP_MMI_BASE_URL}mmi/api/mmi_place_info?eloc=${eloc}`
+  //       )
+  //     );
+  //     const { latitude, longitude } = data;
+  //     if (latitude && longitude) {
+  //       AddCookie("LatLongInfo", JSON.stringify({ latitude, longitude }));
+  //     } else {
+  //       dispatch({
+  //         type: toast_actions.ADD_TOAST,
+  //         payload: {
+  //           id: Math.floor(Math.random() * 100),
+  //           type: toast_types.error,
+  //           message:
+  //             "Cannot get latitude and longitude info for this pincode Please update the Address",
+  //         },
+  //       });
+  //       setDeliveryAddress({});
+  //     }
+  //   } catch (err) {
+  //     dispatch({
+  //       type: toast_actions.ADD_TOAST,
+  //       payload: {
+  //         id: Math.floor(Math.random() * 100),
+  //         type: toast_types.error,
+  //         message: err?.message,
+  //       },
+  //     });
+  //   }
+  // }
 
   return (
     <div className={styles.overlay}>
@@ -148,10 +148,11 @@ export default function SelectAddressModal(props) {
                         >
                           <div className="px-3">
                             <p className={cartStyles.address_name_and_phone}>
-                              {`${address.tag
-                                ? address.tag + " (" + descriptor?.name + ")"
-                                : descriptor?.name
-                                } `}
+                              {`${
+                                address.tag
+                                  ? address.tag + " (" + descriptor?.name + ")"
+                                  : descriptor?.name
+                              } `}
                             </p>
                             <p className={`${cartStyles.address_line_2} pb-2`}>
                               {descriptor?.email} - {descriptor?.phone}
