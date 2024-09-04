@@ -43,8 +43,8 @@ export default function Login() {
   // use this function to check the email
   function checkEmail() {
     if (!email) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         email_error: "Email cannot be empty",
       }));
       return false;
@@ -54,14 +54,14 @@ export default function Login() {
 
   function checkPassword() {
     if (!password) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         password_error: "Password cannot be empty",
       }));
       return false;
     } else if (password && password.length < 8) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         password_error: "Password cannot be less than 8 characters",
       }));
       return false;
@@ -139,8 +139,8 @@ export default function Login() {
           has_error={inlineError.email_error}
           onChange={(event) => {
             setEmail(event.target.value);
-            setInlineError((inlineError) => ({
-              ...inlineError,
+            setInlineError((inline_error) => ({
+              ...inline_error,
               email_error: "",
             }));
           }}
@@ -160,8 +160,8 @@ export default function Login() {
           has_error={inlineError.password_error}
           onChange={(event) => {
             setPassword(event.target.value);
-            setInlineError((inlineError) => ({
-              ...inlineError,
+            setInlineError((inline_error) => ({
+              ...inline_error,
               password_error: "",
             }));
           }}

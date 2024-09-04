@@ -56,7 +56,8 @@ export default function PaymentConfirmationCard(props) {
   // STATES
   const [confirmOrderLoading, setConfirmOrderLoading] = useState(false);
   const [togglePaymentGateway, setTogglePaymentGateway] = useState(false);
-  const [loadingSdkForPayment, setLoadingSdkForPayment] = useState(false);
+  // const [loadingSdkForPayment, setLoadingSdkForPayment] = useState(false);
+  const loadingSdkForPayment = false;
   const [eventData, setEventData] = useState([]);
 
   //REFS

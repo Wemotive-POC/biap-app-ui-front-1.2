@@ -43,8 +43,8 @@ export default function SignUp() {
   // use this function to check the name
   function checkName() {
     if (!name) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         name_error: "Full Name cannot be empty",
       }));
       return false;
@@ -55,8 +55,8 @@ export default function SignUp() {
   // use this function to check the email
   function checkEmail() {
     if (!email) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         email_error: "Email cannot be empty",
       }));
       return false;
@@ -66,14 +66,14 @@ export default function SignUp() {
 
   function checkPassword() {
     if (!password) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         password_error: "Password cannot be empty",
       }));
       return false;
     } else if (password && password.length < 8) {
-      setInlineError((inlineError) => ({
-        ...inlineError,
+      setInlineError((inline_error) => ({
+        ...inline_error,
         password_error: "Password cannot be less than 8 characters",
       }));
       return false;
@@ -167,9 +167,9 @@ export default function SignUp() {
           autoComplete="off"
           has_error={inlineError.name_error}
           onChange={(event) => {
-            setName((event.target.value).trim());
-            setInlineError((inlineError) => ({
-              ...inlineError,
+            setName(event.target.value.trim());
+            setInlineError((inline_error) => ({
+              ...inline_error,
               name_error: "",
             }));
           }}
@@ -189,8 +189,8 @@ export default function SignUp() {
           has_error={inlineError.email_error}
           onChange={(event) => {
             setEmail(event.target.value);
-            setInlineError((inlineError) => ({
-              ...inlineError,
+            setInlineError((inline_error) => ({
+              ...inline_error,
               email_error: "",
             }));
           }}
@@ -210,8 +210,8 @@ export default function SignUp() {
           has_error={inlineError.password_error}
           onChange={(event) => {
             setPassword(event.target.value);
-            setInlineError((inlineError) => ({
-              ...inlineError,
+            setInlineError((inline_error) => ({
+              ...inline_error,
               password_error: "",
             }));
           }}
@@ -243,7 +243,16 @@ export default function SignUp() {
             button_type={buttonTypes.primary}
             button_hover_type={buttonTypes.primary_hover}
             // button_text="Sign up with google"
-            button_text={<><img src={Google_Logo} alt="logo" style={{ height: "20px", marginRight: "10px" }} /> Sign up with google</>}
+            button_text={
+              <>
+                <img
+                  src={Google_Logo}
+                  alt="logo"
+                  style={{ height: "20px", marginRight: "10px" }}
+                />{" "}
+                Sign up with google
+              </>
+            }
             onClick={handleSignUpWithGoogle}
           />
         </div>
