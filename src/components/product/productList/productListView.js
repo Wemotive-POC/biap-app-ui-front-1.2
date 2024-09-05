@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from "./style";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -17,20 +17,14 @@ const ProductListView = (props) => {
     productId,
     price,
     bpp_id,
-    location_id,
-    bpp_provider_id,
     bpp_provider_descriptor,
-    show_quantity_button = true,
-    onUpdateCart = () => {},
     handleAddToCart = () => {},
     getProductDetails,
-    productLoading,
   } = props;
-  const { id, descriptor, provider_details } = product;
+  const { descriptor } = product;
   const { name: provider_name } = bpp_provider_descriptor;
   const {
     name: product_name,
-    images,
     short_desc: product_description,
     symbol,
   } = descriptor;
