@@ -1,7 +1,7 @@
 import React from "react";
 import { ONDC_COLORS } from "../colors";
 
-export default function DropdownSvg(props) {
+export default function Dropdonw(props) {
   const {
     width = "18",
     height = "11",

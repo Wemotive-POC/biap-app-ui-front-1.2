@@ -13,7 +13,7 @@ import useCancellablePromise from "../../../../api/cancelRequest";
 import { getCall, postCall } from "../../../../api/axios";
 import Checkbox from "../../../shared/checkbox/checkbox";
 import Dropdown from "../../../shared/dropdown/dropdown";
-import DropdownSvg from "../../../shared/svg/dropdonw";
+import Dropdonw from "../../../shared/svg/dropdonw";
 import { ISSUE_TYPES } from "../../../../constants/issue-types";
 import Input from "../../../shared/input/input";
 import validator from "validator";
@@ -557,7 +557,7 @@ export default function IssueOrderModal({
                     </p>
                   </div>
                   <div className="px-2 ms-auto">
-                    <DropdownSvg
+                    <Dropdonw
                       width="15"
                       height="10"
                       color={ONDC_COLORS.ACCENTCOLOR}

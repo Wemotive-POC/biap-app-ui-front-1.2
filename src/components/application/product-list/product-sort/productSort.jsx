@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../../../styles/search-product-modal/searchProductModal.module.scss";
 import Dropdown from "../../../shared/dropdown/dropdown";
-import DropdownSvg from "../../../shared/svg/dropdonw";
+import Dropdonw from "../../../shared/svg/dropdonw";
 import { ONDC_COLORS } from "../../../shared/colors";
 
 export default function ProductSort({ onUpdateSortType, sortType }) {
@@ -44,7 +44,7 @@ export default function ProductSort({ onUpdateSortType, sortType }) {
             </p>
           </div>
           <div className="px-2">
-            <DropdownSvg width="10" height="7" color={ONDC_COLORS.WHITE} />
+            <Dropdonw width="10" height="7" color={ONDC_COLORS.WHITE} />
           </div>
         </div>
       }

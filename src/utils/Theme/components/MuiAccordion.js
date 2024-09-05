@@ -1,4 +1,3 @@
-import palette from "../palette";
 const MuiAccordion = {
   styleOverrides: {
     root: {

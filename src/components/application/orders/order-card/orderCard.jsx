@@ -9,7 +9,7 @@ import { ONDC_COLORS } from "../../../shared/colors";
 import { postCall, getCall } from "../../../../api/axios";
 import Loading from "../../../shared/loading/loading";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
-import DropdownSvg from "../../../shared/svg/dropdonw";
+import Dropdonw from "../../../shared/svg/dropdonw";
 import CallSvg from "../../../shared/svg/callSvg";
 import CustomerPhoneCard from "../customer-phone-card/customerPhoneCard";
 import { ToastContext } from "../../../../context/toastContext";
@@ -584,7 +584,7 @@ export default function OrderCard(props) {
                 : { transform: "rotate(0)", transition: "all 0.7s" }
             }
           >
-            <DropdownSvg
+            <Dropdonw
               color={
                 currentSelectedAccordion === accoodion_id
                   ? ONDC_COLORS.ACCENTCOLOR

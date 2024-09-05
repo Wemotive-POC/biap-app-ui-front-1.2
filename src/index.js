@@ -7,9 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
 import ToastProvider from "./context/toastContext";
 import ErrorBoundary from "./components/shared/error-boundary/errorBoundary";
-import { AddressContextProvider } from "./context/addressContext";
 import { CartContextProvider } from "./context/cartContext";
-import { SearchContextProvider } from "./context/searchContext";
 
 ReactDOM.render(
   <ToastProvider>

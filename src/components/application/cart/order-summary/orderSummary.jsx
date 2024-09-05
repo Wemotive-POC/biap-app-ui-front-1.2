@@ -7,7 +7,7 @@ import { buttonTypes } from "../../../shared/button/utils";
 import { getSubTotal } from "../utils/getSubTotal";
 import Button from "../../../shared/button/button";
 import { ONDC_COLORS } from "../../../shared/colors";
-import DropdownSvg from "../../../shared/svg/dropdonw";
+import Dropdonw from "../../../shared/svg/dropdonw";
 import IndianRupee from "../../../shared/svg/indian-rupee";
 import CrossIcon from "../../../shared/svg/cross-icon";
 import CartItems from "./cart-items/cartItems";
@@ -36,7 +36,7 @@ export default function OrderSummary() {
                         transition: "transform 0.7s",
                       }}
                     >
-                      <DropdownSvg
+                      <Dropdonw
                         width="15"
                         height="15"
                         color={ONDC_COLORS.WHITE}
@@ -49,7 +49,7 @@ export default function OrderSummary() {
                         transition: "transform 0.7s",
                       }}
                     >
-                      <DropdownSvg
+                      <Dropdonw
                         width="15"
                         height="15"
                         color={ONDC_COLORS.WHITE}
@@ -104,49 +104,50 @@ export default function OrderSummary() {
         <CartItems onClose={() => setToggleCollapse(!toggleCollapse)} />
       )}
 
-      {
-        toggleClearCartModal && (
-          <div className={modalStyles.overlay}>
-            <div className={modalStyles.popup_card} style={{ minWidth: "auto !important" }}>
-              <div className={`${modalStyles.card_header} d-flex align-items-center`}>
-                <p className={modalStyles.card_header_title}>
-                  Clear Cart
-                </p>
-                <div className="ms-auto">
-                  <CrossIcon
-                    width="20"
-                    height="20"
-                    color={ONDC_COLORS.SECONDARYCOLOR}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => setToggleClearCartModal(false)}
-                  />
-                </div>
-              </div>
-              <div className={modalStyles.card_body}>
-                <div className={`container-fluid pt-2`}>
-                  <p>Do you really want to clear the cart?</p>
-                </div>
-              </div>
-              <div
-                className={`${modalStyles.card_footer} d-flex align-items-center justify-content-center`}
-              >
-                <Button
-                  button_type={buttonTypes.secondary}
-                  button_hover_type={buttonTypes.secondary_hover}
-                  button_text="Cancel"
+      {toggleClearCartModal && (
+        <div className={modalStyles.overlay}>
+          <div
+            className={modalStyles.popup_card}
+            style={{ minWidth: "auto !important" }}
+          >
+            <div
+              className={`${modalStyles.card_header} d-flex align-items-center`}
+            >
+              <p className={modalStyles.card_header_title}>Clear Cart</p>
+              <div className="ms-auto">
+                <CrossIcon
+                  width="20"
+                  height="20"
+                  color={ONDC_COLORS.SECONDARYCOLOR}
+                  style={{ cursor: "pointer" }}
                   onClick={() => setToggleClearCartModal(false)}
-                />
-                <Button
-                  button_type={buttonTypes.primary}
-                  button_hover_type={buttonTypes.primary_hover}
-                  button_text="Clear"
-                  onClick={() => setCartItems([])}
                 />
               </div>
             </div>
+            <div className={modalStyles.card_body}>
+              <div className={`container-fluid pt-2`}>
+                <p>Do you really want to clear the cart?</p>
+              </div>
+            </div>
+            <div
+              className={`${modalStyles.card_footer} d-flex align-items-center justify-content-center`}
+            >
+              <Button
+                button_type={buttonTypes.secondary}
+                button_hover_type={buttonTypes.secondary_hover}
+                button_text="Cancel"
+                onClick={() => setToggleClearCartModal(false)}
+              />
+              <Button
+                button_type={buttonTypes.primary}
+                button_hover_type={buttonTypes.primary_hover}
+                button_text="Clear"
+                onClick={() => setCartItems([])}
+              />
+            </div>
           </div>
-        )
-      }
+        </div>
+      )}
     </Fragment>
   );
 }

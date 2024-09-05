@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { AddressContextProvider } from "../../context/addressContext";
 import { CartContextProvider } from "../../context/cartContext";
 import { SearchContextProvider } from "../../context/searchContext";
-import PrivateRoute from "../../privateRoutes";
+import PrivateRoutes from "../../privateRoutes";
 import Cart from "./cart/cart";
 // import Checkout from "./checkout/checkout";
 // import Orders from "./orders/orders";
@@ -33,11 +33,11 @@ export default function Application() {
               exact
               component={() => <Redirect to={"/application/products"} />}
             />
-            <PrivateRoute exact path={"/application/products"}>
+            <PrivateRoutes exact path={"/application/products"}>
               <AppLayout>
                 <ProductRoutes />
               </AppLayout>
-            </PrivateRoute>
+            </PrivateRoutes>
             {/* <PrivateRoute exact path={"/application/products"}>
               <AppLayout>
                 <Products />
@@ -49,46 +49,46 @@ export default function Application() {
                 <ProductDetails />
               </AppLayout>
             </PrivateRoute> */}
-            <PrivateRoute path={"/application/cart"}>
+            <PrivateRoutes path={"/application/cart"}>
               <AppLayout>
                 <Cart />
               </AppLayout>
-            </PrivateRoute>
+            </PrivateRoutes>
 
-            <PrivateRoute path={"/application/brand"}>
+            <PrivateRoutes path={"/application/brand"}>
               <AppLayout>
                 <BrandRoutes />
               </AppLayout>
-            </PrivateRoute>
-            <PrivateRoute exact path={"/application/checkout"}>
+            </PrivateRoutes>
+            <PrivateRoutes exact path={"/application/checkout"}>
               <AppLayout isCheckout={true}>
                 <Checkout />
               </AppLayout>
-            </PrivateRoute>
-            <PrivateRoute path={"/application/orders"}>
+            </PrivateRoutes>
+            <PrivateRoutes path={"/application/orders"}>
               <AppLayout>
                 <Orders />
               </AppLayout>
-            </PrivateRoute>
-            <PrivateRoute path={"/application/order/:orderId"}>
+            </PrivateRoutes>
+            <PrivateRoutes path={"/application/order/:orderId"}>
               <AppLayout>
                 <OrderDetails />
               </AppLayout>
-            </PrivateRoute>
+            </PrivateRoutes>
 
             {/*<PrivateRoute path={"/application/orders"}>*/}
             {/*  <Orders />*/}
             {/*</PrivateRoute>*/}
-            <PrivateRoute path={"/application/complaints"}>
+            <PrivateRoutes path={"/application/complaints"}>
               <AppLayout>
                 <MyTickets />
               </AppLayout>
-            </PrivateRoute>
-            <PrivateRoute path={"/application/complaint/:issueId"}>
+            </PrivateRoutes>
+            <PrivateRoutes path={"/application/complaint/:issueId"}>
               <AppLayout>
                 <ComplaintDetail />
               </AppLayout>
-            </PrivateRoute>
+            </PrivateRoutes>
             {/*<PrivateRoute path={"/application/profile"}>*/}
             {/*  <Profile />*/}
             {/*</PrivateRoute>*/}

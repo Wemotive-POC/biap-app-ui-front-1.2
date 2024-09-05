@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { isLoggedIn } from "./utils/validateToken";
 
-export default function PrivateRoute({ children, ...props }) {
+export default function PrivateRoutes({ children, ...props }) {
   return (
     <Route
       {...props}

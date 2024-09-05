@@ -5,7 +5,6 @@ import Dropdown from "../dropdown/dropdown";
 import Logout from "../svg/logout";
 import Orders from "../svg/orders";
 import User from "../svg/user";
-import Cart from "../svg/cart";
 import { useHistory } from "react-router-dom";
 import ProductList from "../svg/productList";
 import { deleteAllCookies, removeCookie } from "../../../utils/cookies";
@@ -125,8 +124,8 @@ export default function Navbar() {
                   return history.push("/application/profile");
                 }
                 if (value === dropdown_links.ONBOARD) {
-                  const url = `${process.env.REACT_APP_SELLER_SIGNUP_URL}`
-                  return window.open(url, '_blank');
+                  const url = `${process.env.REACT_APP_SELLER_SIGNUP_URL}`;
+                  return window.open(url, "_blank");
                   // return history.push("/application/sign-up");
                 }
                 if (value === dropdown_links.LOGOUT) {

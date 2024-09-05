@@ -66,7 +66,6 @@ const SubCategories = () => {
   };
   let query = useQuery();
   const categoryName = query.get("c");
-  const subCategoryName = query.get("sc");
   const searchProductName = query.get("s");
 
   useEffect(() => {

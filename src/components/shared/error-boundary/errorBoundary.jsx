@@ -31,19 +31,25 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      const subject = `UI error report`;
-      const body = `PATH = ${window.location.pathname} %0D%0A env = ${
-        process.env.REACT_APP_MMI_BASE_URL
-      } %0D%0A ERROR = ${this.state.error} %0D%0A ERROR INFO = ${JSON.stringify(this.state.errorInfo)}`;
+      // const body = `PATH = ${window.location.pathname} %0D%0A env = ${
+      //   process.env.REACT_APP_MMI_BASE_URL
+      // } %0D%0A ERROR = ${this.state.error} %0D%0A ERROR INFO = ${JSON.stringify(this.state.errorInfo)}`;
       return (
-        <div className={`d-flex justify-content-center align-items-center ${styles.background}`}>
+        <div
+          className={`d-flex justify-content-center align-items-center ${styles.background}`}
+        >
           <div style={{ width: "400px" }} className="text-center">
             <div className="py-4">
-              <img src={errorBoundary} alt="something_went_wrong" style={{ height: "170px" }} />
+              <img
+                src={errorBoundary}
+                alt="something_went_wrong"
+                style={{ height: "170px" }}
+              />
             </div>
             <h4 className="py-2">Something went wrong</h4>
             <p className="py-2">
-              The page you are looking for might have been removed, renamed or temporarily unavailable.
+              The page you are looking for might have been removed, renamed or
+              temporarily unavailable.
             </p>
             <div className="py-2">
               <Button

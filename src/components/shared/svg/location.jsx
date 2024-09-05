@@ -1,7 +1,7 @@
 import React from "react";
 import { ONDC_COLORS } from "../colors";
 
-export default function LocationSvg(props) {
+export default function Location(props) {
   const {
     width = "11",
     height = "16",

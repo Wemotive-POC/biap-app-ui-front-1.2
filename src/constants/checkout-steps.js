@@ -26,8 +26,8 @@ export function get_current_step(step_id) {
 
     default:
       return {
-        current_active_step_id: step_id,
         current_active_step_number: 1,
+        current_active_step_id: step_id,
       };
   }
 }

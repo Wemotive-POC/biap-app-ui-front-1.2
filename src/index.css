@@ -8,10 +8,11 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   font-weight: normal;
+  background: #fff !important;
 }
 
 code {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* width */
@@ -42,12 +43,12 @@ code {
 }
 
 .text-amber {
-  color: #FFBF00 !important;
+  color: #ffbf00 !important;
 }
 
-body {
+/* body {
   background: #fff !important;
-}
+} */
 
 .MuiSnackbar-root {
   top: 90px !important;

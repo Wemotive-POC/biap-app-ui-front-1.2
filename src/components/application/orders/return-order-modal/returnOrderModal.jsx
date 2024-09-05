@@ -15,7 +15,7 @@ import { SSE_TIMEOUT } from "../../../../constants/sse-waiting-time";
 import { postCall, getCall } from "../../../../api/axios";
 import Checkbox from "../../../shared/checkbox/checkbox";
 import Dropdown from "../../../shared/dropdown/dropdown";
-import DropdownSvg from "../../../shared/svg/dropdonw";
+import Dropdonw from "../../../shared/svg/dropdonw";
 import Subtract from "../../../shared/svg/subtract";
 import Add from "../../../shared/svg/add";
 import { RETURN_REASONS } from "../../../../constants/cancelation-reasons";
@@ -477,7 +477,7 @@ export default function ReturnOrderModal({
                       </p>
                     </div>
                     <div className="px-2 ms-auto">
-                      <DropdownSvg
+                      <Dropdonw
                         width="15"
                         height="10"
                         color={ONDC_COLORS.ACCENTCOLOR}

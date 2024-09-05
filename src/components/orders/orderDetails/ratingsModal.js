@@ -1,7 +1,6 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import CrossIcon from "../../shared/svg/cross-icon";
 import styles from "../../../styles/search-product-modal/searchProductModal.module.scss";
-import { ToastContext } from "../../../context/toastContext";
 import {
   Accordion,
   AccordionDetails,
