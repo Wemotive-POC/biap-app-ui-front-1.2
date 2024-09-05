@@ -1,38 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import useStyles from "./style";
 
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import { ReactComponent as CartIcon } from "../../../assets/images/cart.svg";
 import no_image_found from "../../../assets/images/no_image_found.png";
 import { useHistory } from "react-router-dom";
-import { postCall } from "../../../api/axios";
-import { getValueFromCookie } from "../../../utils/cookies";
-import { Button } from "@mui/material";
 
 const ProductGridView = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const {
-    product,
-    productId,
-    price,
-    bpp_id,
-    location_id,
-    bpp_provider_id,
-    bpp_provider_descriptor,
-    show_quantity_button = true,
-    onUpdateCart = () => {},
-    handleAddToCart = () => {},
-    getProductDetails,
-    productLoading,
-  } = props;
-  const { id, descriptor, provider_details } = product;
+  const { product, productId, price, bpp_id, bpp_provider_descriptor } = props;
+  const { descriptor } = product;
   const { name: provider_name } = bpp_provider_descriptor;
-  const { name: product_name, images, symbol } = descriptor;
+  const { name: product_name, symbol } = descriptor;
 
   return (
     <div
