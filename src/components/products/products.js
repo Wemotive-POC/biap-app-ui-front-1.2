@@ -44,14 +44,25 @@ const Products = () => {
     }
   }, [locationData]);
 
-  if (isSearchAvailable && isSubCatAvailable && isCatAvailable) {
-    return (
-      <>
-        <SubCategoriesHeader />
-        <ProductList />
-      </>
-    );
-  } else if (!isSearchAvailable && isSubCatAvailable && isCatAvailable) {
+  // if (isSearchAvailable && isSubCatAvailable && isCatAvailable) {
+  //   return (
+  //     <>
+  //       <SubCategoriesHeader />
+  //       <ProductList />
+  //     </>
+  //   );
+  // } else if (!isSearchAvailable && isSubCatAvailable && isCatAvailable) {
+  //   return (
+  //     <>
+  //       <SubCategoriesHeader />
+  //       <ProductList />
+  //     </>
+  //   );
+  // }
+  //
+  // Modified above if else as part of following one if based on sonar suggestion
+  //
+  if (isSubCatAvailable && isCatAvailable) {
     return (
       <>
         <SubCategoriesHeader />
@@ -66,13 +77,24 @@ const Products = () => {
         <CategoryBrands />
       </>
     );
-  } else if (isSearchAvailable && !isSubCatAvailable && !isCatAvailable) {
-    return (
-      <>
-        <ProductList />
-      </>
-    );
-  } else if (isSearchAvailable && !isSubCatAvailable && isCatAvailable) {
+  }
+  // else if (isSearchAvailable && !isSubCatAvailable && !isCatAvailable) {
+  //   return (
+  //     <>
+  //       <ProductList />
+  //     </>
+  //   );
+  // } else if (isSearchAvailable && !isSubCatAvailable && isCatAvailable) {
+  //   return (
+  //     <>
+  //       <ProductList />
+  //     </>
+  //   );
+  // }
+  //
+  // Modified above if else as part of following one if based on sonar suggestion
+  //
+  else if (isSearchAvailable && !isSubCatAvailable) {
     return (
       <>
         <ProductList />
