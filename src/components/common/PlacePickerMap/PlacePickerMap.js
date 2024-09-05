@@ -1,17 +1,15 @@
-import { useCallback, useEffect, useRef, useMemo, useState } from "react";
-import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 import ScriptTag from "react-script-tag";
 import "./PlacePickerMap.css";
 import useCancellablePromise from "../../../api/cancelRequest";
 import { getCall } from "../../../api/axios";
 
-export default function MapPointer(props) {
+export default function PlacePickerMap(props) {
   const {
     center = [28.62, 77.09],
     zoom = 15,
     zoomControl = true,
     search = true,
-    hybrid = false,
     location,
     setLocation = null,
   } = props;
@@ -24,7 +22,9 @@ export default function MapPointer(props) {
   const { cancellablePromise } = useCancellablePromise();
 
   const getToken = async () => {
-    const res = await cancellablePromise(getCall(`/clientApis/v2/map/accesstoken`));
+    const res = await cancellablePromise(
+      getCall(`/clientApis/v2/map/accesstoken`)
+    );
     console.log("data: ", res);
     setApiKey(res.access_token);
   };
@@ -78,7 +78,10 @@ export default function MapPointer(props) {
       };
     }
 
-    options.location = location?.lat && location?.lng ? location : { lat: 28.679079, lng: 77.06971 };
+    options.location =
+      location?.lat && location?.lng
+        ? location
+        : { lat: 28.679079, lng: 77.06971 };
     // eslint-disable-next-line
     new MapmyIndia.placePicker(options);
   }, [mapInitialised, props]);

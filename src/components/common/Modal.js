@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import MuiModel from "@mui/material/Modal";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -61,7 +60,14 @@ const Modal = styled(MuiModel)(() => ({
   overflow: "hidden",
 }));
 
-const ModalComponent = ({ sx, children, title, open, onClose, fullWidth = false }) => {
+const ModalComponent = ({
+  sx,
+  children,
+  title,
+  open,
+  onClose,
+  fullWidth = false,
+}) => {
   return (
     <div>
       <Modal
@@ -74,11 +80,18 @@ const ModalComponent = ({ sx, children, title, open, onClose, fullWidth = false 
             <Box sx={styleHeader}>
               <Typography variant="h6" component="h2">
                 {title}
-                {onClose && <CloseRoundedIcon style={{ float: "right", cursor: "pointer" }} onClick={onClose} />}
+                {onClose && (
+                  <CloseRoundedIcon
+                    style={{ float: "right", cursor: "pointer" }}
+                    onClick={onClose}
+                  />
+                )}
               </Typography>
             </Box>
           )}
-          <Box sx={fullWidth ? styleFullScreenContainer : styleContainer}>{children}</Box>
+          <Box sx={fullWidth ? styleFullScreenContainer : styleContainer}>
+            {children}
+          </Box>
         </Box>
       </Modal>
     </div>

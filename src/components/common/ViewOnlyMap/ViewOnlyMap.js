@@ -6,7 +6,7 @@ import { mappls } from "mappls-web-maps";
 import useCancellablePromise from "../../../api/cancelRequest";
 import { getCall } from "../../../api/axios";
 
-export default function ViewOnlyMapComponent(props) {
+export default function ViewOnlyMap(props) {
   const { location } = props;
 
   const { cancellablePromise } = useCancellablePromise();

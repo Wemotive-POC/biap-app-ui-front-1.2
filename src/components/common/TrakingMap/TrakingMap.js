@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import "./TrakingMap.css";
 
-import { mappls, mappls_plugin } from 'mappls-web-maps';
+import { mappls, mappls_plugin } from "mappls-web-maps";
 
 import useCancellablePromise from "../../../api/cancelRequest";
 import { getCall } from "../../../api/axios";
 
-export default function TrakingMapComponent(props) {
-
+export default function TrakingMap(props) {
   const {
     mapCenter,
     geoPositionStart,
     geoPositionEnd,
-    currentLocation = null
+    currentLocation = null,
   } = props;
 
   const { cancellablePromise } = useCancellablePromise();
@@ -20,8 +19,11 @@ export default function TrakingMapComponent(props) {
   const [directionPlugin, setDirectionPlugin] = useState();
   const mapProps = {
     center: mapCenter(),
-    traffic: false, zoom: 4, geolocation: false, clickableIcons: false
-  }
+    traffic: false,
+    zoom: 4,
+    geolocation: false,
+    clickableIcons: false,
+  };
   let mapObject;
   let mapplsClassObject = new mappls();
   let mapplsPluginObject = new mappls_plugin();
@@ -30,39 +32,44 @@ export default function TrakingMapComponent(props) {
   const onChangeTrack = (directionPluginData, location) => {
     directionPluginData.tracking({
       location: location,
-      label: 'current location',
+      label: "current location",
       icon: "https://apis.mapmyindia.com/map_v3/2.png",
       heading: false,
       reRoute: true,
       fitBounds: false,
       animationSpeed: 5,
-      delay: 2000
+      delay: 2000,
     });
   };
 
   const onMapLoad = () => {
     var direction_option = {
       map: mapObject,
-      divWidth: '0px',
-      start: { label: 'start', geoposition: geoPositionStart },
-      end: { label: 'end', geoposition: geoPositionEnd },
+      divWidth: "0px",
+      start: { label: "start", geoposition: geoPositionStart },
+      end: { label: "end", geoposition: geoPositionEnd },
       steps: false,
       search: true,
       isDraggable: false,
       alternatives: false,
-      callback: function (data) { }
+      callback: function (data) {},
     };
 
     const defaultCenter = mapCenter();
-    const defaultCurrentLocation = defaultCenter ? {
-      lat: parseFloat(defaultCenter[0]),
-      lng: parseFloat(defaultCenter[1]),
-    } : null;
+    const defaultCurrentLocation = defaultCenter
+      ? {
+          lat: parseFloat(defaultCenter[0]),
+          lng: parseFloat(defaultCenter[1]),
+        }
+      : null;
 
     direction_plugin = mapplsPluginObject.direction(direction_option);
     setDirectionPlugin(direction_plugin);
     setTimeout(() => {
-      onChangeTrack(direction_plugin, currentLocation ? currentLocation : defaultCurrentLocation)
+      onChangeTrack(
+        direction_plugin,
+        currentLocation ? currentLocation : defaultCurrentLocation
+      );
     }, 2500);
   };
 
@@ -78,12 +85,14 @@ export default function TrakingMapComponent(props) {
       mapObject.on("load", () => {
         // Activites after mapload
         onMapLoad();
-      })
+      });
     });
   };
 
   const getToken = async () => {
-    const res = await cancellablePromise(getCall(`/clientApis/v2/map/accesstoken`));
+    const res = await cancellablePromise(
+      getCall(`/clientApis/v2/map/accesstoken`)
+    );
     setApiKey(res.access_token);
   };
 
@@ -105,8 +114,8 @@ export default function TrakingMapComponent(props) {
   }, [apiKey]);
 
   return (
-    <div style={{ width: "100%", height: "100%", borderRadius: '50px' }}>
-      <div id="map" ></div>
+    <div style={{ width: "100%", height: "100%", borderRadius: "50px" }}>
+      <div id="map"></div>
     </div>
   );
 }
