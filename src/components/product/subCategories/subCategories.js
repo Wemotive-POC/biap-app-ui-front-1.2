@@ -53,7 +53,7 @@ const SingleCategory = ({ data, index }) => {
   );
 };
 
-const CategoriesComponent = () => {
+const SubCategories = () => {
   const classes = useStyles();
   const history = useHistory();
   const [subCatList, setSubCatList] = useState([]);
@@ -285,4 +285,4 @@ const CategoriesComponent = () => {
   );
 };
 
-export default CategoriesComponent;
+export default SubCategories;
