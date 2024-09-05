@@ -42,7 +42,7 @@ const ProductList = () => {
   const { locationData: deliveryAddressLocation } = useContext(SearchContext);
 
   const { fetchCartItems } = useContext(CartContext);
-  const [productPayload, setProductPayload] = useState(null);
+  // const [productPayload, setProductPayload] = useState(null);
   const [customization_state, setCustomizationState] = useState({});
   const [productLoading, setProductLoading] = useState(false);
 
@@ -230,7 +230,7 @@ const ProductList = () => {
       const data = await cancellablePromise(
         getCall(`/clientApis/v2/item-details?id=${productId}`)
       );
-      setProductPayload(data);
+      // setProductPayload(data);
       return data;
     } catch (error) {
       console.error("Error fetching product details:", error);
@@ -254,13 +254,16 @@ const ProductList = () => {
     return subtotal;
   };
 
-  const getCustomizations = async (productPayload, customization_state) => {
+  const getCustomizations = async (
+    productPayload,
+    customization_state_data
+  ) => {
     const { customisation_items } = productPayload;
     const customizations = [];
-    const levels = Object.keys(customization_state);
+    const levels = Object.keys(customization_state_data);
 
     for (const level of levels) {
-      const selectedItems = customization_state[level].selected;
+      const selectedItems = customization_state_data[level].selected;
 
       for (const selectedItem of selectedItems) {
         let customization = customisation_items.find(
