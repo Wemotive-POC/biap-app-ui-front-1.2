@@ -15,7 +15,6 @@ import { getCall, postCall } from "../../../api/axios";
 import { removeNullValues } from "../../../utils/helper";
 import { AddressContext } from "../../../context/addressContext";
 import useCancellablePromise from "../../../api/cancelRequest";
-import Cookies from "js-cookie";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
 import { ToastContext } from "../../../context/toastContext";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
@@ -229,7 +228,7 @@ const StepPaymentContent = ({
               if (updatedCartItems.current) {
                 let findItemFromQuote =
                   updatedCartItems.current[0].message.quote.items.find(
-                    (item) => item.id === itemData.local_id
+                    (quote_item) => quote_item.id === itemData.local_id
                   );
                 if (findItemFromQuote) {
                   itemData.parent_item_id = findItemFromQuote.parent_item_id;

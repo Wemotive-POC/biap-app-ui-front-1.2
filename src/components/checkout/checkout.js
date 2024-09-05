@@ -39,7 +39,6 @@ import moment from "moment";
 
 import { v4 as uuidv4 } from "uuid";
 import Razorpay from "../common/Razorpay/Razorpay";
-import { AddressContext } from "../../context/addressContext";
 
 const Checkout = () => {
   const classes = useStyles();
@@ -775,7 +774,7 @@ const Checkout = () => {
     if (responseRef.current.length > 0) {
       setConfirmOrderLoading(false);
       // fetch request object length and compare it with the response length
-      const { productQuotes, successOrderIds } = JSON.parse(
+      const { successOrderIds } = JSON.parse(
         // getValueFromCookie("checkout_details") || "{}"
         localStorage.getItem("checkout_details") || "{}"
       );

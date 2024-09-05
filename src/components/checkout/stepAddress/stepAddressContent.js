@@ -19,13 +19,10 @@ import {
 } from "../../../utils/cookies";
 import { AddressContext } from "../../../context/addressContext";
 import { constructQouteObject } from "../../../api/utils/constructRequestObject";
-import { v4 as uuidv4 } from "uuid";
 import { getCall, postCall } from "../../../api/axios";
 import { useHistory } from "react-router-dom";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
-import { removeNullValues } from "../../../utils/helper";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
-import Cookies from "js-cookie";
 import { ToastContext } from "../../../context/toastContext";
 import Loading from "../../shared/loading/loading";
 

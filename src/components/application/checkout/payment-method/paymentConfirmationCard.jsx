@@ -17,7 +17,6 @@ import { getCall, postCall } from "../../../../api/axios";
 import { constructQouteObject } from "../../../../api/utils/constructRequestObject";
 import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import CrossIcon from "../../../shared/svg/cross-icon";
 import { payment_methods } from "../../../../constants/payment-methods";
 import { removeCookie, getValueFromCookie } from "../../../../utils/cookies";
@@ -36,8 +35,6 @@ export default function PaymentConfirmationCard(props) {
     successOrderIds = [],
   } = props;
 
-  // CONSTANTS
-  const user = JSON.parse(getValueFromCookie("user"));
   const parentOrderIDMap = new Map(
     JSON.parse(getValueFromCookie("parent_and_transaction_id_map"))
   );

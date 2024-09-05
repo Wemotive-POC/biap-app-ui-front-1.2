@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import axios from "axios";
 import { AddCookie, removeCookie } from "../../../../utils/cookies";
 import { AddressContext } from "../../../../context/addressContext";
 import styles from "../../../../styles/search-product-modal/searchProductModal.module.scss";
@@ -8,9 +7,6 @@ import { ONDC_COLORS } from "../../../shared/colors";
 import CrossIcon from "../../../shared/svg/cross-icon";
 import AddressRadioButton from "../../initialize-order/address-details/address-radio-button/addressRadioButton";
 import Add from "../../../shared/svg/add";
-import { ToastContext } from "../../../../context/toastContext";
-import useCancellablePromise from "../../../../api/cancelRequest";
-import { toast_actions, toast_types } from "../../../shared/toast/utils/toast";
 
 export default function SelectAddressModal(props) {
   const {

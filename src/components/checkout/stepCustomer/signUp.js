@@ -36,17 +36,17 @@ const SignUp = ({ isError }) => {
     return true;
   }
 
-  // use this function to check the lastname
-  function checkLastName() {
-    if (!user.lastName) {
-      setError((err) => ({
-        ...err,
-        lastname_error: "Last Name cannot be empty",
-      }));
-      return false;
-    }
-    return true;
-  }
+  //   // use this function to check the lastname
+  //   function checkLastName() {
+  //     if (!user.lastName) {
+  //       setError((err) => ({
+  //         ...err,
+  //         lastname_error: "Last Name cannot be empty",
+  //       }));
+  //       return false;
+  //     }
+  //     return true;
+  //   }
 
   // use this function to check the email
   function checkEmail() {

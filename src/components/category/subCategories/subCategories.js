@@ -85,7 +85,7 @@ const SubCaregoryCard = ({ data, onMouseOver, isActive = false }) => {
 const SubCategories = () => {
   // let { categoryName } = useParams();
   const classes = useStyles();
-  const [activeSubCatIndex, setActiveSubCatIndex] = useState(0);
+  // const [activeSubCatIndex, setActiveSubCatIndex] = useState(0);
   const [subCatList, setSubCatList] = useState([]);
   const locationData = useLocation();
   const [page, setPage] = useState(0);
@@ -203,7 +203,7 @@ const SubCategories = () => {
               data={subCat}
               // isActive={subCatIndex === activeSubCatIndex}
               onMouseOver={() => {
-                setActiveSubCatIndex(subCatIndex);
+                // setActiveSubCatIndex(subCatIndex);
               }}
             />
           ))}

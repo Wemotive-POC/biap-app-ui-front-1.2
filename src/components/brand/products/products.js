@@ -47,8 +47,8 @@ const Products = ({ brandDetails, brandId }) => {
   };
   let query = useQuery();
 
-  const [productLoading, setProductLoading] = useState(false);
-  const [productPayload, setProductPayload] = useState(null);
+  // const [productLoading, setProductLoading] = useState(false);
+  // const [productPayload, setProductPayload] = useState(null);
   const [viewType, setViewType] = useState("grid");
   const [products, setProducts] = useState([]);
   const [totalProductCount, setTotalProductCount] = useState(0);
@@ -243,16 +243,16 @@ const Products = ({ brandDetails, brandId }) => {
 
   const getProductDetails = async (productId) => {
     try {
-      setProductLoading(true);
+      // setProductLoading(true);
       const data = await cancellablePromise(
         getCall(`/clientApis/v2/item-details?id=${productId}`)
       );
-      setProductPayload(data);
+      // setProductPayload(data);
       return data;
     } catch (error) {
       console.error("Error fetching product details:", error);
     } finally {
-      setProductLoading(false);
+      // setProductLoading(false);
     }
   };
 
