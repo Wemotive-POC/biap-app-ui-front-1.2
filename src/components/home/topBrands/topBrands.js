@@ -14,8 +14,6 @@ import no_image_found from "../../../assets/images/no_image_found.png";
 import { ToastContext } from "../../../context/toastContext";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import IconButton from "@mui/material/IconButton";
 import { ReactComponent as PreviousIcon } from "../../../assets/images/previous.svg";
 import { ReactComponent as NextIcon } from "../../../assets/images/next.svg";
@@ -23,7 +21,7 @@ import { ReactComponent as NextIcon } from "../../../assets/images/next.svg";
 import Loading from "../../shared/loading/loading";
 import Offers from "../../common/Offers/Offers";
 
-import { AddCookie, getValueFromCookie } from "../../../utils/cookies";
+import { getValueFromCookie } from "../../../utils/cookies";
 
 const BrandCard = ({ data, index, onMouseOver }) => {
   const classes = useStyles();

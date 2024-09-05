@@ -89,17 +89,10 @@ export default function RatingsModal({
   //   selected_id_error: "",
   //   reason_error: "",
   // });
-  const [loading, setLoading] = useState(false);
-  const [selectedCancelReasonId, setSelectedCancelReasonId] = useState({});
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [orderQty, setOrderQty] = useState([]);
-  // const [reasons, setReasons] = useState([]);
+  const loading = false;
 
   // REFS
   const eventTimeOutRef = useRef([]);
-
-  // CONTEXT
-  const dispatch = useContext(ToastContext);
 
   useEffect(() => {
     return () => {
@@ -126,11 +119,11 @@ export default function RatingsModal({
   //   }
   // }, [selectedIds]);
 
-  useEffect(() => {
-    if (quantity) {
-      setOrderQty(JSON.parse(JSON.stringify(Object.assign(quantity))));
-    }
-  }, [quantity]);
+  // useEffect(() => {
+  //   if (quantity) {
+  //     setOrderQty(JSON.parse(JSON.stringify(Object.assign(quantity))));
+  //   }
+  // }, [quantity]);
 
   const getFulfillmentsToProducts = () => {
     let fulfillments_to_products = {};

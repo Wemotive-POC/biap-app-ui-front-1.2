@@ -448,7 +448,7 @@ const OrderSummary = ({
         )
       );
 
-      const { issueExistance, issue } = data;
+      const { issueExistance } = data;
       if (issueExistance) {
         setIssueLoading(false);
         setIsIssueRaised(true);

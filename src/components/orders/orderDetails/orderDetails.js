@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import { ReactComponent as LikeIcon } from "../../../assets/images/like.svg";
 import { ReactComponent as ShareIcon } from "../../../assets/images/share.svg";
 
-import { useHistory, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import OrderSummary from "./orderSummary";
 import TrackingMap from "./trackingMap";

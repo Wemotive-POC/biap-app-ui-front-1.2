@@ -1,5 +1,4 @@
 import { makeStyles } from "@mui/styles";
-import palette from "../../utils/Theme/palette";
 
 const style = makeStyles({
   homeContainer: {

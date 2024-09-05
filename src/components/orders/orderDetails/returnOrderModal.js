@@ -10,7 +10,6 @@ import { ToastContext } from "../../../context/toastContext";
 import useCancellablePromise from "../../../api/cancelRequest";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
 import { postCall, getCall } from "../../../api/axios";
-import Checkbox from "../../shared/checkbox/checkbox";
 import Dropdown from "../../shared/dropdown/dropdown";
 import Subtract from "../../shared/svg/subtract";
 import Add from "../../shared/svg/add";
@@ -134,7 +133,7 @@ export default function ReturnOrderModal({
 
   const uploadAsset = async (file, res) => {
     const token = Cookies.get("token");
-    const data = await axios(res.urls, {
+    await axios(res.urls, {
       method: "PUT",
       data: file,
       headers: {
@@ -334,18 +333,18 @@ export default function ReturnOrderModal({
   }
 
   // use this function to add attribute in filter list
-  function addProductToCancel(attribute, qty) {
-    let latestAttribute = JSON.parse(
-      JSON.stringify(Object.assign({}, attribute))
-    );
-    latestAttribute.quantity.count = qty;
-    setSelectedIds([...selectedIds, latestAttribute]);
-  }
+  // function addProductToCancel(attribute, qty) {
+  //   let latestAttribute = JSON.parse(
+  //     JSON.stringify(Object.assign({}, attribute))
+  //   );
+  //   latestAttribute.quantity.count = qty;
+  //   setSelectedIds([...selectedIds, latestAttribute]);
+  // }
 
   // use this function to remove the selected attribute from filter
-  function removeProductToCancel(attribute) {
-    setSelectedIds(selectedIds.filter(({ id }) => id !== attribute.id));
-  }
+  // function removeProductToCancel(attribute) {
+  //   setSelectedIds(selectedIds.filter(({ id }) => id !== attribute.id));
+  // }
 
   // use this function to update quantity of the selected product
   function updateQtyForSelectedProduct(pId, qty) {
@@ -455,9 +454,9 @@ export default function ReturnOrderModal({
                                 "Price Not Available"}
                             </Typography>
                             {Object.keys(product?.customizations || {}).map(
-                              (key, idx) => {
+                              (key, idk) => {
                                 const isLastItem =
-                                  idx ===
+                                  idk ===
                                   Object.keys(product.customizations || {})
                                     .length -
                                     1;

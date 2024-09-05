@@ -5,7 +5,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
 import OrderCard from "../orderCard/orderCard";
-import orderImage from "../../../assets/images/item.png";
 
 import useCancellablePromise from "../../../api/cancelRequest";
 
@@ -38,9 +37,14 @@ const OnGoingOrders = () => {
   const getAllOrders = async () => {
     setIsLoading(true);
     try {
-      let paginationData = Object.assign({}, JSON.parse(JSON.stringify(paginationModel)));
+      let paginationData = Object.assign(
+        {},
+        JSON.parse(JSON.stringify(paginationModel))
+      );
       paginationData.status = "Created,Accepted,In-progress";
-      const data = await cancellablePromise(getAllOrdersRequest(paginationData));
+      const data = await cancellablePromise(
+        getAllOrdersRequest(paginationData)
+      );
       setOrderList(data.orders);
       setTotalOrdersCount(data.totalCount);
     } catch (err) {
@@ -64,7 +68,15 @@ const OnGoingOrders = () => {
   return (
     <Grid container spacing={3}>
       {isLoading ? (
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.loaderContainer}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          className={classes.loaderContainer}
+        >
           <Loading />
         </Grid>
       ) : (
@@ -72,7 +84,15 @@ const OnGoingOrders = () => {
           {orderList.length > 0 ? (
             <>
               {orderList.map((order, orderIndex) => (
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} key={`order-inx-${orderIndex}`}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  key={`order-inx-${orderIndex}`}
+                >
                   <OrderCard orderDetails={order} />
                 </Grid>
               ))}
@@ -83,7 +103,15 @@ const OnGoingOrders = () => {
             </Grid>
           )}
           {orderList.length > 0 && (
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.paginationContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={12}
+              className={classes.paginationContainer}
+            >
               <Pagination
                 className={classes.pagination}
                 count={Math.ceil(totalOrdersCount / paginationModel.pageSize)}
