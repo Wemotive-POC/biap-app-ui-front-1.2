@@ -14,7 +14,7 @@ import PageNotFound from "./components/page-not-found/pageNotFound";
 
 import Home from "./components/home/home";
 import Category from "./components/category/category";
-import SubCategory from "./components/product/product";
+import SubCategory from "./components/product/subCategory";
 import Products from "./components/products/products";
 import AppLayout from "./components/appLayout";
 import RequestLogs from "./components/requestLogs/RequestLogs";
