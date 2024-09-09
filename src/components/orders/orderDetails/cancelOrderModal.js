@@ -16,10 +16,22 @@ import { postCall, getCall } from "../../../api/axios";
 import AddressRadioButton from "../../../components/application/initialize-order/address-details/address-radio-button/addressRadioButton";
 import Checkbox from "../../shared/checkbox/checkbox";
 import Dropdown from "../../shared/dropdown/dropdown";
+import MuiDropdown from "../../shared/mui/dropdown/muiDropdown";
 import Subtract from "../../shared/svg/subtract";
 import Add from "../../shared/svg/add";
 import { CANCELATION_REASONS } from "../../../constants/cancelation-reasons";
-import { Button, Grid, Typography } from "@mui/material";
+
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Typography,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function CancelOrderModal(props) {
@@ -689,12 +701,36 @@ export default function CancelOrderModal(props) {
             <ErrorMessage>{inlineError.selected_id_error}</ErrorMessage>
           )}
 
+          <p className={styles.cancel_dropdown_label_text}>
+            Select your Reason
+          </p>
+
           {selectedCancelType === CANCEL_ORDER_TYPES.allOrder && (
             <div className="px-2">
-              <p className={styles.cancel_dropdown_label_text}>
-                Select your Reason
-              </p>
-              <Dropdown
+              <MuiDropdown
+                id="cancel-order-reason-dd"
+                label="Select reason for cancellation"
+                selectedOption={selectedCancelReasonId.value || ""}
+                options={reasons.map(({ value }) => ({
+                  value,
+                }))}
+                onSelect={(reasonValue) => {
+                  console.log("reasonValue", reasonValue);
+                  const REASONS = reasons;
+                  const type = REASONS.find(
+                    ({ value }) =>
+                      value.toLowerCase() === reasonValue.toLowerCase()
+                  );
+                  console.log("Setting reason to ", type);
+                  setSelectedCancelReasonId(type || {});
+                  setInlineError((error) => ({
+                    ...error,
+                    reason_error: "",
+                  }));
+                }}
+              />
+
+              {/* <Dropdown
                 id="dropdownOne"
                 header={
                   <div
@@ -735,13 +771,16 @@ export default function CancelOrderModal(props) {
                   value,
                 }))}
                 show_icons={false}
-              />
+              /> */}
               {inlineError.reason_error && (
                 <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
               )}
             </div>
           )}
-          {selectedCancelType === CANCEL_ORDER_TYPES.partialOrders &&
+          {/* Partial order cancel is not being used anymore */}
+          {/*
+
+           {selectedCancelType === CANCEL_ORDER_TYPES.partialOrders &&
             selectedIds &&
             selectedIds.length > 0 && (
               <div className="px-2">
@@ -793,7 +832,7 @@ export default function CancelOrderModal(props) {
                   <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
                 )}
               </div>
-            )}
+            )} */}
         </div>
         <div className={`${styles.card_footer} d-flex align-items-center`}>
           <div className="px-3">
