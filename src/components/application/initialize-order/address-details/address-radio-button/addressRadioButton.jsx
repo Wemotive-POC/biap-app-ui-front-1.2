@@ -12,9 +12,16 @@ export default function AddressRadioButton(props) {
         </div>
         <div className={styles.name_basis}>{props.children}</div>
       </button>
-      {iseditable && <div className={`p-2 my-1 ${styles.parent_edit_button}`}>
-        <button className={styles.edit_button} onClick={() => oneditaddress()}>edit</button>
-      </div>}
+      {iseditable && (
+        <div className={`p-2 my-1 ${styles.parent_edit_button}`}>
+          <button
+            className={styles.edit_button}
+            onClick={() => oneditaddress()}
+          >
+            edit
+          </button>
+        </div>
+      )}
     </div>
   );
 }
