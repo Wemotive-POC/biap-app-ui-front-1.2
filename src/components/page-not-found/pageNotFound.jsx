@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import Button from "../shared/button/button";
+import { Button } from "@mui/material";
 import { buttonTypes } from "../shared/button/utils";
 import NotFoundIllustration from "../../assets/images/404NotFound.svg";
 
@@ -23,11 +23,12 @@ export default function PageNotFound() {
         </p>
         <div className="py-2">
           <Button
-            button_type={buttonTypes.primary}
-            button_hover_type={buttonTypes.primary_hover}
-            button_text="Go To Home"
             onClick={() => history.replace("/application")}
-          />
+            sx={{ borderRadius: "50px", width: "150px" }}
+            variant="outlined"
+          >
+            Go To Home
+          </Button>
         </div>
       </div>
     </div>

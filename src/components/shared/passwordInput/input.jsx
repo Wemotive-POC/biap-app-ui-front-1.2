@@ -3,8 +3,7 @@ import styles from "./input.module.scss";
 
 import EyeVisible from "../../../assets/images/eye_visible.png";
 import EyeHidden from "../../../assets/images/eye_hidden.png";
-import { buttonTypes } from "../../shared/button/utils";
-import Button from "../../shared/button/button";
+import { Button } from "@mui/material";
 
 export default function Input(props) {
   const { has_error = "", required = false } = props;
@@ -29,19 +28,17 @@ export default function Input(props) {
           className={`${has_error ? styles.error : styles.formControl}`}
         />
         <Button
-          button_type={buttonTypes.secondary}
-          // className={styles.eye_button}
           className={`${styles.eye_button} ""`}
-          button_text={
-            showPassword ? (
-              <img src={EyeHidden} alt="logo" style={{ height: "20px" }} />
-            ) : (
-              <img src={EyeVisible} alt="logo" style={{ height: "20px" }} />
-            )
-          }
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-        />
+          sx={{ borderRadius: "50px", height: "20px" }}
+        >
+          {showPassword ? (
+            <img src={EyeHidden} alt="logo" style={{ height: "20px" }} />
+          ) : (
+            <img src={EyeVisible} alt="logo" style={{ height: "20px" }} />
+          )}
+        </Button>
       </div>
     </div>
   );

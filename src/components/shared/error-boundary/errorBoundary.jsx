@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Button from "../button/button";
-import { buttonTypes } from "../button/utils";
+import { Button } from "@mui/material";
 import styles from "./errorBoundary.module.scss";
 import errorBoundary from "../../../assets/images/errorBoundary.svg";
 
@@ -53,11 +52,12 @@ class ErrorBoundary extends Component {
             </p>
             <div className="py-2">
               <Button
-                button_type={buttonTypes.primary}
-                button_hover_type={buttonTypes.primary_hover}
-                button_text="Go To Home"
                 onClick={() => (window.location.pathname = "/application")}
-              />
+                sx={{ borderRadius: "50px", width: "150px" }}
+                variant="outlined"
+              >
+                Go To Home
+              </Button>
               {/* <hr />
               <a
                 href={`mailto:rohaan@dataorc.in?subject=${subject}&body=${body}`}

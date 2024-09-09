@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Button from "../../shared/button/button";
+// import Button from "../../shared/button/button";
 import ErrorMessage from "../../shared/error-message/errorMessage";
 import Input from "../../shared/input/input";
 import PasswordInput from "../../shared/passwordInput/input";
@@ -18,6 +18,7 @@ import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 import { getErrorMessage } from "../../../api/utils/mapFirebaseError";
 import { AddCookie } from "../../../utils/cookies";
 import { ToastContext } from "../../../context/toastContext";
+import { Button } from "@mui/material";
 
 import Google_Logo from "../../../assets/images/google.png";
 
@@ -227,11 +228,13 @@ export default function SignUp() {
             disabled={
               signUpUsingGoogleloading || signUpUsingEmailAndPasswordloading
             }
-            button_type={buttonTypes.primary}
-            button_hover_type={buttonTypes.primary_hover}
             button_text="Sign up"
             type="submit"
-          />
+            sx={{ borderRadius: "50px", width: "150px" }}
+            variant="outlined"
+          >
+            Sign up
+          </Button>
         </div>
         <hr style={{ margin: "5px 0", border: "1px solid #ddd" }} />
         <div className="py-3 text-center">
@@ -240,21 +243,20 @@ export default function SignUp() {
             disabled={
               signUpUsingGoogleloading || signUpUsingEmailAndPasswordloading
             }
-            button_type={buttonTypes.primary}
-            button_hover_type={buttonTypes.primary_hover}
             // button_text="Sign up with google"
-            button_text={
-              <>
-                <img
-                  src={Google_Logo}
-                  alt="logo"
-                  style={{ height: "20px", marginRight: "10px" }}
-                />{" "}
-                Sign up with google
-              </>
-            }
             onClick={handleSignUpWithGoogle}
-          />
+            sx={{ borderRadius: "50px", width: "200px" }}
+            variant="outlined"
+          >
+            <>
+              <img
+                src={Google_Logo}
+                alt="logo"
+                style={{ height: "20px", marginRight: "10px" }}
+              />{" "}
+              Sign up with google
+            </>
+          </Button>
         </div>
       </form>
     </div>

@@ -7,8 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import styles from "../../../styles/auth/auth.module.scss";
-import { buttonTypes } from "../../shared/button/utils";
-import Button from "../../shared/button/button";
+// import Button from "../../shared/button/button";
 import AuthActionCard from "../auth-action-card/authActionCard";
 import { Link, useHistory } from "react-router-dom";
 import Input from "../../shared/input/input";
@@ -19,11 +18,13 @@ import { getErrorMessage } from "../../../api/utils/mapFirebaseError";
 import { AddCookie } from "../../../utils/cookies";
 import { ToastContext } from "../../../context/toastContext";
 import { v4 as uuidv4 } from "uuid";
+import { Button } from "@mui/material";
 
 import Google_Logo from "../../../assets/images/google.png";
 import { isLoggedIn } from "../../../utils/validateToken";
 
 export default function Login() {
+  console.log("#here....");
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const history = useHistory();
@@ -173,6 +174,16 @@ export default function Login() {
         )}
         <div className="py-3 text-center">
           <Button
+            disabled={
+              signInUsingGoogleloading || signInUsingEmailAndPasswordloading
+            }
+            sx={{ borderRadius: "50px", width: "150px" }}
+            type="submit"
+            variant="outlined"
+          >
+            Login
+          </Button>
+          {/* <Button
             isloading={signInUsingEmailAndPasswordloading ? 1 : 0}
             disabled={
               signInUsingGoogleloading || signInUsingEmailAndPasswordloading
@@ -181,11 +192,28 @@ export default function Login() {
             button_hover_type={buttonTypes.primary_hover}
             button_text="Login"
             type="submit"
-          />
+          /> */}
         </div>
         <hr style={{ margin: "5px 0", border: "1px solid #ddd" }} />
         <div className="py-3 text-center">
           <Button
+            disabled={
+              signInUsingGoogleloading || signInUsingEmailAndPasswordloading
+            }
+            sx={{ borderRadius: "50px", width: "200px" }}
+            onClick={handleLoginWithGoogle}
+            variant="outlined"
+          >
+            <>
+              <img
+                src={Google_Logo}
+                alt="logo"
+                style={{ height: "20px", marginRight: "10px" }}
+              />
+              Login with google
+            </>
+          </Button>
+          {/* <Button
             isloading={signInUsingGoogleloading ? 1 : 0}
             disabled={
               signInUsingGoogleloading || signInUsingEmailAndPasswordloading
@@ -203,7 +231,7 @@ export default function Login() {
               </>
             }
             onClick={handleLoginWithGoogle}
-          />
+          /> */}
         </div>
       </form>
     </div>
