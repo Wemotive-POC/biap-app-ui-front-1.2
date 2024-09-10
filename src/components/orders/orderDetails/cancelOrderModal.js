@@ -14,7 +14,7 @@ import useCancellablePromise from "../../../api/cancelRequest";
 import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
 import { postCall, getCall } from "../../../api/axios";
 import AddressRadioButton from "../../../components/application/initialize-order/address-details/address-radio-button/addressRadioButton";
-import Checkbox from "../../shared/checkbox/checkbox";
+//import Checkbox from "../../shared/checkbox/checkbox";
 // import Dropdown from "../../shared/dropdown/dropdown";
 import MuiDropdown from "../../shared/mui/dropdown/muiDropdown";
 import Subtract from "../../shared/svg/subtract";
@@ -510,7 +510,7 @@ export default function CancelOrderModal(props) {
               </div>
             </AddressRadioButton> */}
           </div>
-          <div style={{ maxHeight: "250px", overflow: "auto" }}>
+          {/* <div style={{ maxHeight: "250px", overflow: "auto" }}>
             {areProductsToBeCancled() &&
               selectedCancelType === CANCEL_ORDER_TYPES.partialOrders && (
                 <div className="px-1 py-2">
@@ -649,7 +649,6 @@ export default function CancelOrderModal(props) {
                                         }
                                       >
                                         {orderQty[idx]?.count ?? "0"}
-                                        {/* {quantityCount} */}
                                       </p>
                                     </div>
                                     <div
@@ -696,7 +695,8 @@ export default function CancelOrderModal(props) {
                   })}
                 </div>
               )}
-          </div>
+          </div> */}
+
           {inlineError.selected_id_error && (
             <ErrorMessage>{inlineError.selected_id_error}</ErrorMessage>
           )}
