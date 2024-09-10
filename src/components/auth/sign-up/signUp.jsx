@@ -12,7 +12,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import styles from "../../../styles/auth/auth.module.scss";
-import { buttonTypes } from "../../shared/button/utils";
 import { Link, useHistory } from "react-router-dom";
 import { toast_actions, toast_types } from "../../shared/toast/utils/toast";
 import { getErrorMessage } from "../../../api/utils/mapFirebaseError";

@@ -1,7 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Button } from "@mui/material";
-import { buttonTypes } from "../shared/button/utils";
 import NotFoundIllustration from "../../assets/images/404NotFound.svg";
 
 export default function PageNotFound() {
