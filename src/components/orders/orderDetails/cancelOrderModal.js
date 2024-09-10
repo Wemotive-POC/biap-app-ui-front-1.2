@@ -15,7 +15,7 @@ import { SSE_TIMEOUT } from "../../../constants/sse-waiting-time";
 import { postCall, getCall } from "../../../api/axios";
 import AddressRadioButton from "../../../components/application/initialize-order/address-details/address-radio-button/addressRadioButton";
 import Checkbox from "../../shared/checkbox/checkbox";
-import Dropdown from "../../shared/dropdown/dropdown";
+// import Dropdown from "../../shared/dropdown/dropdown";
 import MuiDropdown from "../../shared/mui/dropdown/muiDropdown";
 import Subtract from "../../shared/svg/subtract";
 import Add from "../../shared/svg/add";

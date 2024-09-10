@@ -1,26 +1,28 @@
-@import "../../../assets/scss/variables.scss";
+// TODO: Remove this file and folder once bootstrap removal testing is done
 
-.btn_back {
-  border-radius: 36px;
-  text-align: center;
-  height: 40px;
-  max-width: 300px;
-  min-width: 150px;
-  padding: 0 10px;
-}
+// @import "../../../assets/scss/variables.scss";
 
-.button_text {
-  margin: 0;
-  font-size: $font-14;
-  font-weight: $medium;
-  text-align: center;
-}
+// .btn_back {
+//   border-radius: 36px;
+//   text-align: center;
+//   height: 40px;
+//   max-width: 300px;
+//   min-width: 150px;
+//   padding: 0 10px;
+// }
 
-.btn_back:disabled {
-  max-width: 300px;
-  min-width: 150px;
-  height: 40px;
-  opacity: 0.7;
-  cursor: no-drop;
-  background-color: $secondaryColor;
-}
+// .button_text {
+//   margin: 0;
+//   font-size: $font-14;
+//   font-weight: $medium;
+//   text-align: center;
+// }
+
+// .btn_back:disabled {
+//   max-width: 300px;
+//   min-width: 150px;
+//   height: 40px;
+//   opacity: 0.7;
+//   cursor: no-drop;
+//   background-color: $secondaryColor;
+// }

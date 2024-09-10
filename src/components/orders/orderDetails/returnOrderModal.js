@@ -20,6 +20,7 @@ import Input from "../../shared/input/input";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Radio from "@mui/material/Radio";
+import MuiDropdown from "../../shared/mui/dropdown/muiDropdown";
 
 export default function ReturnOrderModal({
   bpp_id,
@@ -658,7 +659,30 @@ export default function ReturnOrderModal({
               <Typography variant="body1" sx={{ fontWeight: 600 }}>
                 Select reason*
               </Typography>
-              <Dropdown
+              <MuiDropdown
+                id="returnOrderDD"
+                sx={{ marginTop: "5px" }}
+                label="Select reason for return"
+                selectedOption={selectedCancelReasonId.value || ""}
+                options={reasons.map(({ value }) => ({
+                  value,
+                }))}
+                onSelect={(reasonValue) => {
+                  console.log("reasonValue", reasonValue);
+                  const REASONS = reasons;
+                  const type = REASONS.find(
+                    ({ value }) =>
+                      value.toLowerCase() === reasonValue.toLowerCase()
+                  );
+                  console.log("Setting reason to ", type);
+                  setSelectedCancelReasonId(type || {});
+                  setInlineError((error) => ({
+                    ...error,
+                    reason_error: "",
+                  }));
+                }}
+              />
+              {/* <Dropdown
                 id="dropdownOne"
                 header={
                   <div
@@ -699,7 +723,7 @@ export default function ReturnOrderModal({
                   value,
                 }))}
                 show_icons={false}
-              />
+              /> */}
               {inlineError.reason_error && (
                 <ErrorMessage>{inlineError.reason_error}</ErrorMessage>
               )}

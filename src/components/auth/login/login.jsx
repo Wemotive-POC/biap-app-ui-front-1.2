@@ -177,7 +177,10 @@ export default function Login() {
             disabled={
               signInUsingGoogleloading || signInUsingEmailAndPasswordloading
             }
-            sx={{ borderRadius: "50px", width: "150px" }}
+            sx={{
+              borderRadius: "50px",
+              width: "150px",
+            }}
             type="submit"
             variant="outlined"
           >
