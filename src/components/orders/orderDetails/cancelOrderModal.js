@@ -25,10 +25,12 @@ import {
   Box,
   Button,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Radio,
   Select,
   Typography,
 } from "@mui/material";
@@ -480,7 +482,34 @@ export default function CancelOrderModal(props) {
         </div>
         <div className={styles.card_body}>
           <div className="py-2 d-flex align-items-center">
-            <AddressRadioButton
+            <FormControlLabel
+              control={
+                <Radio
+                  sx={{ marginRight: "10px", marginLeft: "15px" }}
+                  checked={selectedCancelType === CANCEL_ORDER_TYPES.allOrder}
+                  onClick={() => {
+                    setSelectedCancelType(CANCEL_ORDER_TYPES.allOrder);
+                  }}
+                />
+              }
+              label={
+                <>
+                  <Typography
+                    // className={productStyles.product_name}
+                    title="Cancel Complete Orders"
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 500,
+                      textAlign: "left",
+                      color: "#606161",
+                    }}
+                  >
+                    Cancel Complete Orders
+                  </Typography>
+                </>
+              }
+            />
+            {/* <AddressRadioButton
               disabled={loading}
               checked={selectedCancelType === CANCEL_ORDER_TYPES.allOrder}
               onClick={() => {
@@ -492,7 +521,7 @@ export default function CancelOrderModal(props) {
                   Cancel Complete Orders
                 </p>
               </div>
-            </AddressRadioButton>
+            </AddressRadioButton> */}
 
             {/* <AddressRadioButton
               disabled={
